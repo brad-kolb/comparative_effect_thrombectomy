@@ -9,7 +9,7 @@ data <- read_csv(file = here("data", "raw_data.csv"))
 
 # define functions to process raw data ------------
 
-make_df <- function(data, metric) {
+make_clean_data <- function(data, metric) {
   df <- tibble(
     J = data %>% # trials
       filter(treatment_id == 1) %>% 
@@ -42,7 +42,7 @@ make_df <- function(data, metric) {
 
 # process raw data and save output as csv file ---------
 
-df <- make_df(data, "independent")
+df <- make_clean_data(data, "independent")
 
 df %>% write_csv(
   here("data", "clean_data.csv")
