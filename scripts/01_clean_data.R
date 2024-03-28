@@ -4,11 +4,9 @@ library(tidyverse)
 
 # import raw data --------
 # this data was manually entered into a spreadsheet by me
-
 data <- read_csv(file = here("data", "raw_data.csv"))
 
 # define functions to process raw data ------------
-
 make_clean_data <- function(data, metric) {
   df <- tibble(
     J = data %>% # trials
@@ -41,7 +39,6 @@ make_clean_data <- function(data, metric) {
 }
 
 # process raw data and save output as csv file ---------
-
 df <- make_clean_data(data, "independent")
 
 df %>% write_csv(

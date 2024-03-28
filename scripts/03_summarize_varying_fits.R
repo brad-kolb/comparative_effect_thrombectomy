@@ -1,42 +1,6 @@
-# functions for fitting Stan models using cmdstanr and posterior ----
-make_dat <- function(df) {
-  list <- with(df,
-               list(J = NROW(J),
-                    n_c = n_c,
-                    r_c = r_c,
-                    n_t = n_t,
-                    r_t = r_t,
-                    estimate_posterior = 1,
-                    priors = 1))
-  return(list)
-}
+# summarize fits
 
-fit_model <- function(data_list) {
-  require(cmdstanr)
-  require(posterior)
-  fit <- model$sample(data = data_list, 
-                      chains = 4,
-                      parallel_chains = 4,
-                      save_warmup = TRUE,
-                      refresh = 0,
-                      init = 0,
-                      adapt_delta = 0.99) %>% 
-    posterior::as_draws_df() 
-  return(fit)
-}
-
-fit_model_with_priors <- function(data, prior_type) {
-  dat <- make_dat(data)
-  if (prior_type == "informed") {
-    dat$priors <- 1
-  } else if (prior_type == "improper") {
-    dat$priors <- 0
-  }
-  fit <- fit_model(dat)
-  return(fit)
-}
-
-# functions for summarizing fits -------
+# specify functions for summarizing fits -------
 summarize_fit <- function(fit_df, parameters, data_type, model_type, prior_type) {
   require(posterior)
   df <- fit_df %>% 
@@ -50,7 +14,7 @@ summarize_fit <- function(fit_df, parameters, data_type, model_type, prior_type)
   return(df)
 }
 
-# functions for MCMC diagnostics --------
+# specify functions for MCMC diagnostics --------
 # r_hat ------
 # as total variance shrinks to the average within chain variance, r_hat approaches 1
 # a heuristic for convergence of chains. not a test
@@ -59,8 +23,8 @@ extract_rhats <- function(subsets, prior_types, model_fits, params) {
   rhat_values <- mapply(
     function(subset_name, prior_type) {
       posterior::rhat(extract_variable_matrix(model_fits[[subset_name]][[prior_type]],
-                                 variable = params))
-      }, 
+                                              variable = params))
+    }, 
     subset_name = rep(names(subsets), each = length(prior_types)),
     prior_type = rep(prior_types, times = length(subsets)), 
     SIMPLIFY = FALSE)
@@ -69,7 +33,7 @@ extract_rhats <- function(subsets, prior_types, model_fits, params) {
                              rep(names(subsets), each = length(prior_types)), 
                              rep(prior_types, times = length(subsets)), 
                              sep = "_")
-                           )
+  )
   return(rhat_values)
 }
 
@@ -99,16 +63,16 @@ extract_bulk_ess <- function(subsets, prior_types, model_fits, params) {
   bulk_ess <- mapply(
     function(subset_name, prior_type) {
       posterior::ess_bulk(extract_variable_matrix(model_fits[[subset_name]][[prior_type]],
-                                   variable = params))
+                                                  variable = params))
     }, 
     subset_name = rep(names(subsets), each = length(prior_types)),
     prior_type = rep(prior_types, times = length(subsets)), 
     SIMPLIFY = FALSE)
   bulk_ess <- set_names(bulk_ess, 
-                           paste(
-                             rep(names(subsets), each = length(prior_types)), 
-                             rep(prior_types, times = length(subsets)), 
-                             sep = "_")
+                        paste(
+                          rep(names(subsets), each = length(prior_types)), 
+                          rep(prior_types, times = length(subsets)), 
+                          sep = "_")
   )
   return(bulk_ess)
 }
@@ -131,3 +95,70 @@ check_bulk_ess <- function(bulk_ess_values, threshold = 100) {
     message("Bulk ESS is sufficient for all models.")
   }
 }
+
+# summarize estimates for mu ------------
+params <- c("mu")
+
+rhat_values <- extract_rhats(subsets, prior_types, model_fits, params)
+check_rhats(rhat_values)
+
+bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
+check_bulk_ess(bulk_ess_values)
+
+summary_pps_skeptical <- summarize_fit(
+  varying_pps_skeptical, params, "pps", "varying", "skeptical")
+summary_pps_diffuse <- summarize_fit(
+  varying_pps_diffuse, params, "pps", "varying", "diffuse")
+
+summaries <- lapply(names(subsets), function(subset_name) {
+  lapply(prior_types, function(prior_type) {
+    summarize_fit(model_fits[[subset_name]][[prior_type]], 
+                  params, subset_name, "varying", prior_type)
+  })
+})
+
+# combine the summaries into a single data frame ------
+varying_summary <- bind_rows(summary_pps_skeptical,
+                             summary_pps_diffuse,
+                             lapply(summaries, bind_rows))
+
+# show the main results of interest ------
+varying_summary %>% filter(priors == "skeptical") %>% 
+  select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
+
+varying_summary %>% filter(priors == "diffuse") %>% 
+  select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
+
+# summarize estimates for tau ------------
+params <- c("tau")
+
+rhat_values <- extract_rhats(subsets, prior_types, model_fits, params)
+check_rhats(rhat_values)
+
+bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
+check_bulk_ess(bulk_ess_values)
+
+summary_pps_skeptical <- summarize_fit(
+  varying_pps_skeptical, params, "pps", "varying", "skeptical")
+summary_pps_diffuse <- summarize_fit(
+  varying_pps_diffuse, params, "pps", "varying", "diffuse")
+
+summaries <- lapply(names(subsets), function(subset_name) {
+  lapply(prior_types, function(prior_type) {
+    summarize_fit(model_fits[[subset_name]][[prior_type]], 
+                  params, subset_name, "varying", prior_type)
+  })
+})
+
+# combine the summaries into a single data frame ------
+varying_summary <- bind_rows(summary_pps_skeptical,
+                             summary_pps_diffuse,
+                             lapply(summaries, bind_rows))
+
+# show the main results of interest ------
+varying_summary %>% filter(priors == "skeptical") %>% 
+  select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
+
+varying_summary %>% filter(priors == "diffuse") %>% 
+  select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
+
