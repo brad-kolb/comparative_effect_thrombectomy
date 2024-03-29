@@ -1,7 +1,7 @@
 # summarize fits
 
 # specify functions for summarizing fits -------
-summarize_fit <- function(fit_df, parameters, data_type, model_type, prior_type) {
+summarize_fit <- function(fit_df, data_type, model_type, prior_type) {
   require(posterior)
   df <- fit_df %>% 
     posterior::summarise_draws("median", "mad", 
@@ -9,15 +9,12 @@ summarize_fit <- function(fit_df, parameters, data_type, model_type, prior_type)
                                ~quantile(., probs = c(.025, .975)),
                                prob_pos = ~mean(.>0)) %>% 
     rename(low = '2.5%', high = '97.5%') %>% 
-    filter(variable %in% parameters) %>% 
     mutate(data = data_type, model = model_type, priors = prior_type) 
   return(df)
 }
 
 # specify functions for MCMC diagnostics --------
 # r_hat ------
-# as total variance shrinks to the average within chain variance, r_hat approaches 1
-# a heuristic for convergence of chains. not a test
 extract_rhats <- function(subsets, prior_types, model_fits, params) {
   require(posterior)
   rhat_values <- mapply(
@@ -36,8 +33,6 @@ extract_rhats <- function(subsets, prior_types, model_fits, params) {
   )
   return(rhat_values)
 }
-
-
 check_rhats <- function(rhat_values, threshold = 1.01) {
   problematic_models <- list()
   
@@ -76,7 +71,6 @@ extract_bulk_ess <- function(subsets, prior_types, model_fits, params) {
   )
   return(bulk_ess)
 }
-
 check_bulk_ess <- function(bulk_ess_values, threshold = 100) {
   problematic_models <- list()
   
@@ -96,7 +90,25 @@ check_bulk_ess <- function(bulk_ess_values, threshold = 100) {
   }
 }
 
-# summarize estimates for mu ------------
+# summarize fits  ------
+# summarize prior predictive simulations
+summary_pps_skeptical <- summarize_fit(
+  varying_pps_skeptical, "pps", "varying", "skeptical")
+summary_pps_diffuse <- summarize_fit(
+  varying_pps_diffuse, "pps", "varying", "diffuse")
+# summarize posteriors
+summaries <- lapply(names(subsets), function(subset_name) {
+  lapply(prior_types, function(prior_type) {
+    summarize_fit(model_fits[[subset_name]][[prior_type]], subset_name, 
+                  "varying", prior_type)
+  })
+})
+varying_summary <- bind_rows(summary_pps_skeptical,
+                             summary_pps_diffuse,
+                             lapply(summaries, bind_rows))
+
+
+# view summary for mu ------------
 params <- c("mu")
 
 rhat_values <- extract_rhats(subsets, prior_types, model_fits, params)
@@ -105,31 +117,16 @@ check_rhats(rhat_values)
 bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
 check_bulk_ess(bulk_ess_values)
 
-summary_pps_skeptical <- summarize_fit(
-  varying_pps_skeptical, params, "pps", "varying", "skeptical")
-summary_pps_diffuse <- summarize_fit(
-  varying_pps_diffuse, params, "pps", "varying", "diffuse")
-
-summaries <- lapply(names(subsets), function(subset_name) {
-  lapply(prior_types, function(prior_type) {
-    summarize_fit(model_fits[[subset_name]][[prior_type]], 
-                  params, subset_name, "varying", prior_type)
-  })
-})
-
-# combine the summaries into a single data frame ------
-varying_summary <- bind_rows(summary_pps_skeptical,
-                             summary_pps_diffuse,
-                             lapply(summaries, bind_rows))
-
-# show the main results of interest ------
-varying_summary %>% filter(priors == "skeptical") %>% 
+# show the main results of interest 
+varying_summary %>% filter(priors == "skeptical", variable == params) %>% 
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
 
-varying_summary %>% filter(priors == "diffuse") %>% 
+varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
 
-# summarize estimates for tau ------------
+
+
+# view summary for tau ------------
 params <- c("tau")
 
 rhat_values <- extract_rhats(subsets, prior_types, model_fits, params)
@@ -138,27 +135,27 @@ check_rhats(rhat_values)
 bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
 check_bulk_ess(bulk_ess_values)
 
-summary_pps_skeptical <- summarize_fit(
-  varying_pps_skeptical, params, "pps", "varying", "skeptical")
-summary_pps_diffuse <- summarize_fit(
-  varying_pps_diffuse, params, "pps", "varying", "diffuse")
-
-summaries <- lapply(names(subsets), function(subset_name) {
-  lapply(prior_types, function(prior_type) {
-    summarize_fit(model_fits[[subset_name]][[prior_type]], 
-                  params, subset_name, "varying", prior_type)
-  })
-})
-
-# combine the summaries into a single data frame ------
-varying_summary <- bind_rows(summary_pps_skeptical,
-                             summary_pps_diffuse,
-                             lapply(summaries, bind_rows))
-
-# show the main results of interest ------
-varying_summary %>% filter(priors == "skeptical") %>% 
+# show the main results of interest 
+varying_summary %>% filter(priors == "skeptical", variable == params) %>% 
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
 
-varying_summary %>% filter(priors == "diffuse") %>% 
+varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
+
+
+# view summary for theta_new ------------
+params <- c("theta_new")
+
+rhat_values <- extract_rhats(subsets, prior_types, model_fits, params)
+check_rhats(rhat_values)
+
+bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
+check_bulk_ess(bulk_ess_values)
+
+# show the main results of interest 
+varying_summary %>% filter(priors == "skeptical", variable == params) %>% 
+  select(-c("rhat", "ess_bulk", "ess_tail"))
+
+varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
+  select(-c("rhat", "ess_bulk", "ess_tail"))
 
