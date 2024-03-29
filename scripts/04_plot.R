@@ -80,11 +80,11 @@ legend <- ggplot(mu_prior, aes(x = value)) +
     x = c(-1, 1, 2, 0.5, 2),
     y = c(-.1, -.1, -.1, .35, .75),
     label = c(
-      "50% of predicted <br> effect sizes in a future trial <br> fall within this range", 
-      "80% fall <br> within this range", 
-      "95% fall <br> within this range", 
-      "95% of possible average effect sizes <br> fall within this range", 
-      "Distribution <br> of possible average effect sizes"),
+      "In a hypothetical future trial, <br>given the trials observed up to this point,<br> the true effect of the intervention *in that trial* <br> can be expected to fall outside this range <br>50% of the time, according to the model",
+      "20% of the time <br>it can be expected<br> to fall outside this range", 
+      "5% of the time <br>it can be expected<br> to fall outside this range", 
+      "According to the model, <br>there is a 95% chance that the true average effect <br> falls within this interval, given the observed data", 
+      "Distribution of possible average effect sizes <br> ranked by the model according to their compatibility with the data"),
     fill = NA, label.size = 0, size = 2, vjust = 1,
   ) +
   geom_curve(
