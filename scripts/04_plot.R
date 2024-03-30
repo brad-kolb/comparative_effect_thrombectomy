@@ -109,6 +109,6 @@ legend <- ggplot(mu_prior, aes(x = value)) +
   theme_void() +
   guides(col = "none")
 
-ggsave(here("plot.png"), plot, width = 8, height = 6, dpi = 300, bg = "white")
-ggsave(here("legend.png"), legend, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave(here("plots", "plot.png"), plot, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave(here("plots", "legend.png"), legend, width = 8, height = 6, dpi = 300, bg = "white")
 
