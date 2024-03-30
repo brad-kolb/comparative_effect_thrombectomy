@@ -1,5 +1,9 @@
 # summarize fits
 
+# load the fits
+model_fits <- readRDS(here("fits", "varying_fits.RDS")) 
+pps <- readRDS(here("fits", "varying_pps.RDS"))
+
 # specify functions for summarizing fits -------
 summarize_fit <- function(fit_df, data_type, model_type, prior_type) {
   require(posterior)
@@ -93,9 +97,10 @@ check_bulk_ess <- function(bulk_ess_values, threshold = 100) {
 # summarize fits  ------
 # summarize prior predictive simulations
 summary_pps_skeptical <- summarize_fit(
-  varying_pps_skeptical, "pps", "varying", "skeptical")
+  pps$skeptical, "pps", "varying", "skeptical")
 summary_pps_diffuse <- summarize_fit(
-  varying_pps_diffuse, "pps", "varying", "diffuse")
+  pps$diffuse, "pps", "varying", "diffuse")
+
 # summarize posteriors
 summaries <- lapply(names(subsets), function(subset_name) {
   lapply(prior_types, function(prior_type) {
@@ -103,10 +108,16 @@ summaries <- lapply(names(subsets), function(subset_name) {
                   "varying", prior_type)
   })
 })
+
 varying_summary <- bind_rows(summary_pps_skeptical,
                              summary_pps_diffuse,
                              lapply(summaries, bind_rows))
 
+# save
+saveRDS(varying_summary, file = here("fits", "varying_summary.RDS"))
+
+check <- readRDS(here("fits", "varying_summary.RDS")) %>% 
+  str()
 
 # view summary for mu ------------
 params <- c("mu")
@@ -122,9 +133,7 @@ varying_summary %>% filter(priors == "skeptical", variable == params) %>%
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
 
 varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
-  select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
-
-
+  select(-c("rhat", "ess_bulk", "ess_tail"))
 
 # view summary for tau ------------
 params <- c("tau")

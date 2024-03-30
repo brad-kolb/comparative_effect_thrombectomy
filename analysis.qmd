@@ -1,0 +1,79 @@
+---
+title: "Comparative effect of thrombectomy"
+format: gfm
+embed-resources: true
+editor: visual
+execute: 
+  warning: false
+  error: false
+  cache: false
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r load packages, data, convenience functions}
+#| echo: false
+library(here)
+library(tidyverse)
+
+data <- read_csv(here("data", "clean_data.csv"), show_col_types = FALSE)
+
+varying_summary <- readRDS(here("fits", "varying_summary.RDS")) 
+
+comma <- function(x) format(x, digits = 3, big.mark = ",", small.mark = ",")
+```
+
+## Observed Data
+
+```{r calculations}
+#| echo: false
+
+trials <- data %>% 
+  nrow()
+patients_total <- with(data, sum(n_c) + sum(n_t)) %>% 
+  comma()
+patients_control <- with(data, sum(n_c)) %>%
+  comma()
+patients_treatment <- with(data, sum(n_t)) %>% 
+  comma()
+categories <- data %>% 
+  n_distinct()
+```
+
+There were a total of `r patients_total` patients enrolled in J = `r trials` trials. `r patients_control` were randomized to best medical management. `r patients_treatment` were randomized to best medical management plus mechanical thrombectomy. Each trial was categorized into one of K = `r categories` categories according to the type of stroke patients enrolled. Category K = 1 is large anterior circulation strokes. Category 2 is small to medium sized anterior circulation strokes treated in an early time window. Category 3 is small to medium sized anterior circulation strokes treated in a late time window. Category 4 is strokes involving the vertebro-basilar circulation. The primary endpoint was functional independence at 90 days (modified Rankin score of 0 to 2). Other 90 day outcomes examined were independent ambulation (modified Rankin score 0 to 3), complete dependence (modified Rankin score 5), and death (modified Rankin score 6).
+
+```{r pooled or}
+#| echo: false
+df <- data %>% 
+  summarise(r_c = sum(r_c),
+            n_c = sum(n_c),
+            r_t = sum(r_t),
+            n_t = sum(n_t)) %>% 
+  mutate(
+    y = 
+      log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)),
+    sigma = 
+      sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c))
+  )
+
+pooled_or <- exp(df$y)
+```
+
+The pooled observed odds ratio for all the trials was `r comma(pooled_or)`. The pooled observed odds ratios by category are shown in the following table.
+
+```{r pooled or table}
+#| echo: false
+data %>% 
+  group_by(K) %>% 
+  summarise(r_c = sum(r_c),
+            n_c = sum(n_c),
+            r_t = sum(r_t),
+            n_t = sum(n_t)) %>% 
+  mutate(Category = 
+           c("Large", "Small", "Late", "Basilar"),
+         OR = exp(log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c))),
+         SE = sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c))
+  ) %>% 
+  select(Category, OR) %>% 
+  add_row(Category = "POOLED", OR = pooled_or)
+```

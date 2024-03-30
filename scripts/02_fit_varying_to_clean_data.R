@@ -59,10 +59,18 @@ dat <- make_dat(data)
 dat$estimate_posterior <- 0
 
 dat$priors <- 1
-varying_pps_skeptical <- fit_model(dat)
+skeptical <- fit_model(dat)
 
 dat$priors <- 0
-varying_pps_diffuse <- fit_model(dat)
+diffuse <- fit_model(dat)
+
+pps <- list(skeptical = skeptical, 
+            diffuse = diffuse)
+
+saveRDS(pps, file = here("fits", "varying_pps.RDS"))
+
+check <- readRDS(here("fits", "varying_pps.RDS")) %>% 
+  str()
 
 # define the data subsets and prior types for the model fits -------
 subsets <- list(
@@ -79,3 +87,9 @@ model_fits <- lapply(subsets, function(subset_data) {
     fit_model_with_priors(subset_data, prior_type)
   }), prior_types)
 })
+
+# save
+saveRDS(model_fits, file = here("fits", "varying_fits.RDS"))
+
+check <- readRDS(here("fits", "varying_fits.RDS")) %>% 
+  str()

@@ -7,6 +7,11 @@ library(cowplot)
 
 theme_set(new = theme_tidybayes() + panel_border())
 
+# load the fits
+model_fits <- readRDS(here("fits", "varying_fits.RDS")) 
+pps <- readRDS(here("fits", "varying_pps.RDS"))
+
+# generate plot ---------
 mu <- tibble(
   type = c(
     rep("late", 4e3),
@@ -45,8 +50,9 @@ plot_subtitle = glue("This is the subtitle. Data from {scales::number(1e5, big.m
 plot <- ggplot(mu, aes(y = type, x = value)) +
   geom_vline(xintercept = 0, linetype = "dashed", color = "lightgrey", 
              size = 0.5) +
-  stat_slabinterval(position = position_nudge(y = 0.3)) +  
-  stat_interval(aes(x = value), 
+  stat_slabinterval(.width = c(0.95),
+                    position = position_nudge(y = 0.2)) +  
+  stat_interval(aes(x = value),
                 alpha = .9,
                 data = theta_new) + 
   scale_color_brewer() +
@@ -59,13 +65,16 @@ plot <- ggplot(mu, aes(y = type, x = value)) +
     x = "Odds ratio (log scale)"
   ) 
     
-plot
+
+
+# generate legend for plot -------------
+
 mu_prior <- tibble(
-  value = varying_pps_diffuse$mu
+  value = pps$diffuse$mu
 )
 
 theta_new_prior <- tibble(
-  value = varying_pps_diffuse$theta_new
+  value = pps$diffuse$theta_new
 )
 
 legend <- ggplot(mu_prior, aes(x = value)) +
@@ -102,8 +111,4 @@ legend <- ggplot(mu_prior, aes(x = value)) +
 
 ggsave(here("plot.png"), plot, width = 8, height = 6, dpi = 300, bg = "white")
 ggsave(here("legend.png"), legend, width = 8, height = 6, dpi = 300, bg = "white")
-
-
-
-
 
