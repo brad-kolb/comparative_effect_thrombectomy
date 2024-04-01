@@ -25,6 +25,7 @@ comma <- function(x) format(x, digits = 3, big.mark = ",", small.mark = ",")
 ```
 
 ## Observed Data
+
 ```{r calculations}
 #| echo: false
 
@@ -42,6 +43,7 @@ categories <- n_distinct(data$K)
 There were a total of `r patients_total` patients enrolled in J = `r trials` trials. `r patients_control` were randomized to best medical management. `r patients_treatment` were randomized to best medical management plus mechanical thrombectomy. Each trial was categorized into one of K = `r categories` categories according to the type of stroke patients enrolled. Category K = 1 is large anterior circulation strokes. Category 2 is small to medium sized anterior circulation strokes treated in an early time window. Category 3 is small to medium sized anterior circulation strokes treated in a late time window. Category 4 is strokes involving the vertebro-basilar circulation. The primary endpoint was functional independence at 90 days (modified Rankin score of 0 to 2).
 
 Results from the large stroke trials are shown here.
+
 ```{r}
 #| echo: false
 data <- data %>% 
@@ -56,24 +58,28 @@ data %>% filter(K == 1)
 ```
 
 Results from the early stroke trials are shown here.
+
 ```{r}
 #| echo: false
 data %>% filter(K == 2)
 ```
 
 Results of the late stroke trials are shown here.
+
 ```{r}
 #| echo: false
 data %>% filter(K == 3)
 ```
 
 Basilar stroke trial results are shown here.
+
 ```{r}
 #| echo: false
 data %>% filter(K == 4)
 ```
 
 The pooled data by category are shown in the following table.
+
 ```{r pooled or table}
 #| echo: false
 data %>% 
@@ -93,6 +99,7 @@ data %>%
 ```
 
 The overall pooled data is shown in the following table.
+
 ```{r pooled or}
 #| echo: false
 (
@@ -115,8 +122,10 @@ The overall pooled data is shown in the following table.
 
 ## Estimated relative effect of thrombectomy across stroke types
 
-### Early 
+### Early
+
 Model estimates for trials of thrombectomy in early stroke are shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -128,7 +137,9 @@ Model estimates for trials of thrombectomy in early stroke are shown in the foll
   select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of thrombectomy improving the odds of functional independence at 90 days was estimated to be `r comma(df$prob_pos*100)`%. The estimated effect of thrombectomy on 90 day functional independence in the next early stroke trial is shown in the following table. 
+
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next early stroke trial is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -140,7 +151,11 @@ These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% ave
     select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-Bayesian I^2 is shown in the following table. 
+
+The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
+
+Bayesian I\^2 is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -154,7 +169,9 @@ Bayesian I^2 is shown in the following table.
 ```
 
 ### Large
+
 Model estimates for trials of thrombectomy in large stroke are shown in the following table.
+
 ```{r}
 #| echo: false
 (df <- varying_summary %>% 
@@ -165,7 +182,9 @@ Model estimates for trials of thrombectomy in large stroke are shown in the foll
   select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of thrombectomy improving the odds of functional independence at 90 days was estimated to be `r comma(df$prob_pos*100)`%.The estimated effect of thrombectomy on 90 day functional independence in the next large stroke trial is shown in the following table. 
+
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next large stroke trial is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -177,7 +196,11 @@ These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% ave
     select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-Bayesian I^2 is shown in the following table. 
+
+The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
+
+Bayesian I\^2 is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -191,7 +214,9 @@ Bayesian I^2 is shown in the following table.
 ```
 
 ### Late
+
 Model estimates for trials of thrombectomy in late stroke are shown in the following table.
+
 ```{r}
 #| echo: false
 (df <- varying_summary %>% 
@@ -202,7 +227,9 @@ Model estimates for trials of thrombectomy in late stroke are shown in the follo
   select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of thrombectomy improving the odds of functional independence at 90 days was estimated to be `r comma(df$prob_pos*100)`%. The estimated effect of thrombectomy on 90 day functional independence in the next late stroke trial is shown in the following table. 
+
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next late stroke trial is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -214,7 +241,11 @@ These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% ave
     select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-Bayesian I^2 is shown in the following table. 
+
+The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
+
+Bayesian I\^2 is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -228,7 +259,9 @@ Bayesian I^2 is shown in the following table.
 ```
 
 ### Basilar
+
 Model estimates for trials of thrombectomy in basilar stroke are shown in the following table.
+
 ```{r}
 #| echo: false
 (df <- varying_summary %>% 
@@ -239,7 +272,9 @@ Model estimates for trials of thrombectomy in basilar stroke are shown in the fo
   select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of thrombectomy improving the odds of functional independence at 90 days was estimated to be `r comma(df$prob_pos*100)`%. The estimated effect of thrombectomy on 90 day functional independence in the next basilar stroke trial is shown in the following table. 
+
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next basilar stroke trial is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -251,7 +286,11 @@ These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% ave
     select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-Bayesian I^2 is shown in the following table. 
+
+The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
+
+Bayesian I\^2 is shown in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -263,4 +302,3 @@ Bayesian I^2 is shown in the following table.
     select("median", "mad", "low", "high")
 )
 ```
-

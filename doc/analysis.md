@@ -91,15 +91,17 @@ the following table.
 
 These values correspond to an estimated 107% average improvement in the
 odds of functional independence at 90 days with thrombectomy (95% CI
-63.8% to 162%). The probability of thrombectomy improving the odds of
-functional independence at 90 days was estimated to be 100%. The
-estimated effect of thrombectomy on 90 day functional independence in
-the next early stroke trial is shown in the following table.
+63.8% to 162%). The expected effect of thrombectomy on 90 day functional
+independence in the next early stroke trial is shown in the following
+table.
 
     # A tibble: 1 × 5
       median   mad   low  high prob_pos
        <dbl> <dbl> <dbl> <dbl>    <dbl>
     1  0.730 0.175 0.198  1.25    0.990
+
+The probability of thrombectomy improving the odds of functional
+independence at 90 days in a new trial was estimated to be 99%.
 
 Bayesian I^2 is shown in the following table.
 
@@ -120,15 +122,17 @@ the following table.
 
 These values correspond to an estimated 176% average improvement in the
 odds of functional independence at 90 days with thrombectomy (95% CI
-49.1% to 333%). The probability of thrombectomy improving the odds of
-functional independence at 90 days was estimated to be 99.5%.The
-estimated effect of thrombectomy on 90 day functional independence in
-the next large stroke trial is shown in the following table.
+49.1% to 333%). The expected effect of thrombectomy on 90 day functional
+independence in the next large stroke trial is shown in the following
+table.
 
     # A tibble: 1 × 5
       median   mad    low  high prob_pos
        <dbl> <dbl>  <dbl> <dbl>    <dbl>
     1   1.01 0.366 -0.157  2.05    0.961
+
+The probability of thrombectomy improving the odds of functional
+independence at 90 days in a new trial was estimated to be 96.1%.
 
 Bayesian I^2 is shown in the following table.
 
@@ -149,15 +153,17 @@ the following table.
 
 These values correspond to an estimated 164% average improvement in the
 odds of functional independence at 90 days with thrombectomy (95% CI
-0.581% to 515%). The probability of thrombectomy improving the odds of
-functional independence at 90 days was estimated to be 97.6%. The
-estimated effect of thrombectomy on 90 day functional independence in
-the next late stroke trial is shown in the following table.
+0.581% to 515%). The expected effect of thrombectomy on 90 day
+functional independence in the next late stroke trial is shown in the
+following table.
 
     # A tibble: 1 × 5
       median   mad   low  high prob_pos
        <dbl> <dbl> <dbl> <dbl>    <dbl>
     1  0.958 0.809 -1.22  2.96    0.856
+
+The probability of thrombectomy improving the odds of functional
+independence at 90 days in a new trial was estimated to be 85.6%.
 
 Bayesian I^2 is shown in the following table.
 
@@ -178,15 +184,17 @@ in the following table.
 
 These values correspond to an estimated 101% average improvement in the
 odds of functional independence at 90 days with thrombectomy (95% CI
--19.2% to 348%). The probability of thrombectomy improving the odds of
-functional independence at 90 days was estimated to be 94.8%. The
-estimated effect of thrombectomy on 90 day functional independence in
-the next basilar stroke trial is shown in the following table.
+-19.2% to 348%). The expected effect of thrombectomy on 90 day
+functional independence in the next basilar stroke trial is shown in the
+following table.
 
     # A tibble: 1 × 5
       median   mad   low  high prob_pos
        <dbl> <dbl> <dbl> <dbl>    <dbl>
     1  0.721 0.691 -1.25  2.61    0.825
+
+The probability of thrombectomy improving the odds of functional
+independence at 90 days in a new trial was estimated to be 82.5%.
 
 Bayesian I^2 is shown in the following table.
 
