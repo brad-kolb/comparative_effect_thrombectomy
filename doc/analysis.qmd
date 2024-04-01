@@ -153,7 +153,6 @@ Bayesian I^2 is shown in the following table.
 )
 ```
 
-
 ### Large
 Model estimates for trials of thrombectomy in large stroke are shown in the following table.
 ```{r}
@@ -240,13 +239,13 @@ Model estimates for trials of thrombectomy in basilar stroke are shown in the fo
   select("median", "mad", "low", "high", "prob_pos")
 )
 ```
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of thrombectomy improving the odds of functional independence at 90 days was estimated to be `r comma(df$prob_pos*100)`%.The estimated effect of thrombectomy on 90 day functional independence in the next basilar stroke trial is shown in the following table. 
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of thrombectomy improving the odds of functional independence at 90 days was estimated to be `r comma(df$prob_pos*100)`%. The estimated effect of thrombectomy on 90 day functional independence in the next basilar stroke trial is shown in the following table. 
 ```{r}
 #| echo: false
 (
   df <- varying_summary %>% 
     filter(model == "varying",
-           data == "early",
+           data == "basilar",
            priors == "diffuse",
            variable == "theta_new") %>% 
     select("median", "mad", "low", "high", "prob_pos")

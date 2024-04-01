@@ -179,14 +179,14 @@ in the following table.
 These values correspond to an estimated 101% average improvement in the
 odds of functional independence at 90 days with thrombectomy (95% CI
 -19.2% to 348%). The probability of thrombectomy improving the odds of
-functional independence at 90 days was estimated to be 94.8%.The
+functional independence at 90 days was estimated to be 94.8%. The
 estimated effect of thrombectomy on 90 day functional independence in
 the next basilar stroke trial is shown in the following table.
 
     # A tibble: 1 × 5
       median   mad   low  high prob_pos
        <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1  0.730 0.175 0.198  1.25    0.990
+    1  0.721 0.691 -1.25  2.61    0.825
 
 Bayesian I^2 is shown in the following table.
 
