@@ -77,128 +77,99 @@ The overall pooled data is shown in the following table.
        <int>         <dbl> <dbl>  <dbl>
     1     22          5513 0.744 0.0611
 
-## Estimated relative effect of thrombectomy across stroke types
+## Estimated average relative treatment effect of thrombectomy across stroke types
 
 ### Early
 
-Model estimates for trials of thrombectomy in early stroke are shown in
-the following table.
+The model estimate for the average relative treatment effect of
+thrombectomy for early stroke is summarized in the following table.
 
     # A tibble: 1 × 5
       median   mad   low  high prob_pos
        <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1  0.727 0.113 0.493 0.964     1.00
+    1  0.728 0.115 0.487 0.967        1
 
-These values correspond to an estimated 107% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
-63.8% to 162%). The expected effect of thrombectomy on 90 day functional
-independence in the next early stroke trial is shown in the following
-table.
-
-    # A tibble: 1 × 5
-      median   mad   low  high prob_pos
-       <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1  0.730 0.175 0.198  1.25    0.990
-
-The probability of thrombectomy improving the odds of functional
-independence at 90 days in a new trial was estimated to be 99%.
-
-Bayesian I^2 is shown in the following table.
-
-    # A tibble: 1 × 4
-      median   mad      low  high
-       <dbl> <dbl>    <dbl> <dbl>
-    1  0.140 0.180 0.000182 0.666
+When translated from the log odds scale, these values correspond to an
+estimated 107% average improvement in the odds of functional
+independence at 90 days with thrombectomy (95% CI 62.8% to 163%). The
+probability of a positive average relative treatment effect of
+thrombectomy for this patient population is estimated by the model to be
+100%.
 
 ### Large
 
-Model estimates for trials of thrombectomy in large stroke are shown in
-the following table.
+The model estimate for the average relative treatment effect of
+thrombectomy for large stroke is summarized in the following table.
 
     # A tibble: 1 × 5
       median   mad   low  high prob_pos
        <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1   1.01 0.227 0.399  1.46    0.995
+    1   1.01 0.234 0.397  1.52    0.992
 
-These values correspond to an estimated 176% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
-49.1% to 333%). The expected effect of thrombectomy on 90 day functional
-independence in the next large stroke trial is shown in the following
-table.
-
-    # A tibble: 1 × 5
-      median   mad    low  high prob_pos
-       <dbl> <dbl>  <dbl> <dbl>    <dbl>
-    1   1.01 0.366 -0.157  2.05    0.961
-
-The probability of thrombectomy improving the odds of functional
-independence at 90 days in a new trial was estimated to be 96.1%.
-
-Bayesian I^2 is shown in the following table.
-
-    # A tibble: 1 × 4
-      median   mad     low  high
-       <dbl> <dbl>   <dbl> <dbl>
-    1  0.327 0.357 0.00159 0.878
+When translated from the log odds scale, these values correspond to an
+estimated 174% average improvement in the odds of functional
+independence at 90 days with thrombectomy (95% CI 48.7% to 360%). The
+probability of a positive average relative treatment effect of
+thrombectomy for this patient population is estimated by the model to be
+99.2%.
 
 ### Late
 
-Model estimates for trials of thrombectomy in late stroke are shown in
-the following table.
-
-    # A tibble: 1 × 5
-      median   mad     low  high prob_pos
-       <dbl> <dbl>   <dbl> <dbl>    <dbl>
-    1  0.971 0.394 0.00580  1.82    0.976
-
-These values correspond to an estimated 164% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
-0.581% to 515%). The expected effect of thrombectomy on 90 day
-functional independence in the next late stroke trial is shown in the
-following table.
-
-    # A tibble: 1 × 5
-      median   mad   low  high prob_pos
-       <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1  0.958 0.809 -1.22  2.96    0.856
-
-The probability of thrombectomy improving the odds of functional
-independence at 90 days in a new trial was estimated to be 85.6%.
-
-Bayesian I^2 is shown in the following table.
-
-    # A tibble: 1 × 4
-      median   mad   low  high
-       <dbl> <dbl> <dbl> <dbl>
-    1  0.715 0.171 0.306 0.931
-
-### Basilar
-
-Model estimates for trials of thrombectomy in basilar stroke are shown
-in the following table.
+The model estimate for the average relative treatment effect of
+thrombectomy for late stroke is summarized in the following table.
 
     # A tibble: 1 × 5
       median   mad    low  high prob_pos
        <dbl> <dbl>  <dbl> <dbl>    <dbl>
-    1  0.698 0.344 -0.213  1.50    0.948
+    1  0.950 0.378 0.0158  1.75    0.977
 
-These values correspond to an estimated 101% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
--19.2% to 348%). The expected effect of thrombectomy on 90 day
-functional independence in the next basilar stroke trial is shown in the
-following table.
+When translated from the log odds scale, these values correspond to an
+estimated 159% average improvement in the odds of functional
+independence at 90 days with thrombectomy (95% CI 1.59% to 476%). The
+probability of a positive average relative treatment effect of
+thrombectomy for this patient population is estimated by the model to be
+97.7%.
+
+### Basilar
+
+The model estimate for the average relative treatment effect of
+thrombectomy for basilar stroke is summarized in the following table.
 
     # A tibble: 1 × 5
-      median   mad   low  high prob_pos
-       <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1  0.721 0.691 -1.25  2.61    0.825
+      median   mad    low  high prob_pos
+       <dbl> <dbl>  <dbl> <dbl>    <dbl>
+    1  0.700 0.339 -0.172  1.43    0.956
 
-The probability of thrombectomy improving the odds of functional
-independence at 90 days in a new trial was estimated to be 82.5%.
+When translated from the log odds scale, these values correspond to an
+estimated 101% average improvement in the odds of functional
+independence at 90 days with thrombectomy (95% CI -15.8% to 317%). The
+probability of a positive average relative treatment effect of
+thrombectomy for this patient population is estimated by the model to be
+95.5%.
 
-Bayesian I^2 is shown in the following table.
+## Estimated expected relative treatment effect of thrombectomy in a new trial across stroke type
 
-    # A tibble: 1 × 4
-      median   mad   low  high
-       <dbl> <dbl> <dbl> <dbl>
-    1  0.802 0.154 0.214 0.962
+The model estimate for the variation in the trial-specific treatment
+effect of thrombectomy for each stroke type is summarized in the
+following table.
+
+    # A tibble: 4 × 5
+      data    median   mad     low  high
+      <chr>    <dbl> <dbl>   <dbl> <dbl>
+    1 large    0.332 0.284 0.0164  1.26 
+    2 early    0.139 0.121 0.00716 0.507
+    3 late     0.751 0.327 0.321   1.83 
+    4 basilar  0.664 0.326 0.216   1.63 
+
+When taken together with the estimates for the average relative
+treatment effects, these estimates of trial-specific treatment effect
+heterogeneity can be used to calculate the expected relative treatment
+effect of thrombectomy in a new trial.
+
+    # A tibble: 4 × 6
+      data    median   mad    low  high prob_pos
+      <chr>    <dbl> <dbl>  <dbl> <dbl>    <dbl>
+    1 large    1.02  0.367 -0.300  2.25    0.956
+    2 early    0.726 0.180  0.191  1.22    0.99 
+    3 late     0.951 0.808 -1.17   2.90    0.857
+    4 basilar  0.726 0.708 -1.31   2.36    0.829

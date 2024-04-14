@@ -24,7 +24,8 @@ mu <- tibble(
     model_fits[["basilar"]][["diffuse"]]$mu,
     model_fits[["large"]][["diffuse"]]$mu,
     model_fits[["early"]][["diffuse"]]$mu
-  )
+  ),
+  variable = "mu"
 )
 
 theta_new <- tibble(
@@ -39,7 +40,8 @@ theta_new <- tibble(
     model_fits[["basilar"]][["diffuse"]]$theta_new,
     model_fits[["large"]][["diffuse"]]$theta_new,
     model_fits[["early"]][["diffuse"]]$theta_new
-  )
+  ),
+  variable = "theta_new"
 )
 
 mu$type <- factor(mu$type, levels = unique(mu$type))

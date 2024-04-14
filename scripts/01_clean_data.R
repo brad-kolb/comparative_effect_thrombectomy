@@ -30,7 +30,7 @@ make_clean_data <- function(data, metric) {
   ) %>% 
     mutate(
       y = log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)), # log odds ratio
-      sigma = ifelse(r_t == 0 | r_c == 0, # approximate standard error
+      se = ifelse(r_t == 0 | r_c == 0, # approximate standard error
                      NA_real_,
                      sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c))
       )

@@ -135,8 +135,8 @@ varying_summary %>% filter(priors == "skeptical", variable == params) %>%
 varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
   select(-c("rhat", "ess_bulk", "ess_tail"))
 
-# view summary for tau ------------
-params <- c("tau")
+# view summary for sigma ------------
+params <- c("sigma")
 
 rhat_values <- extract_rhats(subsets, prior_types, model_fits, params)
 check_rhats(rhat_values)

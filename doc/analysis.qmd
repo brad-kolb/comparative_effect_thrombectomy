@@ -51,8 +51,7 @@ data <- data %>%
                    "ESCAPE", "EXTEND", "MRCLEAN", "PISTE", "RESILIENT", "REVASCAT", "SWIFT", "THERAPY", "THRACE",
                    "DAWN", "DEFUSE3", "MRCLEANLATE", "POSITIVE",
                    "ATTENTION", "BAOCHE", "BASICS", "BEST")) %>% 
-  relocate("name", .after = J) %>% 
-  rename(se = sigma)
+  relocate("name", .after = J)
 
 data %>% filter(K == 1)
 ```
@@ -120,11 +119,10 @@ The overall pooled data is shown in the following table.
   )
 ```
 
-## Estimated relative effect of thrombectomy across stroke types
+## Estimated average relative treatment effect of thrombectomy across stroke types
 
 ### Early
-
-Model estimates for trials of thrombectomy in early stroke are shown in the following table.
+The model estimate for the average relative treatment effect of thrombectomy for early stroke is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -138,39 +136,10 @@ Model estimates for trials of thrombectomy in early stroke are shown in the foll
 )
 ```
 
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next early stroke trial is shown in the following table.
-
-```{r}
-#| echo: false
-(
-  df <- varying_summary %>% 
-    filter(model == "varying",
-           data == "early",
-           priors == "diffuse",
-           variable == "theta_new") %>% 
-    select("median", "mad", "low", "high", "prob_pos")
-)
-```
-
-The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
-
-Bayesian I\^2 is shown in the following table.
-
-```{r}
-#| echo: false
-(
-  df <- varying_summary %>% 
-    filter(model == "varying",
-           data == "early",
-           priors == "diffuse",
-           variable == "i2") %>% 
-    select("median", "mad", "low", "high")
-)
-```
+When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
 ### Large
-
-Model estimates for trials of thrombectomy in large stroke are shown in the following table.
+The model estimate for the average relative treatment effect of thrombectomy for large stroke is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -183,39 +152,10 @@ Model estimates for trials of thrombectomy in large stroke are shown in the foll
 )
 ```
 
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next large stroke trial is shown in the following table.
-
-```{r}
-#| echo: false
-(
-  df <- varying_summary %>% 
-    filter(model == "varying",
-           data == "large",
-           priors == "diffuse",
-           variable == "theta_new") %>% 
-    select("median", "mad", "low", "high", "prob_pos")
-)
-```
-
-The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
-
-Bayesian I\^2 is shown in the following table.
-
-```{r}
-#| echo: false
-(
-  df <- varying_summary %>% 
-    filter(model == "varying",
-           data == "large",
-           priors == "diffuse",
-           variable == "i2") %>% 
-    select("median", "mad", "low", "high")
-)
-```
+When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
 ### Late
-
-Model estimates for trials of thrombectomy in late stroke are shown in the following table.
+The model estimate for the average relative treatment effect of thrombectomy for late stroke is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -228,39 +168,10 @@ Model estimates for trials of thrombectomy in late stroke are shown in the follo
 )
 ```
 
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next late stroke trial is shown in the following table.
-
-```{r}
-#| echo: false
-(
-  df <- varying_summary %>% 
-    filter(model == "varying",
-           data == "late",
-           priors == "diffuse",
-           variable == "theta_new") %>% 
-    select("median", "mad", "low", "high", "prob_pos")
-)
-```
-
-The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
-
-Bayesian I\^2 is shown in the following table.
-
-```{r}
-#| echo: false
-(
-  df <- varying_summary %>% 
-    filter(model == "varying",
-           data == "late",
-           priors == "diffuse",
-           variable == "i2") %>% 
-    select("median", "mad", "low", "high")
-)
-```
+When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
 ### Basilar
-
-Model estimates for trials of thrombectomy in basilar stroke are shown in the following table.
+The model estimate for the average relative treatment effect of thrombectomy for basilar stroke is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -273,32 +184,32 @@ Model estimates for trials of thrombectomy in basilar stroke are shown in the fo
 )
 ```
 
-These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The expected effect of thrombectomy on 90 day functional independence in the next basilar stroke trial is shown in the following table.
+When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
+## Estimated expected relative treatment effect of thrombectomy in a new trial across stroke type
+
+The model estimate for the variation in the trial-specific treatment effect of thrombectomy for each stroke type is summarized in the following table. 
 ```{r}
 #| echo: false
 (
   df <- varying_summary %>% 
-    filter(model == "varying",
-           data == "basilar",
-           priors == "diffuse",
-           variable == "theta_new") %>% 
-    select("median", "mad", "low", "high", "prob_pos")
+  filter(model == "varying",
+         data %in% c("early", "large", "late", "basilar"),
+         priors == "diffuse",
+         variable == "sigma") %>% 
+  select("data", "median", "mad", "low", "high")
 )
 ```
 
-The probability of thrombectomy improving the odds of functional independence at 90 days in a new trial was estimated to be `r comma(df$prob_pos*100)`%.
-
-Bayesian I\^2 is shown in the following table.
-
+When taken together with the estimates for the average relative treatment effects, these estimates of trial-specific treatment effect heterogeneity can be used to calculate the expected relative treatment effect of thrombectomy in a new trial.
 ```{r}
 #| echo: false
 (
   df <- varying_summary %>% 
     filter(model == "varying",
-           data == "basilar",
+           data %in% c("early", "large", "late", "basilar"),
            priors == "diffuse",
-           variable == "i2") %>% 
-    select("median", "mad", "low", "high")
+           variable == "theta_new") %>% 
+    select("data", "median", "mad", "low", "high", "prob_pos")
 )
 ```
