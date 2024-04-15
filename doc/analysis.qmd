@@ -122,6 +122,7 @@ The overall pooled data is shown in the following table.
 ## Estimated average relative treatment effect of thrombectomy across stroke types
 
 ### Early
+
 The model estimate for the average relative treatment effect of thrombectomy for early stroke is summarized in the following table.
 
 ```{r}
@@ -139,6 +140,7 @@ The model estimate for the average relative treatment effect of thrombectomy for
 When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
 ### Large
+
 The model estimate for the average relative treatment effect of thrombectomy for large stroke is summarized in the following table.
 
 ```{r}
@@ -155,6 +157,7 @@ The model estimate for the average relative treatment effect of thrombectomy for
 When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
 ### Late
+
 The model estimate for the average relative treatment effect of thrombectomy for late stroke is summarized in the following table.
 
 ```{r}
@@ -171,6 +174,7 @@ The model estimate for the average relative treatment effect of thrombectomy for
 When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
 ### Basilar
+
 The model estimate for the average relative treatment effect of thrombectomy for basilar stroke is summarized in the following table.
 
 ```{r}
@@ -186,9 +190,10 @@ The model estimate for the average relative treatment effect of thrombectomy for
 
 When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
 
-## Estimated expected relative treatment effect of thrombectomy in a new trial across stroke type
+## Anticipated relative treatment effect of thrombectomy in a new trial across stroke type
 
-The model estimate for the variation in the trial-specific treatment effect of thrombectomy for each stroke type is summarized in the following table. 
+The model estimate for the variation in the trial-specific relative treatment effect of thrombectomy for each stroke type is summarized in the following table.
+
 ```{r}
 #| echo: false
 (
@@ -201,7 +206,8 @@ The model estimate for the variation in the trial-specific treatment effect of t
 )
 ```
 
-When taken together with the estimates for the average relative treatment effects, these estimates of trial-specific treatment effect heterogeneity can be used to calculate the expected relative treatment effect of thrombectomy in a new trial.
+When taken together with the estimates for the average relative treatment effects, these estimates of trial-specific treatment effect heterogeneity can be used to calculate the anticipated relative treatment effect of thrombectomy in a new trial.
+
 ```{r}
 #| echo: false
 (

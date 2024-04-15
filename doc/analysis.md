@@ -147,11 +147,11 @@ probability of a positive average relative treatment effect of
 thrombectomy for this patient population is estimated by the model to be
 95.5%.
 
-## Estimated expected relative treatment effect of thrombectomy in a new trial across stroke type
+## Anticipated relative treatment effect of thrombectomy in a new trial across stroke type
 
-The model estimate for the variation in the trial-specific treatment
-effect of thrombectomy for each stroke type is summarized in the
-following table.
+The model estimate for the variation in the trial-specific relative
+treatment effect of thrombectomy for each stroke type is summarized in
+the following table.
 
     # A tibble: 4 × 5
       data    median   mad     low  high
@@ -163,8 +163,8 @@ following table.
 
 When taken together with the estimates for the average relative
 treatment effects, these estimates of trial-specific treatment effect
-heterogeneity can be used to calculate the expected relative treatment
-effect of thrombectomy in a new trial.
+heterogeneity can be used to calculate the anticipated relative
+treatment effect of thrombectomy in a new trial.
 
     # A tibble: 4 × 6
       data    median   mad    low  high prob_pos

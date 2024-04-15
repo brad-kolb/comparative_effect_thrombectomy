@@ -18,7 +18,7 @@ p1 <- mu_prior %>%
   stat_pointinterval(position = position_dodge(width = .4, preserve = "single")) +
   labs(
     title = "Prior distribution",
-    subtitle = "Relative average treatment effect of thrombectomy by stroke subtype",
+    subtitle = "Relative average treatment effect of thrombectomy",
     y = NULL,
     x = "odds ratio (log scale)"
   ) +
@@ -77,16 +77,15 @@ p2 <- mu %>%
   theme_minimal_vgrid() +
   theme(axis.line.y = element_blank(),
         axis.ticks.y = element_blank(),
-        legend.position = c(.95, .95),
-        legend.justification = c("right", "top"),
+        legend.position = "bottom",
+        legend.justification = "center",
         legend.box.just = "right",
         legend.margin = margin(6,6,6,6)) 
 
 posterior_plot <- ggdraw(p2) +
-  draw_plot(inset, .8, .3, .2, .2) 
+  draw_plot(inset, .8, .65, .2, .2) 
 
 ggsave(here("plots", "posterior_plot.png"), posterior_plot, width = 8, height = 6, dpi = 300, bg = "white")
-
 
 # plot the posterior complementary cumulative distribution -----------
 
@@ -113,7 +112,7 @@ ccdf_plot <- ggplot() +
   scale_x_continuous(limits = c(-.5, 2.0),
                      breaks = seq(-.5, 2.0, by = 0.5)) +
   labs(x = "odds ratio threshold (log scale)",
-       y = "P(odds ratio > x)",
+       y = "probability",
        title = "Posterior complementary cumulative distributions",
        subtitle = "Probability relative average treatment effect exceeds a given threshold") +
   theme_minimal_grid() +
