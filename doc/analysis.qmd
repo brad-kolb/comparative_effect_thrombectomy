@@ -219,3 +219,59 @@ When taken together with the estimates for the average relative treatment effect
     select("data", "median", "mad", "low", "high", "prob_pos")
 )
 ```
+
+### Early
+
+```{r}
+#| echo: false
+df <- varying_summary %>% 
+  filter(model == "varying",
+         data == "early",
+         priors == "diffuse",
+         variable == "theta_new") %>% 
+  select("data", "median", "mad", "low", "high", "prob_pos")
+```
+
+When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new early stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).
+
+### Large
+
+```{r}
+#| echo: false
+df <- varying_summary %>% 
+  filter(model == "varying",
+         data == "large",
+         priors == "diffuse",
+         variable == "theta_new") %>% 
+  select("data", "median", "mad", "low", "high", "prob_pos")
+```
+
+When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new large stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).
+
+### Late
+
+```{r}
+#| echo: false
+df <- varying_summary %>% 
+  filter(model == "varying",
+         data == "late",
+         priors == "diffuse",
+         variable == "theta_new") %>% 
+  select("data", "median", "mad", "low", "high", "prob_pos")
+```
+
+When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new late stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).
+
+### Basilar
+
+```{r}
+#| echo: false
+df <- varying_summary %>% 
+  filter(model == "varying",
+         data == "basilar",
+         priors == "diffuse",
+         variable == "theta_new") %>% 
+  select("data", "median", "mad", "low", "high", "prob_pos")
+```
+
+When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new basilar stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).

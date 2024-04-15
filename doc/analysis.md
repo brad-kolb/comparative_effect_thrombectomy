@@ -173,3 +173,24 @@ treatment effect of thrombectomy in a new trial.
     2 early    0.726 0.180  0.191  1.22    0.99 
     3 late     0.951 0.808 -1.17   2.90    0.857
     4 basilar  0.726 0.708 -1.31   2.36    0.829
+
+### Early
+
+When translated from the log odds scale, the anticipated odds ratio for
+thrombectomy in a new early stroke trial is 2.07 (95% CI 1.21 to 3.38).
+
+### Large
+
+When translated from the log odds scale, the anticipated odds ratio for
+thrombectomy in a new large stroke trial is 2.78 (95% CI 0.741 to 9.49).
+
+### Late
+
+When translated from the log odds scale, the anticipated odds ratio for
+thrombectomy in a new late stroke trial is 2.59 (95% CI 0.309 to 18.2).
+
+### Basilar
+
+When translated from the log odds scale, the anticipated odds ratio for
+thrombectomy in a new basilar stroke trial is 2.07 (95% CI 0.271 to
+10.6).
