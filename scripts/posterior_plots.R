@@ -82,8 +82,13 @@ p2 <- mu %>%
         legend.box.just = "right",
         legend.margin = margin(6,6,6,6)) 
 
-posterior_plot <- ggdraw(p2) +
-  draw_plot(inset, .8, .65, .2, .2) 
+posterior_plot <- ggdraw(p2)
+
+# include inset showing prior
+# posterior_plot <- ggdraw(p2) +
+#   draw_plot(inset, .1, .4, .2, .2) 
+
+
 
 ggsave(here("plots", "posterior_plot.png"), posterior_plot, width = 8, height = 6, dpi = 300, bg = "white")
 
@@ -122,4 +127,24 @@ ccdf_plot <- ggplot() +
         legend.margin = margin(6,6,6,6))
 
 ggsave(here("plots", "ccdf_plot.png"), ccdf_plot, width = 8, height = 6, dpi = 300, bg = "white")
+
+
+# ridgeline
+
+library(ggplot2)
+library(ggridges)
+
+ggplot(df1, aes(x = value, y = type)) +
+  geom_density_ridges(scale = 4) + 
+  scale_y_discrete(expand = c(0, 0)) +     # will generally have to set the `expand` option
+  scale_x_continuous(expand = c(0, 0)) +   # for both axes to remove unneeded padding
+  coord_cartesian(clip = "off") + # to avoid clipping of the very top of the top ridgeline
+  theme_ridges(grid = TRUE, center_axis_labels = TRUE) +
+  labs(
+    title = "Posterior distributions",
+    subtitle = "Relative average treatment effect of thrombectomy by stroke type",
+    y = NULL,
+    x = "odds ratio (log scale)"
+  )
+
 
