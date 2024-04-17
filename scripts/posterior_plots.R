@@ -1,6 +1,8 @@
 library(tidyverse)
 library(cowplot)
 library(ggdist)
+library(ggokabeito)
+
 library(here)
 
 # load the fits
@@ -12,37 +14,24 @@ mu_prior <- tibble(
   value = pps$diffuse$mu
 )
 
-p1 <- mu_prior %>%
+prior_density <- mu_prior %>%
   ggplot(aes(x = value)) +
-  stat_slab(alpha = .3) +
+  stat_slab(alpha = .5) +
   stat_pointinterval(position = position_dodge(width = .4, preserve = "single")) +
   labs(
     title = "Prior distribution",
-    subtitle = "Relative average treatment effect of thrombectomy",
+    subtitle = "Average treatment effect of thrombectomy",
     y = NULL,
     x = "odds ratio (log scale)"
   ) +
   theme_minimal_vgrid() +
+  scale_fill_okabe_ito() +
+  scale_color_okabe_ito() +
   theme(axis.line.y = element_blank(),
         axis.ticks.y = element_blank(),
         axis.text.y = element_blank())
 
-inset <- mu_prior %>%
-  ggplot(aes(x = value)) +
-  stat_slab(alpha = .3) +
-  stat_pointinterval(position = position_dodge(width = .4, preserve = "single")) +
-  labs(subtitle = "Prior",
-       y = NULL,
-       x = NULL) +
-  theme_minimal_vgrid() +
-  panel_border() +
-  theme(axis.line.y = element_blank(),
-        axis.ticks.y = element_blank(),
-        axis.text.y = element_blank())
-
-prior_plot <- ggdraw(p1)
-
-ggsave(here("plots", "prior_plot.png"), prior_plot, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave(here("plots", "prior_density.png"), prior_plot, width = 8, height = 6, dpi = 300, bg = "white")
 
 # plot posterior distribution ------
 mu <- tibble(
@@ -63,16 +52,18 @@ mu <- tibble(
 
 mu$type <- factor(mu$type, levels = unique(mu$type))
 
-p2 <- mu %>%
+posterior_density <- mu %>%
   ggplot(aes(fill = type, color = type, x = value)) +
-  stat_slab(alpha = .3) +
+  stat_slab(alpha = .6) +
   stat_pointinterval(position = position_dodge(width = .4, preserve = "single")) +
   labs(
     title = "Posterior distributions",
-    subtitle = "Relative average treatment effect of thrombectomy by stroke type",
+    subtitle = "Average treatment effect of thrombectomy by stroke type",
     y = NULL,
     x = "odds ratio (log scale)"
   ) +
+  scale_fill_okabe_ito() +
+  scale_color_okabe_ito() +
   scale_y_continuous(breaks = NULL) +
   theme_minimal_vgrid() +
   theme(axis.line.y = element_blank(),
@@ -82,15 +73,7 @@ p2 <- mu %>%
         legend.box.just = "right",
         legend.margin = margin(6,6,6,6)) 
 
-posterior_plot <- ggdraw(p2)
-
-# include inset showing prior
-# posterior_plot <- ggdraw(p2) +
-#   draw_plot(inset, .1, .4, .2, .2) 
-
-
-
-ggsave(here("plots", "posterior_plot.png"), posterior_plot, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave(here("plots", "posterior_density.png"), posterior_density, width = 8, height = 6, dpi = 300, bg = "white")
 
 # plot the posterior complementary cumulative distribution -----------
 
@@ -107,44 +90,75 @@ prior_ccdf <- mu_prior %>%
   ungroup() %>% 
   mutate(ccdf = 1 - ecdf)
 
-ccdf_plot <- ggplot() +
+posterior_ccdf <- ggplot() +
   geom_step(data = mu_ccdf, aes(x = value, y = ccdf, color = type), size = 1.25) +
-  geom_step(data = prior_ccdf, aes(x = value, y = ccdf), color = "darkgrey", linetype = "dotted", size = 1.25) +
-  geom_text(data = prior_ccdf, aes(x = 0.1, y = 0.35), label = "prior", color = "darkgrey", hjust = 0, vjust = 0) +
+  geom_step(data = prior_ccdf, aes(x = value, y = ccdf), color = "darkgrey", size = 1.25) +
+  geom_text(data = prior_ccdf, aes(x = 0.1, y = 0.15), label = "prior", color = "darkgrey", hjust = 0, vjust = 0) +
   scale_y_continuous(labels = scales::percent_format(),
                      limits = c(0, 1),
                      breaks = seq(0, 1, by = 0.1)) +
-  scale_x_continuous(limits = c(-.5, 2.0),
-                     breaks = seq(-.5, 2.0, by = 0.5)) +
-  labs(x = "odds ratio threshold (log scale)",
-       y = "probability",
-       title = "Posterior complementary cumulative distributions",
-       subtitle = "Probability relative average treatment effect exceeds a given threshold") +
+  scale_x_continuous(limits = c(0, 2.0),
+                     breaks = seq(0, 2.0, by = 1)) +
+  scale_fill_okabe_ito() +
+  scale_color_okabe_ito() +
+  labs(x = "treatment effect threshold (odds ratio on log scale)",
+       y = NULL,
+       title = "Complementary cumulative posterior distributions",
+       subtitle = "Probability average treatment effect exceeds a given threshold.") +
+  guides(color = "none", fill = "none") +
   theme_minimal_grid() +
-  theme(legend.position = c(.95, .95),
-        legend.justification = c("right", "top"),
-        legend.box.just = "right",
-        legend.margin = margin(6,6,6,6))
+  facet_wrap(~ type, nrow = 1)
 
-ggsave(here("plots", "ccdf_plot.png"), ccdf_plot, width = 8, height = 6, dpi = 300, bg = "white")
+ggsave(here("plots", "posterior_ccdf.png"), ccdf_plot, width = 8, height = 6, dpi = 300, bg = "white")
 
+# histograms -----------
 
-# ridgeline
-
-library(ggplot2)
-library(ggridges)
-
-ggplot(df1, aes(x = value, y = type)) +
-  geom_density_ridges(scale = 4) + 
-  scale_y_discrete(expand = c(0, 0)) +     # will generally have to set the `expand` option
-  scale_x_continuous(expand = c(0, 0)) +   # for both axes to remove unneeded padding
-  coord_cartesian(clip = "off") + # to avoid clipping of the very top of the top ridgeline
-  theme_ridges(grid = TRUE, center_axis_labels = TRUE) +
-  labs(
-    title = "Posterior distributions",
-    subtitle = "Relative average treatment effect of thrombectomy by stroke type",
-    y = NULL,
-    x = "odds ratio (log scale)"
+prior_histogram <- mu_prior %>% 
+  ggplot() +
+  geom_histogram(mapping = aes(x = value, y = ..count..),
+                 breaks = seq(floor(min(mu_prior$value)), ceiling(max(mu_prior$value)), by = 0.5),
+                 alpha = 0.9, fill = "gray40", color = "black", size = 0.5) +
+  guides(color = "none", fill = "none") +
+  labs(x = "Average treatment effect (odds ratio on log scale)", y = "% of draws",
+       title = "Prior distribution of average treatment effects",
+       subtitle = "Bins represent clinically meaningful thresholds") +
+  scale_x_continuous(breaks = c(-3, -2, -1, 0, 1, 2, 3),
+                     labels = c("-3", "-2", "-1", "0", "1", "2", "3")) +
+  scale_y_continuous(labels = c("0%", "5%", "10%", "15%", "20%")) +
+  theme_minimal_grid() +
+  theme(
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank()
   )
 
+ggsave(here("plots", "prior_histogram.png"), prior_histogram, width = 8, height = 6, dpi = 300, bg = "white")
+
+posterior_histogram <- mu %>% 
+  mutate(prior = rep(mu_prior$value, 4)) %>%
+  ggplot() +
+  geom_histogram(mapping = aes(x = prior, y = ..count..),
+                 breaks = seq(floor(min(mu_prior$value)), ceiling(max(mu_prior$value)), by = 0.5),
+                 alpha = 0.5, fill = "gray40", size = 0.5) +
+  geom_histogram(mapping = aes(x = value, y = ..count.., color = type, fill = type),
+                 breaks = seq(floor(min(mu$value)), ceiling(max(mu$value)), by = 0.5),
+                 size = 0.5, alpha = 0.7) +
+  scale_fill_okabe_ito() +
+  scale_color_okabe_ito() +
+  guides(color = "none", fill = "none") +
+  labs(x = "Treatment effect (odds ratio on log scale)", y = "Posterior draws",
+       title = "Thrombectomy treatment effect by stroke type",
+       subtitle = "Draws from prior distribution shown in gray for comparison") +
+  facet_wrap(~ type, nrow = 1) +
+  scale_x_continuous(breaks = c(-4, -2, 0, 2, 4),
+                     labels = c("-4", "-2", "0", "2", "4")) +
+  scale_y_continuous(labels = c("0%", "25%", "50%", "75%", "100%")) +
+  theme_minimal_grid() +
+  theme(
+    # axis.title.y = element_blank(),
+    # axis.text.y = element_blank(),
+    axis.line.y = element_blank(),
+    axis.ticks.y = element_blank()
+  )
+
+ggsave(here("plots", "posterior_histogram.png"), posterior_histogram, width = 8, height = 6, dpi = 300, bg = "white")
 
