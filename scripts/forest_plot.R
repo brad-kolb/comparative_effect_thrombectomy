@@ -74,4 +74,4 @@ legend <- get_legend(
 # the width of one plot (via rel_widths).
 plot <- plot_grid(prow, legend, rel_widths = c(1, .3))
 
-ggsave(here("plots", "forest.png"), plot, width = 8, height = 8, dpi = 300, bg = "white")
+ggsave(here("plots", "posterior_forest.png"), plot, width = 8, height = 8, dpi = 300, bg = "white")

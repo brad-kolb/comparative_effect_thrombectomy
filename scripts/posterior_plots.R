@@ -113,6 +113,27 @@ ggsave(here("plots", "posterior_ccdf.png"), ccdf_plot, width = 8, height = 6, dp
 
 # histograms -----------
 
+data <- tibble(x = rnorm(1e6, mean = 0, sd = 1))
+
+bin_breaks <- seq(floor(min(data$x)), ceiling(max(data$x)), by = 0.5)
+
+highlight_bin <- bin_breaks[which.min(abs(bin_breaks)) + 1]
+
+prior_legend <- ggplot(data, aes(x = x, fill = ifelse(x >= highlight_bin & x < highlight_bin + 0.5, "highlight", "default"))) +
+  geom_histogram(breaks = bin_breaks, color = "black") +
+  scale_fill_manual(values = c("default" = "grey", "highlight" = "black"), guide = FALSE) +
+  scale_x_continuous(breaks = c(0.5, 1),
+                     labels = c("X1", "X2")) +
+  scale_y_continuous(breaks = 1.5e5,
+                     labels = c("Y%")) +
+  labs(title = "Interpretating histogram of draws from the prior distribution",
+       subtitle = "Y% prior probability of an effect between X1 and X2",
+       x = NULL,
+       y = NULL) +
+  theme_minimal_grid()
+
+ggsave(here("plots", "prior_legend.png"), prior_legend, width = 8, height = 6, dpi = 300, bg = "white")
+
 prior_histogram <- mu_prior %>% 
   ggplot() +
   geom_histogram(mapping = aes(x = value, y = ..count..),
