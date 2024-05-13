@@ -42,6 +42,7 @@ model_gq <- cmdstan_model(here("models", "probit_binomial_gq.stan"))
 
 fit_gq <- model_ppc$generate_quantities(fit, data = dat, seed = 123)
 
+### needs to be updated to new GQs!!!!!!!!
 # trial level
 data %>% 
   reframe(arr_obs = r_t/n_t - r_c/n_c) %>% 

@@ -18,28 +18,30 @@ parameters {
   vector[K] beta_treatment;
 }
 generated quantities{
-    // marginal effect in each trial
-  vector<lower=0,upper=1>[N] p;
+  // expected value of posterior predictive distribution
+  vector<lower=0,upper=1>[N] E_y_tilde;
   for (i in 1:N) {
-    p[i] = Phi(phi[j[i]] + beta_control[k[i]] + (theta[j[i]] + beta_treatment[k[i]]) * x[i]);
+    E_y_tilde[i] = Phi(phi[j[i]] + beta_control[k[i]] + (theta[j[i]] + beta_treatment[k[i]]) * x[i]);
   }
-  vector[N%/%2] arr;
+  // expected value of posterior predictive distribution of absolute risk reduction
+  vector[N%/%2] E_arr_tilde;
   for (i in 1:N%/%2) {
-    arr[i] = p[2 * i] - p[2 * i - 1];
+    E_arr_tilde[i] = E_y_tilde[2 * i] - E_y_tilde[2 * i - 1];
   }
-  // posterior predictive check
-  vector<lower=0>[N] y_tilde = to_vector(binomial_rng(n[1:N], p));
-  vector<lower=0>[N] p_tilde = y_tilde ./ to_vector(n);
+  // posterior predictive distribution
+  vector<lower=0>[N] y_tilde = to_vector(binomial_rng(n[1:N], E_y_tilde));
+  // posterior predictive distribution of absolute risk reduction
+  vector<lower=0>[N] risk_tilde = y_tilde ./ to_vector(n);
   vector[N%/%2] arr_tilde;
   for (i in 1:N%/%2) {
-    arr_tilde[i] = p_tilde[2*i] - p_tilde[2*i - 1];
+    arr_tilde[i] = risk_tilde[2*i] - risk_tilde[2*i - 1];
   }
-  // average effect across trials
-  vector[K] p_control_av = Phi(rho + beta_control);
-  vector[K] p_treatment_av = Phi(rho + beta_control + mu + beta_treatment);
-  vector[K] arr_av = p_treatment_av - p_control_av;
-  // anticipated effect in the next trial
-  vector[K] p_control_next = Phi(normal_rng(rho, sigma) + beta_control);
-  vector[K] p_treatment_next = Phi(normal_rng(rho, sigma) + beta_control + normal_rng(mu, tau) + beta_treatment);
-  vector[K] arr_next = p_treatment_next - p_control_next;
+  // marginal effect of intervention across trials
+  vector[K] control_marg = Phi(rho + beta_control);
+  vector[K] treatment_marg = Phi(rho + beta_control + mu + beta_treatment);
+  vector[K] arr_marg = treatment_marg - control_marg;
+  // expected effect of intervention in the next hypothetical trial
+  vector[K] E_control_next = Phi(normal_rng(rho, sigma) + beta_control);
+  vector[K] E_treatment_next = Phi(normal_rng(rho, sigma) + beta_control + normal_rng(mu, tau) + beta_treatment);
+  vector[K] E_arr_next = E_treatment_next - E_control_next;
 }
