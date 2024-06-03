@@ -2,4 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-
+# Ignore compiled Stan model executables
+*
+!*/
+!*.stan

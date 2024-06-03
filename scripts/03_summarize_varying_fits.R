@@ -128,7 +128,6 @@ check_rhats(rhat_values)
 bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
 check_bulk_ess(bulk_ess_values)
 
-# show the main results of interest 
 varying_summary %>% filter(priors == "skeptical", variable == params) %>% 
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
 
@@ -144,13 +143,11 @@ check_rhats(rhat_values)
 bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
 check_bulk_ess(bulk_ess_values)
 
-# show the main results of interest 
 varying_summary %>% filter(priors == "skeptical", variable == params) %>% 
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
 
 varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
   select(-c("prob_pos", "rhat", "ess_bulk", "ess_tail"))
-
 
 # view summary for theta_new ------------
 params <- c("theta_new")
@@ -161,10 +158,8 @@ check_rhats(rhat_values)
 bulk_ess_values <- extract_bulk_ess(subsets, prior_types, model_fits, params)
 check_bulk_ess(bulk_ess_values)
 
-# show the main results of interest 
 varying_summary %>% filter(priors == "skeptical", variable == params) %>% 
   select(-c("rhat", "ess_bulk", "ess_tail"))
 
 varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
   select(-c("rhat", "ess_bulk", "ess_tail"))
-

@@ -25,6 +25,7 @@ fit_model <- function(data_list) {
   require(cmdstanr)
   require(posterior)
   fit <- model$sample(data = data_list, 
+                      seed = 312,
                       chains = 4,
                       parallel_chains = 4,
                       save_warmup = TRUE,

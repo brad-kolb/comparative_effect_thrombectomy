@@ -25,7 +25,7 @@ transformed data {
 }
 parameters {
   real mu; // mean treatment effect
-  real<lower=0> sigma; // deviation of treatment effects
+  real<lower=0> sigma; // deviation of treatment effects from the mean
   vector<offset=mu,multiplier=sigma>[J] theta; // trial-specific treatment effects
 }
 model {
