@@ -2,7 +2,7 @@
 .Rhistory
 .RData
 .Ruserdata
-# Ignore compiled Stan model executables
-*
-!*/
-!*.stan
+# Ignore compiled Stan model executables in the "models" subfolder
+models/*
+!models/*/
+!models/*.stan
