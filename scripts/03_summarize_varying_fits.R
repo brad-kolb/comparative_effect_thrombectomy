@@ -163,3 +163,19 @@ varying_summary %>% filter(priors == "skeptical", variable == params) %>%
 
 varying_summary %>% filter(priors == "diffuse", variable == params) %>% 
   select(-c("rhat", "ess_bulk", "ess_tail"))
+
+# graphical posterior predictive check
+
+y_rep <- as_draws_matrix(
+  model_fits$full$diffuse[, c("theta[1]", "theta[2]", "theta[3]", "theta[4]", "theta[5]",
+                                           "theta[6]", "theta[7]", "theta[8]", "theta[9]", "theta[10]",
+                                           "theta[11]", "theta[12]", "theta[13]", "theta[14]", "theta[15]",
+                                           "theta[16]", "theta[17]", "theta[18]", "theta[19]", "theta[20]",
+                                           "theta[21]", "theta[22]")])
+y <- data %>% 
+  select(y) %>% 
+  deframe()
+bayesplot::ppc_intervals(y, y_rep, prob_outer = .95) +
+  scale_x_continuous("trial") +
+  ylab("log odds ratio") +
+  coord_flip()

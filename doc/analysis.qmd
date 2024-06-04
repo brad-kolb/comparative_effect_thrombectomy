@@ -40,9 +40,9 @@ patients_treatment <- with(data, sum(n_t)) %>%
 categories <- n_distinct(data$K)
 ```
 
-There were a total of `r patients_total` patients enrolled in J = `r trials` trials. `r patients_control` were randomized to best medical management. `r patients_treatment` were randomized to best medical management plus mechanical thrombectomy. Each trial was categorized into one of K = `r categories` categories according to the type of stroke patients enrolled. Category K = 1 is large anterior circulation strokes. Category 2 is small to medium sized anterior circulation strokes treated in an early time window. Category 3 is small to medium sized anterior circulation strokes treated in a late time window. Category 4 is strokes involving the vertebro-basilar circulation. The primary endpoint was functional independence at 90 days (modified Rankin score of 0 to 2).
+There were a total of N = `r patients_total` patients enrolled in J = `r trials` trials. `r patients_control` were randomized to best medical management. `r patients_treatment` were randomized to best medical management plus mechanical thrombectomy. Each trial was categorized into one of K = `r categories` categories according to the type of stroke patients enrolled. Category 1 was large anterior circulation strokes. Category 2 was small to medium sized anterior circulation strokes treated in an early time window. Category 3 was small to medium sized anterior circulation strokes treated in a late time window. Category 4 was strokes involving the basilar artery. The primary endpoint was functional independence at 90 days (modified Rankin score of 0 to 2).
 
-Results from the large stroke trials are shown here.
+Results from the large stroke trials are shown here, with $y$ representing the observed treatment effect of thrombectomy (the odds ratio on the log scale) and $\text{se}$ representing the standard error for $y$.
 
 ```{r}
 #| echo: false
@@ -119,11 +119,11 @@ The overall pooled data is shown in the following table.
   )
 ```
 
-## Estimated average relative treatment effect of thrombectomy across stroke types
+## Estimated average treatment effect of thrombectomy across trials
 
 ### Early
 
-The model estimate for the average relative treatment effect of thrombectomy for early stroke is summarized in the following table.
+The model estimate for the average treatment effect of thrombectomy across early stroke trials is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -137,11 +137,11 @@ The model estimate for the average relative treatment effect of thrombectomy for
 )
 ```
 
-When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%, P(+) = `r comma(df$prob_pos*100)`%).
 
 ### Large
 
-The model estimate for the average relative treatment effect of thrombectomy for large stroke is summarized in the following table.
+The model estimate for the average treatment effect of thrombectomy across large stroke trials is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -154,11 +154,11 @@ The model estimate for the average relative treatment effect of thrombectomy for
 )
 ```
 
-When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%, P(+) = `r comma(df$prob_pos*100)`%).
 
 ### Late
 
-The model estimate for the average relative treatment effect of thrombectomy for late stroke is summarized in the following table.
+The model estimate for the average treatment effect of thrombectomy across late stroke trials is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -171,11 +171,11 @@ The model estimate for the average relative treatment effect of thrombectomy for
 )
 ```
 
-When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%, P(+) = `r comma(df$prob_pos*100)`%).
 
 ### Basilar
 
-The model estimate for the average relative treatment effect of thrombectomy for basilar stroke is summarized in the following table.
+The model estimate for the average relative treatment effect of thrombectomy across basilar stroke trials is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -188,11 +188,11 @@ The model estimate for the average relative treatment effect of thrombectomy for
 )
 ```
 
-When translated from the log odds scale, these values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability of a positive average relative treatment effect of thrombectomy for this patient population is estimated by the model to be `r comma(df$prob_pos*100)`%.
+These values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%, P(+) = `r comma(df$prob_pos*100)`%).
 
-## Anticipated relative treatment effect of thrombectomy in a new trial across stroke type
+## Anticipated relative treatment effect of thrombectomy in a new trial
 
-The model estimate for the variation in the trial-specific relative treatment effect of thrombectomy for each stroke type is summarized in the following table.
+The model estimate for the variation in the trial-specific treatment effect of thrombectomy for each stroke type is summarized in the following table.
 
 ```{r}
 #| echo: false
@@ -206,7 +206,7 @@ The model estimate for the variation in the trial-specific relative treatment ef
 )
 ```
 
-When taken together with the estimates for the average relative treatment effects, these estimates of trial-specific treatment effect heterogeneity can be used to calculate the anticipated relative treatment effect of thrombectomy in a new trial.
+When taken together with the estimates for the average relative treatment effects, these estimates of trial-specific treatment effect heterogeneity can be used to forecast the expected treatment effect of thrombectomy in a new trial, which we call the anticipated treatment effect.
 
 ```{r}
 #| echo: false
@@ -232,7 +232,7 @@ df <- varying_summary %>%
   select("data", "median", "mad", "low", "high", "prob_pos")
 ```
 
-When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new early stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).
+The anticipated treatment effect of thrombectomy in a new early stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
 
 ### Large
 
@@ -246,7 +246,7 @@ df <- varying_summary %>%
   select("data", "median", "mad", "low", "high", "prob_pos")
 ```
 
-When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new large stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).
+The anticipated treatment effect of thrombectomy in a new large stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
 
 ### Late
 
@@ -260,7 +260,7 @@ df <- varying_summary %>%
   select("data", "median", "mad", "low", "high", "prob_pos")
 ```
 
-When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new late stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).
+The anticipated treatment effect of thrombectomy in a new late stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
 
 ### Basilar
 
@@ -274,4 +274,4 @@ df <- varying_summary %>%
   select("data", "median", "mad", "low", "high", "prob_pos")
 ```
 
-When translated from the log odds scale, the anticipated odds ratio for thrombectomy in a new basilar stroke trial is `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`).
+The anticipated treatment effect of thrombectomy in a new basilar stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
