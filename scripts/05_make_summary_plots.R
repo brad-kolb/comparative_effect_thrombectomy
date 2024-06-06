@@ -90,9 +90,8 @@ posterior_density <- mu %>%
   stat_pointinterval(position = position_dodge(width = .4, preserve = "single")) +
   labs(
     title = "Average treatment effect of thrombectomy across trials",
-    subtitle = "Posterior densities",
     y = NULL,
-    x = "odds ratio (log scale)"
+    x = "average treatment effect (log scale)"
   ) +
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
@@ -146,10 +145,10 @@ posterior_histogram <- mu %>%
   mutate(prior = rep(mu_prior$value, 4)) %>%
   ggplot() +
   geom_histogram(mapping = aes(x = prior, y = ..count..),
-                 breaks = seq(floor(min(mu_prior$value)), ceiling(max(mu_prior$value)), by = 0.5),
+                 breaks = seq(-3, 3, by = 0.5),
                  alpha = 0.5, fill = "gray40", size = 0.5) +
   geom_histogram(mapping = aes(x = value, y = ..count.., color = type, fill = type),
-                 breaks = seq(floor(min(mu$value)), ceiling(max(mu$value)), by = 0.5),
+                 breaks = seq(-3, 3, by = 0.5),
                  size = 0.5, alpha = 0.7) +
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
@@ -195,9 +194,8 @@ predictive_density <- theta_new %>%
   stat_pointinterval(position = position_dodge(width = .4, preserve = "single")) +
   labs(
     title = "Anticipated treatment effect of thrombectomy in a new trial",
-    subtitle = "Posterior predictive densities",
     y = NULL,
-    x = "odds ratio (log scale)"
+    x = "anticipated treatment effect (log scale)"
   ) +
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
@@ -254,10 +252,10 @@ predictive_histogram <- theta_new %>%
   mutate(prior = rep(predictive_prior$value, 4)) %>%
   ggplot() +
   geom_histogram(mapping = aes(x = prior, y = ..count..),
-                 breaks = seq(floor(min(predictive_prior$value)), ceiling(max(predictive_prior$value)), by = 0.5),
+                 breaks = seq(-3, 3, by = 0.5),
                  alpha = 0.5, fill = "gray40", size = 0.5) +
   geom_histogram(mapping = aes(x = value, y = ..count.., color = type, fill = type),
-                 breaks = seq(floor(min(theta_new$value)), ceiling(max(theta_new$value)), by = 0.5),
+                 breaks = seq(-3, 3, by = 0.5),
                  size = 0.5, alpha = 0.7) +
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
@@ -266,8 +264,8 @@ predictive_histogram <- theta_new %>%
        title = "Anticipated treatment effect of thrombectomy in a new trial",
        subtitle = "Prior shown in gray for comparison") +
   facet_wrap(~ type, nrow = 1) +
-  scale_x_continuous(breaks = c(-4, 0, 4),
-                     labels = c("-4", "0", "4")) +
+  scale_x_continuous(breaks = c(-2, 0, 2),
+                     labels = c("-2", "0", "2")) +
   scale_y_continuous(labels = c("0%", "25%", "50%", "75%")) +
   theme_minimal_grid() +
   theme(

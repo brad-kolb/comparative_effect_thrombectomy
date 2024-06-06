@@ -82,107 +82,77 @@ The overall pooled data is shown in the following table.
 
 ## Estimated average treatment effect of thrombectomy across trials
 
-### Early
+\![posterior densisty](plots/density_posterior.png)
 
-The model estimate for the average treatment effect of thrombectomy
-across early stroke trials is summarized in the following table.
+For early stroke, the plotted values correspond to an estimated 106%
+average improvement in the odds of functional independence at 90 days
+with thrombectomy (95% CI 61.9% to 161%, P(+) = 100%).
 
-    # A tibble: 1 × 5
-      median   mad   low  high prob_pos
-       <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1  0.723 0.114 0.482 0.959        1
+For large stroke, the plotted values correspond to an estimated 173%
+average improvement in the odds of functional independence at 90 days
+with thrombectomy (95% CI 54.8% to 347%, P(+) = 99.8%).
 
-These values correspond to an estimated 106% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
-61.9% to 161%, P(+) = 100%).
+For late stroke, the plotted values correspond to an estimated 161%
+average improvement in the odds of functional independence at 90 days
+with thrombectomy (95% CI 7.9% to 467%, P(+) = 98%).
 
-### Large
+For basilar stroke, the plotted values correspond to an estimated 102%
+average improvement in the odds of functional independence at 90 days
+with thrombectomy (95% CI -15.1% to 319%, P(+) = 95.1%).
 
-The model estimate for the average treatment effect of thrombectomy
-across large stroke trials is summarized in the following table.
+## Probability the estimated average treatment effect of thrombectomy across trials exceeds certain values
 
-    # A tibble: 1 × 5
-      median   mad   low  high prob_pos
-       <dbl> <dbl> <dbl> <dbl>    <dbl>
-    1   1.00 0.229 0.437  1.50    0.998
+The probability that the estimated average treatment effect of
+thrombectomy across trials is positive is shown in the following table.
 
-These values correspond to an estimated 173% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
-54.8% to 347%, P(+) = 99.8%).
+    # A tibble: 4 × 2
+      data    prob_pos
+      <chr>      <dbl>
+    1 large      0.998
+    2 early      1    
+    3 late       0.980
+    4 basilar    0.951
 
-### Late
+For each effect size greater than the zero, the probability that the
+estimated average treatment effect exceeds that value is shown in the
+following plot.
 
-The model estimate for the average treatment effect of thrombectomy
-across late stroke trials is summarized in the following table.
-
-    # A tibble: 1 × 5
-      median   mad    low  high prob_pos
-       <dbl> <dbl>  <dbl> <dbl>    <dbl>
-    1  0.958 0.410 0.0760  1.74    0.980
-
-These values correspond to an estimated 161% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
-7.9% to 467%, P(+) = 98%).
-
-### Basilar
-
-The model estimate for the average relative treatment effect of
-thrombectomy across basilar stroke trials is summarized in the following
-table.
-
-    # A tibble: 1 × 5
-      median   mad    low  high prob_pos
-       <dbl> <dbl>  <dbl> <dbl>    <dbl>
-    1  0.704 0.353 -0.163  1.43    0.951
-
-These values correspond to an estimated 102% average improvement in the
-odds of functional independence at 90 days with thrombectomy (95% CI
--15.1% to 319%, P(+) = 95.1%).
+\![posterior ccdf](plots/ccdf_posterior.png)
 
 ## Anticipated relative treatment effect of thrombectomy in a new trial
 
-The model estimate for the variation in the trial-specific treatment
-effect of thrombectomy for each stroke type is summarized in the
-following table.
+\![posterior predictive density](plots/density_predictive.png)
 
-    # A tibble: 4 × 5
-      data    median   mad     low  high
-      <chr>    <dbl> <dbl>   <dbl> <dbl>
-    1 large    0.316 0.274 0.0150  1.20 
-    2 early    0.146 0.125 0.00769 0.516
-    3 late     0.765 0.312 0.315   1.68 
-    4 basilar  0.661 0.321 0.194   1.64 
+Translated from the log scale, the anticipated treatment effect of
+thrombectomy in a new early stroke trial has an odds ratio of 2.06 (95%
+CI 1.2 to 3.47, P(+) = 99%).
 
-When taken together with the estimates for the average relative
-treatment effects, these estimates of trial-specific treatment effect
-heterogeneity can be used to forecast the expected treatment effect of
-thrombectomy in a new trial, which we call the anticipated treatment
-effect.
+Translated from the log scale, the anticipated treatment effect of
+thrombectomy in a new large stroke trial has an odds ratio of 2.76 (95%
+CI 0.752 to 8.16, P(+) = 95.9%).
 
-    # A tibble: 4 × 6
-      data    median   mad    low  high prob_pos
-      <chr>    <dbl> <dbl>  <dbl> <dbl>    <dbl>
-    1 large    1.02  0.360 -0.284  2.10    0.959
-    2 early    0.723 0.181  0.185  1.24    0.990
-    3 late     0.969 0.837 -1.19   3.01    0.854
-    4 basilar  0.721 0.740 -1.34   2.51    0.820
+Translated from the log scale, the anticipated treatment effect of
+thrombectomy in a new late stroke trial has an odds ratio of 2.63 (95%
+CI 0.304 to 20.3, P(+) = 85.4%).
 
-### Early
+Translated from the log scale, the anticipated treatment effect of
+thrombectomy in a new basilar stroke trial has an odds ratio of 2.06
+(95% CI 0.261 to 12.2, P(+) = 82%).
 
-The anticipated treatment effect of thrombectomy in a new early stroke
-trial has an odds ratio of 2.06 (95% CI 1.2 to 3.47, P(+) = 99%).
+The probability that the anticipated treatment effect of thrombectomy in
+a new trial for each stroke type is positive is shown in the following
+table.
 
-### Large
+    # A tibble: 4 × 2
+      data    prob_pos
+      <chr>      <dbl>
+    1 large      0.959
+    2 early      0.990
+    3 late       0.854
+    4 basilar    0.820
 
-The anticipated treatment effect of thrombectomy in a new large stroke
-trial has an odds ratio of 2.76 (95% CI 0.752 to 8.16, P(+) = 95.9%).
+For each effect size greater than the zero, the probability that the
+anticipated treatment effect in a new trial exceeds that value is shown
+in the following plot.
 
-### Late
-
-The anticipated treatment effect of thrombectomy in a new late stroke
-trial has an odds ratio of 2.63 (95% CI 0.304 to 20.3, P(+) = 85.4%).
-
-### Basilar
-
-The anticipated treatment effect of thrombectomy in a new basilar stroke
-trial has an odds ratio of 2.06 (95% CI 0.261 to 12.2, P(+) = 82%).
+\![ccdf predictive](plots/ccdf_predictive.png)
