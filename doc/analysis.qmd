@@ -121,7 +121,7 @@ The overall pooled data is shown in the following table.
 
 ## Estimated average treatment effect of thrombectomy across trials
 
-\![posterior densisty](plots/density_posterior.png)
+![](images/density_posterior.png)
 
 ```{r}
 #| echo: false
@@ -187,11 +187,11 @@ The probability that the estimated average treatment effect of thrombectomy acro
 
 For each effect size greater than the zero, the probability that the estimated average treatment effect exceeds that value is shown in the following plot.
 
-\![posterior ccdf](plots/ccdf_posterior.png)
+![](images/ccdf_posterior.png)
 
 ## Anticipated relative treatment effect of thrombectomy in a new trial
 
-\![posterior predictive density](plots/density_predictive.png)
+![](images/density_predictive.png)
 
 ```{r}
 #| echo: false
@@ -255,4 +255,4 @@ The probability that the anticipated treatment effect of thrombectomy in a new t
 
 For each effect size greater than the zero, the probability that the anticipated treatment effect in a new trial exceeds that value is shown in the following plot.
 
-\![ccdf predictive](plots/ccdf_predictive.png)
+![](images/ccdf_predictive.png)

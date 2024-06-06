@@ -82,7 +82,7 @@ The overall pooled data is shown in the following table.
 
 ## Estimated average treatment effect of thrombectomy across trials
 
-\![posterior densisty](plots/density_posterior.png)
+![](images/density_posterior.png)
 
 For early stroke, the plotted values correspond to an estimated 106%
 average improvement in the odds of functional independence at 90 days
@@ -117,11 +117,11 @@ For each effect size greater than the zero, the probability that the
 estimated average treatment effect exceeds that value is shown in the
 following plot.
 
-\![posterior ccdf](plots/ccdf_posterior.png)
+![](images/ccdf_posterior.png)
 
 ## Anticipated relative treatment effect of thrombectomy in a new trial
 
-\![posterior predictive density](plots/density_predictive.png)
+![](images/density_predictive.png)
 
 Translated from the log scale, the anticipated treatment effect of
 thrombectomy in a new early stroke trial has an odds ratio of 2.06 (95%
@@ -155,4 +155,4 @@ For each effect size greater than the zero, the probability that the
 anticipated treatment effect in a new trial exceeds that value is shown
 in the following plot.
 
-\![ccdf predictive](plots/ccdf_predictive.png)
+![](images/ccdf_predictive.png)
