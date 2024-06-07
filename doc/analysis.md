@@ -21,7 +21,7 @@ line denote trials in which the frequency of good outcome at 90 days was
 greater for thrombectomy patients than for those treated with best
 medical management only.
 
-![](images/scatter_plot-01.png)
+![](images/scatter_plot-03.png)
 
 Effect sizes from each of the stroke trials are shown here, with $y$
 representing the observed treatment effect of thrombectomy (the odds

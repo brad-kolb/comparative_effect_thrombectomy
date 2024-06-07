@@ -13,7 +13,7 @@ df <- df %>%
          treatment = r_t / n_t,
          size = n_c + n_t,
          K = recode(K, `1` = "large", `2` = "early", `3` = "late", `4` = "basilar"),
-         K = factor(K, levels = c("basilar", "late", "early", "large"))) %>% 
+         K = factor(K, levels = c("late", "basilar", "large", "early"))) %>% 
   select(J, K, control, treatment, size)
 
 scatter_plot <- ggplot(df, aes(x = control, y = treatment, fill = K, color = K, size = size)) +
