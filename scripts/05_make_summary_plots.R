@@ -5,20 +5,26 @@ library(ggokabeito)
 model_fits <- readRDS(here("fits", "varying_fits.RDS")) 
 pps <- readRDS(here("fits", "varying_pps.RDS"))
 
-# visual guide to interpreting these plots
-histogram_legend <- ggplot(data, aes(x = x, fill = ifelse(x >= highlight_bin & x < highlight_bin + 0.5, "highlight", "default"))) +
-  geom_histogram(breaks = bin_breaks, color = "black") +
-  scale_fill_manual(values = c("default" = "grey", "highlight" = "black"), guide = FALSE) +
-  scale_x_continuous(breaks = c(0.5, 1),
-                     labels = c("X1", "X2")) +
-  scale_y_continuous(breaks = 1.5e5,
-                     labels = c("Y%")) +
-  labs(title = "Interpretating histogram of draws from a prior distribution",
-       subtitle = "''Y% prior probability of an average effect between X1 and X2''",
-       x = NULL,
-       y = NULL) +
-  theme_minimal_grid()
-ggsave(here("plots", "histogram_legend.png"), histogram_legend, width = 8, height = 6, dpi = 300, bg = "white")
+# scatter plot of data
+df <- read_csv(here("data", "clean_data.csv"), show_col_types = FALSE) 
+
+df <- df %>% 
+  mutate(control = r_c / n_c, 
+         treatment = r_t / n_t,
+         size = n_c + n_t,
+         K = recode(K, `1` = "large", `2` = "early", `3` = "late", `4` = "basilar"),
+         K = factor(K, levels = c("basilar", "late", "early", "large"))) %>% 
+  select(J, K, control, treatment, size)
+
+scatter_plot <- ggplot(df, aes(x = control, y = treatment, fill = K, color = K, size = size)) +
+  geom_point() +
+  scale_fill_okabe_ito() +
+  scale_color_okabe_ito() +
+  scale_y_continuous(limits = c(.1, 0.8), breaks = seq(.2, 0.8, by = 0.2)) +
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed", color = "lightgrey") +
+  labs(fill = "stroke type", color = "stroke type", size = "sample size") 
+
+ggsave(here("plots", "scatter_plot.png"), scatter_plot, width = 6, height = 4, dpi = 300, bg = "white")
 
 #### mu #####
 mu <- tibble(
@@ -106,6 +112,8 @@ posterior_density <- mu %>%
 ggsave(here("plots", "density_posterior.png"), posterior_density, width = 8, height = 6, dpi = 300, bg = "white")
 
 # complementary cumulative distribution 
+# Probability average treatment effect across trials exceeds a given threshold
+# Prior probability shown for comparison.
 mu_ccdf <- mu %>%
   group_by(type) %>% 
   arrange(value) %>%
@@ -128,9 +136,9 @@ ccdf_mu <- ggplot() +
                      breaks = seq(0, 2.0, by = 1)) +
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
-  labs(x = "odds ratio (log scale)",
+  labs(x = "Average treatment effect (log scale)",
        y = NULL,
-       title = "Probability average treatment effect exceeds a given threshold",
+       title = "Probability average treatment effect across trials exceeds a given threshold",
        subtitle = "Prior probability shown for comparison.") +
   guides(color = "none", fill = "none") +
   theme_minimal_grid() +
@@ -138,6 +146,8 @@ ccdf_mu <- ggplot() +
 ggsave(here("plots", "ccdf_posterior.png"), ccdf_mu, width = 8, height = 6, dpi = 300, bg = "white")
 
 # histograms
+# Average treatment effect of thrombectomy across trials
+# prior shown in grey for comparison
 data <- tibble(x = rnorm(1e6, mean = 0, sd = 1))
 bin_breaks <- seq(floor(min(data$x)), ceiling(max(data$x)), by = 0.5)
 highlight_bin <- bin_breaks[which.min(abs(bin_breaks)) + 1]
@@ -153,9 +163,7 @@ posterior_histogram <- mu %>%
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
   guides(color = "none", fill = "none") +
-  labs(x = "odds ratio (log scale)", y = "posterior draws",
-       title = "Average treatment effect of thrombectomy across trials",
-       subtitle = "Prior shown in gray for comparison") +
+  labs(x = "average treatment effect (log scale)", y = "draws") +
   facet_wrap(~ type, nrow = 1) +
   scale_x_continuous(breaks = c(-2, 0, 2),
                      labels = c("-2", "0", "2")) +
@@ -168,6 +176,21 @@ posterior_histogram <- mu %>%
     axis.ticks.y = element_blank()
   )
 ggsave(here("plots", "histogram_posterior.png"), posterior_histogram, width = 8, height = 6, dpi = 300, bg = "white")
+
+# visual guide to interpreting these plots
+histogram_legend <- ggplot(data, aes(x = x, fill = ifelse(x >= highlight_bin & x < highlight_bin + 0.5, "highlight", "default"))) +
+  geom_histogram(breaks = bin_breaks, color = "black") +
+  scale_fill_manual(values = c("default" = "grey", "highlight" = "black"), guide = FALSE) +
+  scale_x_continuous(breaks = c(0.5, 1),
+                     labels = c("X1", "X2")) +
+  scale_y_continuous(breaks = 1.5e5,
+                     labels = c("Y%")) +
+  labs(title = "Interpretating histogram of draws from a prior distribution",
+       subtitle = "''Y% prior probability of an average effect between X1 and X2''",
+       x = NULL,
+       y = NULL) +
+  theme_minimal_grid()
+ggsave(here("plots", "histogram_legend.png"), histogram_legend, width = 8, height = 6, dpi = 300, bg = "white")
 
 #### theta_new ####
 theta_new <- tibble(
@@ -210,6 +233,8 @@ predictive_density <- theta_new %>%
 ggsave(here("plots", "density_predictive.png"), predictive_density, width = 8, height = 6, dpi = 300, bg = "white")
 
 # complementary cumulative distribution 
+# Probability anticipated treatment effect exceeds a given threshold
+# Prior Prior probability shown in grey for comparison
 predictive_prior <- tibble(
   value = pps$diffuse$theta_new
 )
@@ -235,16 +260,16 @@ ccdf_predictive <- ggplot() +
                      breaks = seq(0, 2.0, by = 1)) +
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
-  labs(x = "odds ratio (log scale)",
-       y = NULL,
-       title = "Probability anticipated treatment effect exceeds a given threshold",
-       subtitle = "Prior probability shown for comparison.") +
+  labs(x = "anticipated treatment effect (log scale)",
+       y = NULL) +
   guides(color = "none", fill = "none") +
   theme_minimal_grid() +
   facet_wrap(~ type, nrow = 1)
 ggsave(here("plots", "ccdf_predictive.png"), ccdf_predictive, width = 8, height = 6, dpi = 300, bg = "white")
 
 # histograms
+# Anticipated treatment effect of thrombectomy in a new trial
+# Prior shown in gray for comparison
 data <- tibble(x = rnorm(1e6, mean = 0, sd = 1))
 bin_breaks <- seq(floor(min(data$x)), ceiling(max(data$x)), by = 0.5)
 highlight_bin <- bin_breaks[which.min(abs(bin_breaks)) + 1]
@@ -260,9 +285,8 @@ predictive_histogram <- theta_new %>%
   scale_fill_okabe_ito() +
   scale_color_okabe_ito() +
   guides(color = "none", fill = "none") +
-  labs(x = "odds ratio (log scale)", y = "posterior predictive draws",
-       title = "Anticipated treatment effect of thrombectomy in a new trial",
-       subtitle = "Prior shown in gray for comparison") +
+  labs(x = "anticipated treatment effect (log scale)", 
+       y = "draws") +
   facet_wrap(~ type, nrow = 1) +
   scale_x_continuous(breaks = c(-2, 0, 2),
                      labels = c("-2", "0", "2")) +
