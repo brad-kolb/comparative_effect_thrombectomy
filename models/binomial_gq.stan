@@ -67,5 +67,6 @@ generated quantities{
   real E_y_next_cont = inv_logit(normal_rng(rho, sigma));
   real E_y_next_treat = inv_logit(normal_rng(rho, sigma) + normal_rng(mu, tau));
   real E_arr_next = E_y_next_treat - E_y_next_cont;
+  real E_rr_next = E_y_next_treat / E_y_next_cont;
 }
 
