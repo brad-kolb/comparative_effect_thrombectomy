@@ -21,22 +21,21 @@ data <- read_csv(here("data", "clean_data.csv"), show_col_types = FALSE)
 
 varying_summary <- readRDS(here("fits", "varying_summary.RDS")) 
 
-comma <- function(x) format(x, digits = 3, big.mark = ",", small.mark = ",")
+group_summary <- readRDS(here("fits", "group_summaries.RDS"))
+
+comma <- function(x) format(x, digits = 2, nsmall = 1, big.mark = ",", small.mark = ",")
 ```
 
-## Observed Data
+## Observed data
 
 ```{r calculations}
 #| echo: false
 
 trials <- data %>% 
   nrow()
-patients_total <- with(data, sum(n_c) + sum(n_t)) %>% 
-  comma()
-patients_control <- with(data, sum(n_c)) %>%
-  comma()
-patients_treatment <- with(data, sum(n_t)) %>% 
-  comma()
+patients_total <- with(data, sum(n_c) + sum(n_t)) 
+patients_control <- with(data, sum(n_c)) 
+patients_treatment <- with(data, sum(n_t)) 
 categories <- n_distinct(data$K)
 ```
 
@@ -46,7 +45,9 @@ Observed frequency of outcomes for control and treatment groups are shown below,
 
 ![](images/scatter_plot-03.png)
 
-Effect sizes from each of the stroke trials are shown here, with $y$ representing the observed treatment effect of thrombectomy (the odds ratio on the log scale) and $\text{se}$ representing the standard error for $y$.
+### Observed effect size
+
+The observed relative and absolute effect sizes from each of the stroke trials are shown here, with $y$ representing the observed treatment effect of thrombectomy (the odds ratio on the log scale), $\text{se}$ representing the standard error for $y$. The quantities $\text{rr}$ and $\text{arr}$ represent the observed relative and absolute risk reduction, respectively.
 
 ```{r}
 #| echo: false
@@ -58,7 +59,9 @@ data <- data %>%
   relocate("name", .after = J)
 
 data %>% 
-  select(J, K, name, y, se) %>% 
+  mutate(rd = r_t/n_t - r_c/n_c) %>% 
+  mutate(rr = (r_t/n_t) / (r_c/n_c)) %>% 
+  select(J, K, name, y, se, rr, rd) %>% 
 print(n = Inf)
 ```
 
@@ -77,9 +80,11 @@ data %>%
   mutate(
     y = log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)),
     se = sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c)),
+    rd = r_t/n_t - r_c/n_c,
+    rr = (r_t/n_t) / (r_c/n_c),
     category = c("large", "early", "late", "basilar")
   ) %>% 
-  select(category, trials, "sample size", y, se )
+  select(category, trials, "sample size", y, se, rr, rd)
 ```
 
 The overall pooled data is shown in the following table.
@@ -95,139 +100,127 @@ The overall pooled data is shown in the following table.
             r_t = sum(r_t),
             n_t = sum(n_t)) %>% 
   mutate(
-    y = 
-      log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)),
-    se = 
-      sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c))
+    y = log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)),
+    se = sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c)),
+    rd = r_t/n_t - r_c/n_c,
+    rr = (r_t/n_t) / (r_c/n_c)
   ) %>% 
-    select(trials, "sample size", y, se )
+    select(trials, "sample size", y, se, rr, rd)
   )
 ```
 
-## Average treatment effect 
+## Results
 
-The estimated average treatment effect of thrombectomy across trials for each stroke type is shown below.
-
-![](images/histogram_posterior.png)
-
-```{r}
+```{r control group estimates}
 #| echo: false
-df <- varying_summary %>% 
- filter(model == "varying",
-         data == "early",
-         priors == "diffuse",
-         variable == "mu") %>% 
-  select("median", "mad", "low", "high", "prob_pos")
+df <- group_summary %>% 
+  filter(str_detect(variable, "E_y_c"), 
+         !str_detect(variable, "E_y_c_new"),
+         data == "all", 
+         priors == "diffuse") %>% 
+  select("variable", "median", "mad", "low", "high") 
+
+median1 <- comma(df$median[1] * 100)
+low1 <- comma(df$low[1] * 100)
+high1 <- comma(df$high[1] * 100)
+
+median2 <- comma(df$median[2] * 100)
+low2 <- comma(df$low[2] * 100)
+high2 <- comma(df$high[2] * 100)
+
+median3 <- comma(df$median[3] * 100)
+low3 <- comma(df$low[3] * 100)
+high3 <- comma(df$high[3] * 100)
+
+median4 <- comma(df$median[4] * 100)
+low4 <- comma(df$low[4] * 100)
+high4 <- comma(df$high[4] * 100)
 ```
 
-For early stroke, the plotted values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability that the effect is positive is `r comma(df$prob_pos*100)`%.
+The average chance of functional independence for a patient enrolled in the medical arm of a large core stroke trial was `r median1`% (`r low1`% - `r high1`%) compared to `r median2`% (`r low2`% - `r high2`%) for small core stroke trials, `r median3`% (`r low3`% - `r high3`%) for extended window stroke trials, and `r median4`% (`r low4` - `r high4`%) for basilar stroke trials.
 
-```{r}
+```{r treatment group estimates}
 #| echo: false
-df <- varying_summary %>% 
-  filter(model == "varying",
-         data == "large",
-         priors == "diffuse",
-         variable == "mu") %>% 
-  select("median", "mad", "low", "high", "prob_pos")
+df <- group_summary %>% 
+  filter(str_detect(variable, "E_y_t"), 
+         !str_detect(variable, "E_y_t_new"),
+         data == "all", 
+         priors == "diffuse") %>% 
+  select("variable", "median", "mad", "low", "high") 
+
+median1 <- comma(df$median[1] * 100)
+low1 <- comma(df$low[1] * 100)
+high1 <- comma(df$high[1] * 100)
+
+median2 <- comma(df$median[2] * 100)
+low2 <- comma(df$low[2] * 100)
+high2 <- comma(df$high[2] * 100)
+
+median3 <- comma(df$median[3] * 100)
+low3 <- comma(df$low[3] * 100)
+high3 <- comma(df$high[3] * 100)
+
+median4 <- comma(df$median[4] * 100)
+low4 <- comma(df$low[4] * 100)
+high4 <- comma(df$high[4] * 100)
 ```
 
-For large stroke, the plotted values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability that the effect is positive is `r comma(df$prob_pos*100)`%.
+The average chance of functional independence for a patient enrolled in the treatment arm of a large core stroke trial was `r median1`% (`r low1`% - `r high1`%) compared to `r median2`% (`r low2`% - `r high2`%) for small core stroke trials, `r median3`% (`r low3`% - `r high3`%) for extended window stroke trials, and `r median4`% (`r low4` - `r high4`%) for basilar stroke trials.
 
-```{r}
+```{r relative effect estimates}
 #| echo: false
-df <- varying_summary %>% 
-  filter(model == "varying",
-         data == "late",
-         priors == "diffuse",
-         variable == "mu") %>% 
-  select("median", "mad", "low", "high", "prob_pos")
+df <- group_summary %>% 
+  filter(str_detect(variable, "E_rr"), 
+         data == "all", 
+         priors == "diffuse") %>% 
+  select("variable", "median", "mad", "low", "high") 
+
+median1 <- comma(df$median[1])
+low1 <- comma(df$low[1])
+high1 <- comma(df$high[1])
+
+median2 <- comma(df$median[2])
+low2 <- comma(df$low[2])
+high2 <- comma(df$high[2])
+
+median3 <- comma(df$median[3])
+low3 <- comma(df$low[3])
+high3 <- comma(df$high[3])
+
+median4 <- comma(df$median[4])
+low4 <- comma(df$low[4])
+high4 <- comma(df$high[4])
 ```
 
-For late stroke, the plotted values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability that the effect is positive is `r comma(df$prob_pos*100)`%.
+The average relative effect of thrombectomy on chance of functional independence for large core stroke trials was `r median1` (`r low1` - `r high1`) compared to `r median2` (`r low2` - `r high2`) for small core stroke trials, `r median3` (`r low3` - `r high3`) for extended window stroke trials, and `r median4` (`r low4` - `r high4`) for basilar stroke trials.
 
-```{r}
+![](images/risk_ratio.pdf)
+
+```{r absolute effect estimates}
 #| echo: false
-df <- varying_summary %>% 
-  filter(model == "varying",
-         data == "basilar",
-         priors == "diffuse",
-         variable == "mu") %>% 
-  select("median", "mad", "low", "high", "prob_pos")
+df <- group_summary %>% 
+  filter(str_detect(variable, "E_rd"), 
+         data == "all", 
+         priors == "diffuse") %>% 
+  select("variable", "median", "mad", "low", "high") 
+
+median1 <- comma(df$median[1] * 100)
+low1 <- comma(df$low[1] * 100)
+high1 <- comma(df$high[1] * 100)
+
+median2 <- comma(df$median[2] * 100)
+low2 <- comma(df$low[2] * 100)
+high2 <- comma(df$high[2] * 100)
+
+median3 <- comma(df$median[3] * 100)
+low3 <- comma(df$low[3] * 100)
+high3 <- comma(df$high[3] * 100)
+
+median4 <- comma(df$median[4] * 100)
+low4 <- comma(df$low[4] * 100)
+high4 <- comma(df$high[4] * 100)
 ```
 
-For basilar stroke, the plotted values correspond to an estimated `r comma((exp(df$median) - 1)*100)`% average improvement in the odds of functional independence at 90 days with thrombectomy (95% CI `r comma((exp(df$low) - 1)*100)`% to `r comma((exp(df$high) - 1)*100)`%). The probability that the effect is positive is `r comma(df$prob_pos*100)`%.
+The average absolute effect of thrombectomy on chance of functional independence for large core stroke trials was `r median1`% (`r low1`% - `r high1`%) compared to `r median2`% (`r low2`% - `r high2`%) for small core stroke trials, `r median3`% (`r low3`% - `r high3`%) for extended window stroke trials, and `r median4`% (`r low4` - `r high4`%) for basilar stroke trials.
 
-For each effect size greater than the zero, the probability that the estimated average treatment effect exceeds that value is shown in the following plot.
-
-![](images/ccdf_posterior-02.png)
-
-## Anticipated treatment effect in a new trial
-
-The anticipated treatment effect of thrombectomy in a hypothetical new trial for each stroke type is shown below.
-
-![](images/histogram_predictive.png)
-
-```{r}
-#| echo: false
-df <- varying_summary %>% 
-  filter(model == "varying",
-         data == "early",
-         priors == "diffuse",
-         variable == "theta_new") %>% 
-  select("data", "median", "mad", "low", "high", "prob_pos")
-```
-
-Translated from the log scale, the anticipated treatment effect of thrombectomy in a new early stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
-
-```{r}
-#| echo: false
-df <- varying_summary %>% 
-  filter(model == "varying",
-         data == "large",
-         priors == "diffuse",
-         variable == "theta_new") %>% 
-  select("data", "median", "mad", "low", "high", "prob_pos")
-```
-
-Translated from the log scale, the anticipated treatment effect of thrombectomy in a new large stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
-
-```{r}
-#| echo: false
-df <- varying_summary %>% 
-  filter(model == "varying",
-         data == "late",
-         priors == "diffuse",
-         variable == "theta_new") %>% 
-  select("data", "median", "mad", "low", "high", "prob_pos")
-```
-
-Translated from the log scale, the anticipated treatment effect of thrombectomy in a new late stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
-
-```{r}
-#| echo: false
-df <- varying_summary %>% 
-  filter(model == "varying",
-         data == "basilar",
-         priors == "diffuse",
-         variable == "theta_new") %>% 
-  select("data", "median", "mad", "low", "high", "prob_pos")
-```
-
-Translated from the log scale, the anticipated treatment effect of thrombectomy in a new basilar stroke trial has an odds ratio of `r comma(exp(df$median))` (95% CI `r comma(exp(df$low))` to `r comma(exp(df$high))`, P(+) = `r comma(df$prob_pos*100)`%).
-
-The probability that the anticipated treatment effect of thrombectomy in a new trial for each stroke type is positive is shown in the following table.
-
-```{r}
-#| echo: false
-(df <- varying_summary %>% 
-  filter(model == "varying",
-          data %in% c("early", "large", "late", "basilar"),
-          priors == "diffuse",
-          variable == "theta_new") %>% 
-  select("data", "prob_pos"))
-```
-
-For each effect size greater than the zero, the probability that the anticipated treatment effect in a new trial exceeds that value is shown in the following plot.
-
-![](images/ccdf_predictive-01.png)
+![](images/risk_difference.pdf){width="7in" height="5in"}

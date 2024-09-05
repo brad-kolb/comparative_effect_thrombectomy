@@ -1,11 +1,11 @@
 # Comparative effect of thrombectomy
 
 
-## Observed Data
+## Observed data
 
-There were a total of N = 5,513 patients enrolled in J = 22 trials.
-2,687 were randomized to best medical management. 2,826 were randomized
-to best medical management plus mechanical thrombectomy. Each trial was
+There were a total of N = 5513 patients enrolled in J = 22 trials. 2687
+were randomized to best medical management. 2826 were randomized to best
+medical management plus mechanical thrombectomy. Each trial was
 categorized into one of K = 4 categories according to the type of stroke
 patients enrolled. Category 1 was large anterior circulation strokes.
 Category 2 was small to medium sized anterior circulation strokes
@@ -23,124 +23,84 @@ medical management only.
 
 ![](images/scatter_plot-03.png)
 
-Effect sizes from each of the stroke trials are shown here, with $y$
-representing the observed treatment effect of thrombectomy (the odds
-ratio on the log scale) and $\text{se}$ representing the standard error
-for $y$.
+### Observed effect size
 
-    # A tibble: 22 × 5
-           J     K name            y    se
-       <dbl> <dbl> <chr>       <dbl> <dbl>
-     1     1     1 ANGEL       1.19  0.253
-     2     2     1 RESCUE      0.649 0.468
-     3     3     1 SELECT2     1.22  0.353
-     4     4     1 TENSION     2.09  0.632
-     5     5     1 TESLA       0.557 0.371
-     6     6     2 ESCAPE      1.04  0.240
-     7     7     2 EXTEND      1.27  0.511
-     8     8     2 MRCLEAN     0.704 0.208
-     9     9     2 PISTE       0.466 0.510
-    10    10     2 RESILIENT   0.729 0.307
-    11    11     2 REVASCAT    0.683 0.296
-    12    12     2 SWIFT       1.05  0.300
-    13    13     2 THERAPY     0.337 0.433
-    14    14     2 THRACE      0.440 0.201
-    15    15     3 DAWN        1.80  0.355
-    16    16     3 DEFUSE3     1.46  0.359
-    17    17     3 MRCLEANLATE 0.228 0.186
-    18    18     3 POSITIVE    1.39  0.799
-    19    19     4 ATTENTION   1.44  0.336
-    20    20     4 BAOCHE      1.37  0.340
-    21    21     4 BASICS      0.225 0.247
-    22    22     4 BEST        0.267 0.381
+The observed relative and absolute effect sizes from each of the stroke
+trials are shown here, with $y$ representing the observed treatment
+effect of thrombectomy (the odds ratio on the log scale), $\text{se}$
+representing the standard error for $y$. The quantities $\text{rr}$ and
+$\text{arr}$ represent the observed relative and absolute risk
+reduction, respectively.
+
+    # A tibble: 22 × 7
+           J     K name            y    se    rr     rd
+       <dbl> <dbl> <chr>       <dbl> <dbl> <dbl>  <dbl>
+     1     1     1 ANGEL       1.19  0.253  2.60 0.184 
+     2     2     1 RESCUE      0.649 0.468  1.78 0.0616
+     3     3     1 SELECT2     1.22  0.353  2.90 0.133 
+     4     4     1 TENSION     2.09  0.632  6.89 0.145 
+     5     5     1 TESLA       0.557 0.371  1.64 0.0567
+     6     6     2 ESCAPE      1.04  0.240  1.84 0.248 
+     7     7     2 EXTEND      1.27  0.511  1.73 0.303 
+     8     8     2 MRCLEAN     0.704 0.208  1.68 0.134 
+     9     9     2 PISTE       0.466 0.510  1.29 0.115 
+    10    10     2 RESILIENT   0.729 0.307  1.70 0.144 
+    11    11     2 REVASCAT    0.683 0.296  1.55 0.155 
+    12    12     2 SWIFT       1.05  0.300  1.73 0.257 
+    13    13     2 THERAPY     0.337 0.433  1.25 0.0757
+    14    14     2 THRACE      0.440 0.201  1.26 0.109 
+    15    15     3 DAWN        1.80  0.355  3.63 0.345 
+    16    16     3 DEFUSE3     1.46  0.359  2.86 0.286 
+    17    17     3 MRCLEANLATE 0.228 0.186  1.16 0.0528
+    18    18     3 POSITIVE    1.39  0.799  1.75 0.321 
+    19    19     4 ATTENTION   1.44  0.336  3.15 0.227 
+    20    20     4 BAOCHE      1.37  0.340  2.79 0.251 
+    21    21     4 BASICS      0.225 0.247  1.16 0.0493
+    22    22     4 BEST        0.267 0.381  1.20 0.0564
 
 The pooled data by category are shown in the following table.
 
-    # A tibble: 4 × 5
-      category trials `sample size`     y     se
-      <chr>     <int>         <dbl> <dbl>  <dbl>
-    1 large         5          1548 1.09  0.159 
-    2 early         9          2057 0.723 0.0926
-    3 late          4           920 0.757 0.142 
-    4 basilar       4           988 0.725 0.149 
+    # A tibble: 4 × 7
+      category trials `sample size`     y     se    rr    rd
+      <chr>     <int>         <dbl> <dbl>  <dbl> <dbl> <dbl>
+    1 large         5          1548 1.09  0.159   2.56 0.126
+    2 early         9          2057 0.723 0.0926  1.57 0.168
+    3 late          4           920 0.757 0.142   1.64 0.169
+    4 basilar       4           988 0.725 0.149   1.69 0.143
 
 The overall pooled data is shown in the following table.
 
-    # A tibble: 1 × 4
-      trials `sample size`     y     se
-       <int>         <dbl> <dbl>  <dbl>
-    1     22          5513 0.744 0.0611
+    # A tibble: 1 × 6
+      trials `sample size`     y     se    rr    rd
+       <int>         <dbl> <dbl>  <dbl> <dbl> <dbl>
+    1     22          5513 0.744 0.0611  1.70 0.150
 
-## Average treatment effect
+## Results
 
-The estimated average treatment effect of thrombectomy across trials for
-each stroke type is shown below.
+The average chance of functional independence for a patient enrolled in
+the medical arm of a large core stroke trial was 8.3% (5.6% - 12.5%)
+compared to 30.0% (23.8% - 36.8%) for small core stroke trials, 25.7%
+(17.6% - 36.2%) for extended window stroke trials, and 19.8% (13.1 -
+28.5%) for basilar stroke trials.
 
-![](images/histogram_posterior.png)
+The average chance of functional independence for a patient enrolled in
+the treatment arm of a large core stroke trial was 17.6% (12.1% - 25.5%)
+compared to 50.3% (42.0% - 58.9%) for small core stroke trials, 45.0%
+(33.4% - 57.7%) for extended window stroke trials, and 36.9% (26.5 -
+48.6%) for basilar stroke trials.
 
-For early stroke, the plotted values correspond to an estimated 106%
-average improvement in the odds of functional independence at 90 days
-with thrombectomy (95% CI 61.9% to 161%). The probability that the
-effect is positive is 100%.
+The average relative effect of thrombectomy on chance of functional
+independence for large core stroke trials was 2.1 (1.8 - 2.5) compared
+to 1.7 (1.5 - 1.9) for small core stroke trials, 1.7 (1.5 - 2.0) for
+extended window stroke trials, and 1.9 (1.6 - 2.2) for basilar stroke
+trials.
 
-For large stroke, the plotted values correspond to an estimated 173%
-average improvement in the odds of functional independence at 90 days
-with thrombectomy (95% CI 54.8% to 347%). The probability that the
-effect is positive is 99.8%.
+![](images/risk_ratio.pdf)
 
-For late stroke, the plotted values correspond to an estimated 161%
-average improvement in the odds of functional independence at 90 days
-with thrombectomy (95% CI 7.9% to 467%). The probability that the effect
-is positive is 98%.
+The average absolute effect of thrombectomy on chance of functional
+independence for large core stroke trials was 9.3% (6.1% - 13.8%)
+compared to 20.2% (15.6% - 25.0%) for small core stroke trials, 19.0%
+(14.1% - 24.5%) for extended window stroke trials, and 16.9% (12.0 -
+22.3%) for basilar stroke trials.
 
-For basilar stroke, the plotted values correspond to an estimated 102%
-average improvement in the odds of functional independence at 90 days
-with thrombectomy (95% CI -15.1% to 319%). The probability that the
-effect is positive is 95.1%.
-
-For each effect size greater than the zero, the probability that the
-estimated average treatment effect exceeds that value is shown in the
-following plot.
-
-![](images/ccdf_posterior-02.png)
-
-## Anticipated treatment effect in a new trial
-
-The anticipated treatment effect of thrombectomy in a hypothetical new
-trial for each stroke type is shown below.
-
-![](images/histogram_predictive.png)
-
-Translated from the log scale, the anticipated treatment effect of
-thrombectomy in a new early stroke trial has an odds ratio of 2.06 (95%
-CI 1.2 to 3.47, P(+) = 99%).
-
-Translated from the log scale, the anticipated treatment effect of
-thrombectomy in a new large stroke trial has an odds ratio of 2.76 (95%
-CI 0.752 to 8.16, P(+) = 95.9%).
-
-Translated from the log scale, the anticipated treatment effect of
-thrombectomy in a new late stroke trial has an odds ratio of 2.63 (95%
-CI 0.304 to 20.3, P(+) = 85.4%).
-
-Translated from the log scale, the anticipated treatment effect of
-thrombectomy in a new basilar stroke trial has an odds ratio of 2.06
-(95% CI 0.261 to 12.2, P(+) = 82%).
-
-The probability that the anticipated treatment effect of thrombectomy in
-a new trial for each stroke type is positive is shown in the following
-table.
-
-    # A tibble: 4 × 2
-      data    prob_pos
-      <chr>      <dbl>
-    1 large      0.959
-    2 early      0.990
-    3 late       0.854
-    4 basilar    0.820
-
-For each effect size greater than the zero, the probability that the
-anticipated treatment effect in a new trial exceeds that value is shown
-in the following plot.
-
-![](images/ccdf_predictive-01.png)
+<embed src="images/risk_difference.pdf" style="width:7in;height:5in" />

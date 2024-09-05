@@ -1,10 +1,11 @@
 # packages
 library(here)
-library(tidyverse)
 library(cmdstanr)
 library(posterior)
 library(cowplot)
+library(tidyverse)
 
+theme_set(new = theme_cowplot(font_size = 12))
 # options
 # theme_set(new = theme_minimal() +
 #             theme(
@@ -22,12 +23,11 @@ library(cowplot)
 # options
 options(dplyr.print_max = 50)
 
-
-
 # fit model
-data <- read_csv(file = here("data", "clean_data.csv")) %>% 
+data <- read_csv(file = here("data", "clean_data.csv")) 
+df <-  data %>% 
   mutate(J = as.integer(J), K = as.integer(K)) %>% 
-  filter(K == 1) %>% 
+ # filter(K == 1) %>% 
   select(K, n_c, r_c, n_t, r_t) %>% 
   mutate(j = row_number()) %>% 
   pivot_longer(cols = starts_with(c("n_", "r_")), 
@@ -37,19 +37,25 @@ data <- read_csv(file = here("data", "clean_data.csv")) %>%
   mutate(l = row_number()) %>% 
   select(j, l, k = K, n, y = r, x = arm) 
 
-dat <- with(data,
+dat <- with(df,
             list(L = length(l),
                  J = length(unique(j)),
                  K = length(unique(k)),
                  jj = j,
                  ll = l,
+                 kk = k,
                  x = x,
                  n = n,
                  y = y,
-                 estimate_posterior = 1, 
+                 compute_likelihood = 1, 
                  priors = 1))
 
-model <- cmdstan_model(here("models", "binomial.stan"))
+dat <- c(dat, list(r_c = data$r_c,
+                   r_t = data$r_t,
+                   n_c = data$n_c,
+                   n_t = data$n_t))
+
+model <- cmdstan_model(here("models", "binomial_group.stan"))
 
 fit <- model$sample(data = dat, seed = 222, chains = 4, 
                     parallel_chains = 4, save_warmup = TRUE, refresh = 1000)
@@ -67,6 +73,20 @@ map(c("rho", "sigma", "mu", "tau"),
       posterior::ess_bulk(extract_variable_matrix(fit, variable = params))
     }
 )
+
+# parameter estimates
+draws <- as_draws_matrix(fit$draws())
+
+bayesplot::mcmc_intervals(draws, regex_pars = "phi", 
+                             border_size = 0.1, prob = .5, prob_outer = .95) +
+  ggtitle("Baseline log odds")
+
+bayesplot::mcmc_intervals(draws, regex_pars = "theta", border_size = 0.1, prob = .5, prob_outer = .95) +
+  ggtitle("Change in log odds with treatment")
+
+bayesplot::mcmc_intervals(draws, regex_pars = c("psi", "delta"), border_size = 0.1, prob = .5, prob_outer = .95) +
+  ggtitle("average baseline log odds and average treatment effect")
+
 
 # generated quantities --------
 model_gq <- cmdstan_model(here("models", "binomial_gq.stan"))
@@ -227,9 +247,23 @@ bayesplot::ppc_intervals(y, y_rep, prob_outer = .95) +
 # tables ----------
 
 observations <- read_csv(file = here("data", "clean_data.csv")) %>% 
-  as_tibble() 
+  as_tibble() %>% 
+  filter(K == 1)
 
 # trial level
+observations %>% 
+  reframe(rrr_obs = ((r_c/n_c) / (r_t/n_t)),
+          arr_obs = r_t/n_t - r_c/n_c)
+
+# relative
+observations %>% 
+  reframe(rrr_obs = ((r_c/n_c) / (r_t/n_t))) %>% 
+  mutate(rrr_est = fit_gq$summary("E_rr_tilde")$median,
+         rrr_sd = fit_gq$summary("E_rr_tilde")$mad,
+         rrr_rep_est = fit_gq$summary("rr_tilde")$median,
+         rrr_rep_sd = fit_gq$summary("rr_tilde")$mad)
+
+# absolute
 observations %>% 
   reframe(arr_obs = r_t/n_t - r_c/n_c) %>% 
   mutate(arr_est = fit_gq$summary("E_arr_tilde")$median,

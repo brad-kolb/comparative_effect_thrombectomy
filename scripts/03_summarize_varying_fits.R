@@ -37,6 +37,7 @@ extract_rhats <- function(subsets, prior_types, model_fits, params) {
   )
   return(rhat_values)
 }
+
 check_rhats <- function(rhat_values, threshold = 1.01) {
   problematic_models <- list()
   

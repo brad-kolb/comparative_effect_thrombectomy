@@ -11,7 +11,8 @@ make_clean_data <- function(data, metric) {
   df <- tibble(
     J = data %>% # trials
       filter(treatment_id == 1) %>% 
-      .$trial_id, 
+      .$trial_id,
+    J_text = unique(data$trial),
     K = data %>% # trial types
       filter(treatment_id == 1) %>% 
       .$group_id, 
