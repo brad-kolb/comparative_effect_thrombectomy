@@ -100,3 +100,8 @@ outcome by 9% (aRD 9.31, 95% PI 6.09 - 13.8) in large core stroke
 trials, compared to 20% in small core trials (aRD 20.2, 95% PI 15.6 -
 25.0), 19% in late window trials (aRD 19.0, 95% PI 14.1 - 24.5), and 17%
 in basilar occlusion trials (aRD 16.9, 95% PI 12.0 - 22.3).
+
+After accounting for uncertainty in all model parameters, the projected
+probability of a positive impact on patient-level outcomes in a new
+randomized trial of thrombectomy for large core stroke was XXX% (XXX%
+NNT 100 - 10, XXX% NNT 10 or lower).

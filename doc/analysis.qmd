@@ -228,3 +228,5 @@ high4 <- comma(df$high[4] * 100)
 ```
 
 In absolute terms, thrombectomy increased the chances of a favorable outcome by `r chances1`% (aRD `r median1`, 95% PI `r low1` - `r high1`) in large core stroke trials, compared to `r chances2`% in small core trials (aRD `r median2`, 95% PI `r low2` - `r high2`), `r chances3`% in late window trials (aRD `r median3`, 95% PI `r low3` - `r high3`), and `r chances4`% in basilar occlusion trials (aRD `r median4`, 95% PI `r low4` - `r high4`).
+
+After accounting for uncertainty in all model parameters, the projected probability of a positive impact on patient-level outcomes in a new randomized trial of thrombectomy for large core stroke was XXX% (XXX% NNT 100 - 10, XXX% NNT 10 or lower).
