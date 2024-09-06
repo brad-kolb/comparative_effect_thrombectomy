@@ -78,7 +78,7 @@ The overall pooled data is shown in the following table.
 ## Results
 
 The average chance of functional independence for a patient enrolled in
-the medical arm of a large core stroke trial was 8.3% (5.6% - 12.5%)
+the medical arm of a large core stroke trial was 8.32% (5.59% - 12.5%)
 compared to 30.0% (23.8% - 36.8%) for small core stroke trials, 25.7%
 (17.6% - 36.2%) for extended window stroke trials, and 19.8% (13.1 -
 28.5%) for basilar stroke trials.
@@ -89,18 +89,14 @@ compared to 50.3% (42.0% - 58.9%) for small core stroke trials, 45.0%
 (33.4% - 57.7%) for extended window stroke trials, and 36.9% (26.5 -
 48.6%) for basilar stroke trials.
 
-The average relative effect of thrombectomy on chance of functional
-independence for large core stroke trials was 2.1 (1.8 - 2.5) compared
-to 1.7 (1.5 - 1.9) for small core stroke trials, 1.7 (1.5 - 2.0) for
-extended window stroke trials, and 1.9 (1.6 - 2.2) for basilar stroke
-trials.
+In relative terms, thrombectomy increased the chances of a favorable
+outcome by 111% (aRR 2.11, 95% PI 1.8 - 2.52) in large core stroke
+trials, compared to 67% in small core trials (aRR 1.67, 95% PI 1.49 -
+1.9), 74% in late window trials (aRR 1.74, 95% PI 1.52 - 2.04), and 85%
+in basilar occlusion trials (aRR 1.85, 95% PI 1.6 - 2.18).
 
-![](images/risk_ratio.pdf)
-
-The average absolute effect of thrombectomy on chance of functional
-independence for large core stroke trials was 9.3% (6.1% - 13.8%)
-compared to 20.2% (15.6% - 25.0%) for small core stroke trials, 19.0%
-(14.1% - 24.5%) for extended window stroke trials, and 16.9% (12.0 -
-22.3%) for basilar stroke trials.
-
-<embed src="images/risk_difference.pdf" style="width:7in;height:5in" />
+In absolute terms, thrombectomy increased the chances of a favorable
+outcome by 9% (aRD 9.31, 95% PI 6.09 - 13.8) in large core stroke
+trials, compared to 20% in small core trials (aRD 20.2, 95% PI 15.6 -
+25.0), 19% in late window trials (aRD 19.0, 95% PI 14.1 - 24.5), and 17%
+in basilar occlusion trials (aRD 16.9, 95% PI 12.0 - 22.3).

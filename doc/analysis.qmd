@@ -23,7 +23,7 @@ varying_summary <- readRDS(here("fits", "varying_summary.RDS"))
 
 group_summary <- readRDS(here("fits", "group_summaries.RDS"))
 
-comma <- function(x) format(x, digits = 2, nsmall = 1, big.mark = ",", small.mark = ",")
+comma <- function(x) format(x, digits = 3, nsmall = 1, big.mark = ",", small.mark = ",")
 ```
 
 ## Observed data
@@ -175,26 +175,28 @@ df <- group_summary %>%
          priors == "diffuse") %>% 
   select("variable", "median", "mad", "low", "high") 
 
+chances1 <- format(df$median[1] * 100 - 100, digits = 1)
 median1 <- comma(df$median[1])
 low1 <- comma(df$low[1])
 high1 <- comma(df$high[1])
 
+chances2 <- format(df$median[2] * 100 - 100, digits = 1)
 median2 <- comma(df$median[2])
 low2 <- comma(df$low[2])
 high2 <- comma(df$high[2])
 
+chances3 <- format(df$median[3] * 100 - 100, digits = 1)
 median3 <- comma(df$median[3])
 low3 <- comma(df$low[3])
 high3 <- comma(df$high[3])
 
+chances4 <- format(df$median[4] * 100 - 100, digits = 1)
 median4 <- comma(df$median[4])
 low4 <- comma(df$low[4])
 high4 <- comma(df$high[4])
 ```
 
-The average relative effect of thrombectomy on chance of functional independence for large core stroke trials was `r median1` (`r low1` - `r high1`) compared to `r median2` (`r low2` - `r high2`) for small core stroke trials, `r median3` (`r low3` - `r high3`) for extended window stroke trials, and `r median4` (`r low4` - `r high4`) for basilar stroke trials.
-
-![](images/risk_ratio.pdf)
+In relative terms, thrombectomy increased the chances of a favorable outcome by `r chances1`% (aRR `r median1`, 95% PI `r low1` - `r high1`) in large core stroke trials, compared to `r chances2`% in small core trials (aRR `r median2`, 95% PI `r low2` - `r high2`), `r chances3`% in late window trials (aRR `r median3`, 95% PI `r low3` - `r high3`), and `r chances4`% in basilar occlusion trials (aRR `r median4`, 95% PI `r low4` - `r high4`).
 
 ```{r absolute effect estimates}
 #| echo: false
@@ -204,23 +206,25 @@ df <- group_summary %>%
          priors == "diffuse") %>% 
   select("variable", "median", "mad", "low", "high") 
 
+chances1 <- format(df$median[1] * 100, digits = 1)
 median1 <- comma(df$median[1] * 100)
 low1 <- comma(df$low[1] * 100)
 high1 <- comma(df$high[1] * 100)
 
+chances2 <- format(df$median[2] * 100, digits = 1)
 median2 <- comma(df$median[2] * 100)
 low2 <- comma(df$low[2] * 100)
 high2 <- comma(df$high[2] * 100)
 
+chances3 <- format(df$median[3] * 100, digits = 1)
 median3 <- comma(df$median[3] * 100)
 low3 <- comma(df$low[3] * 100)
 high3 <- comma(df$high[3] * 100)
 
+chances4 <- format(df$median[4] * 100, digits = 1)
 median4 <- comma(df$median[4] * 100)
 low4 <- comma(df$low[4] * 100)
 high4 <- comma(df$high[4] * 100)
 ```
 
-The average absolute effect of thrombectomy on chance of functional independence for large core stroke trials was `r median1`% (`r low1`% - `r high1`%) compared to `r median2`% (`r low2`% - `r high2`%) for small core stroke trials, `r median3`% (`r low3`% - `r high3`%) for extended window stroke trials, and `r median4`% (`r low4` - `r high4`%) for basilar stroke trials.
-
-![](images/risk_difference.pdf){width="7in" height="5in"}
+In absolute terms, thrombectomy increased the chances of a favorable outcome by `r chances1`% (aRD `r median1`, 95% PI `r low1` - `r high1`) in large core stroke trials, compared to `r chances2`% in small core trials (aRD `r median2`, 95% PI `r low2` - `r high2`), `r chances3`% in late window trials (aRD `r median3`, 95% PI `r low3` - `r high3`), and `r chances4`% in basilar occlusion trials (aRD `r median4`, 95% PI `r low4` - `r high4`).
