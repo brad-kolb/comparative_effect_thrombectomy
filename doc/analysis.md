@@ -1,93 +1,158 @@
 # Comparative effect of thrombectomy
 
 
-## Observed data
+# Abstract
 
-There were a total of N = 5513 patients enrolled in J = 22 trials. 2687
-were randomized to best medical management. 2826 were randomized to best
-medical management plus mechanical thrombectomy. Each trial was
-categorized into one of K = 4 categories according to the type of stroke
-patients enrolled. Category 1 was large anterior circulation strokes.
-Category 2 was small to medium sized anterior circulation strokes
-treated in an early time window. Category 3 was small to medium sized
-anterior circulation strokes treated in a late time window. Category 4
-was strokes involving the basilar artery. The primary endpoint was
-functional independence at 90 days (modified Rankin score of 0 to 2).
+## Importance
 
-Observed frequency of outcomes for control and treatment groups are
-shown below, with color corresponding to stroke type and the size of the
-bubble to the sample size of the trial. Bubbles above the grey dashed
-line denote trials in which the frequency of good outcome at 90 days was
-greater for thrombectomy patients than for those treated with best
-medical management only.
+Variation in relative and absolute treatment effect of mechanical
+thrombectomy for different types of stroke has not been explored.
 
-![](images/scatter_plot-03.png)
+## Objective
 
-### Observed effect size
+To make clinically useful estimates for the relative and absolute effect
+of thrombectomy on the chances of favorable outcome at 90 days for
+clinically relevant types of stroke.
 
-The observed relative and absolute effect sizes from each of the stroke
-trials are shown here, with $y$ representing the observed treatment
-effect of thrombectomy (the odds ratio on the log scale), $\text{se}$
-representing the standard error for $y$. The quantities $\text{rr}$ and
-$\text{arr}$ represent the observed relative and absolute risk
-reduction, respectively.
+## Data sources
 
-    # A tibble: 22 × 7
-           J     K name            y    se    rr     rd
-       <dbl> <dbl> <chr>       <dbl> <dbl> <dbl>  <dbl>
-     1     1     1 ANGEL       1.19  0.253  2.60 0.184 
-     2     2     1 RESCUE      0.649 0.468  1.78 0.0616
-     3     3     1 SELECT2     1.22  0.353  2.90 0.133 
-     4     4     1 TENSION     2.09  0.632  6.89 0.145 
-     5     5     1 TESLA       0.557 0.371  1.64 0.0567
-     6     6     2 ESCAPE      1.04  0.240  1.84 0.248 
-     7     7     2 EXTEND      1.27  0.511  1.73 0.303 
-     8     8     2 MRCLEAN     0.704 0.208  1.68 0.134 
-     9     9     2 PISTE       0.466 0.510  1.29 0.115 
-    10    10     2 RESILIENT   0.729 0.307  1.70 0.144 
-    11    11     2 REVASCAT    0.683 0.296  1.55 0.155 
-    12    12     2 SWIFT       1.05  0.300  1.73 0.257 
-    13    13     2 THERAPY     0.337 0.433  1.25 0.0757
-    14    14     2 THRACE      0.440 0.201  1.26 0.109 
-    15    15     3 DAWN        1.80  0.355  3.63 0.345 
-    16    16     3 DEFUSE3     1.46  0.359  2.86 0.286 
-    17    17     3 MRCLEANLATE 0.228 0.186  1.16 0.0528
-    18    18     3 POSITIVE    1.39  0.799  1.75 0.321 
-    19    19     4 ATTENTION   1.44  0.336  3.15 0.227 
-    20    20     4 BAOCHE      1.37  0.340  2.79 0.251 
-    21    21     4 BASICS      0.225 0.247  1.16 0.0493
-    22    22     4 BEST        0.267 0.381  1.20 0.0564
+Pubmed and EMBASE was searched through May 2024.
+
+## Study selection
+
+All randomized trials of best medical management versus best medical
+management plus modern mechanical thrombectomy were included.
+
+## Data extraction and synthesis
+
+The preferred reporting items for systematic reviews and meta-analysis
+(PRISMA) guidelines were used. Data extraction by the first author was
+independently confirmed by the second. A varying-slopes
+varying-intercepts Bayesian multilevel logistic regression was fit to
+the extracted data.
+
+## Main outcomes and measures
+
+The main outcomes were the risk ratio (chance of functional independence
+in treatment group / chance of functional independence in control group)
+and risk difference (chance of functional independence in treatment
+group - chance of functional independence in control group). Functional
+independence was defined as a score of 0 to 2 on the modified Rankin
+scale at 90 days.
+
+## Results
+
+A total of 22 studies were included, with 5 examining outcomes for large
+core stroke patients, 9 for small core stroke, 4 for late window stroke,
+and 4 for basilar stroke. The estimated relative effect of thrombectomy
+was highest for large core stroke (RR XXX, 95% PI XX-XX), followed in
+order by basilar (RR XXX, 95% PI XX-XX), late (RR XXX, 95% PI XX-XX),
+and small (RR XXX, 95% PI XX-XX). The estimated absolute effect showed a
+reverse pattern, with small core stroke the highest (RD XX, 95% PI
+XX-XX), followed by late (RD XX, 95% PI XX-XX), basilar (RD XX, 95% PI
+XX-XX), and large (RD XX, 95% PI XX-XX).
+
+# Methods
+
+# Results
+
+## Search Results
+
+The initial database and registry search yielded XXX studies. Following
+title and abstract screening, XXX were retained, with 22 remaining after
+full-text review.
+
+## Risk of Bias
+
+We concluded that XXX% of included studies had low risk of bias, XXX%
+had some risk, and XXX% had high risk.
+
+## Study and Population Characteristics
+
+The intention to treat population included 5513 participants across 22
+randomized control trials. 2687 were assigned to medical management,
+while 2826 were assigned to thrombectomy plus medical management. Each
+trial was assigned to one of K = 4 categories according to the type of
+stroke patients enrolled. Category 1 (“large”) was anterior circulation
+strokes with a large core. Category 2 (“small”) was anterior circulation
+strokes with small to medium sized cores treated in an early time
+window. Category 3 (“late”) was anterior circulation strokes with small
+to medium sized cores treated in an extended time window. Category 4
+(“basilar”) was strokes due to large vessel occlusion of the
+vertebobasilar artery complex. Table 1 contains further information on
+study design and population characteristics.
+
+## Descriptive Results
+
+Descriptive results by trial are plotted below, with color corresponding
+to stroke type and the size of the bubble to the sample size of the
+trial. Bubbles above the grey dashed line denote trials in which the
+frequency of good outcome at 90 days was greater for thrombectomy
+patients than for those treated with best medical management only.
+
+![](images/scatter_plot-03.png) The data for individual trials are shown
+here.
+
+    # A tibble: 22 × 8
+           K name         size    f_c   f_t    rr     rd   nnt
+       <dbl> <chr>       <dbl>  <dbl> <dbl> <dbl>  <dbl> <dbl>
+     1     1 ANGEL         251 0.116  0.3    2.60 0.184   5.42
+     2     1 RESCUE        110 0.0784 0.14   1.78 0.0616 16.2 
+     3     1 SELECT2       183 0.0702 0.203  2.90 0.133   7.51
+     4     1 TENSION       125 0.0246 0.169  6.89 0.145   6.91
+     5     1 TESLA         159 0.0890 0.146  1.64 0.0567 17.7 
+     6     2 ESCAPE        189 0.295  0.543  1.84 0.248   4.03
+     7     2 EXTEND         48 0.412  0.714  1.73 0.303   3.31
+     8     2 MRCLEAN       317 0.196  0.330  1.68 0.134   7.45
+     9     2 PISTE          42 0.4    0.515  1.29 0.115   8.68
+    10     2 RESILIENT     134 0.207  0.351  1.70 0.144   6.94
+    11     2 REVASCAT      132 0.282  0.437  1.55 0.155   6.44
+    12     2 SWIFT         127 0.351  0.608  1.73 0.257   3.89
+    13     2 THERAPY        60 0.304  0.38   1.25 0.0757 13.2 
+    14     2 THRACE        287 0.421  0.53   1.26 0.109   9.16
+    15     3 DAWN          112 0.131  0.477  3.63 0.345   2.90
+    16     3 DEFUSE3       105 0.154  0.440  2.86 0.286   3.5 
+    17     3 MRCLEANLATE   331 0.340  0.393  1.16 0.0528 18.9 
+    18     3 POSITIVE       30 0.429  0.75   1.75 0.321   3.11
+    19     4 ATTENTION     126 0.105  0.332  3.15 0.227   4.41
+    20     4 BAOCHE        122 0.140  0.391  2.79 0.251   3.99
+    21     4 BASICS        190 0.301  0.351  1.16 0.0493 20.3 
+    22     4 BEST           83 0.277  0.333  1.20 0.0564 17.7 
+
+The overall pooled data are shown in the following table.
+
+    # A tibble: 1 × 6
+      trials  size   f_c   f_t    rr    rd
+       <int> <dbl> <dbl> <dbl> <dbl> <dbl>
+    1     22  5513 0.214 0.365  1.70 0.150
 
 The pooled data by category are shown in the following table.
 
     # A tibble: 4 × 7
-      category trials `sample size`     y     se    rr    rd
-      <chr>     <int>         <dbl> <dbl>  <dbl> <dbl> <dbl>
-    1 large         5          1548 1.09  0.159   2.56 0.126
-    2 early         9          2057 0.723 0.0926  1.57 0.168
-    3 late          4           920 0.757 0.142   1.64 0.169
-    4 basilar       4           988 0.725 0.149   1.69 0.143
+      category trials  size    f_c   f_t    rr    rd
+      <chr>     <int> <dbl>  <dbl> <dbl> <dbl> <dbl>
+    1 large         5  1548 0.0809 0.207  2.56 0.126
+    2 early         9  2057 0.296  0.464  1.57 0.168
+    3 late          4   920 0.262  0.431  1.64 0.169
+    4 basilar       4   988 0.206  0.349  1.69 0.143
 
-The overall pooled data is shown in the following table.
+## Treatment effect estimation
 
-    # A tibble: 1 × 6
-      trials `sample size`     y     se    rr    rd
-       <int>         <dbl> <dbl>  <dbl> <dbl> <dbl>
-    1     22          5513 0.744 0.0611  1.70 0.150
+### Estimated chance of favorable outcome across existing trials
 
-## Results
+The estimated chance of functional independence for a patient enrolled
+in the medical arm of a large core stroke trial was 8% (95% PI 5.59% -
+12.5%) compared to 30% (95% PI 23.8% - 36.8%) for small core trials, 26%
+(95% PI 17.6% - 36.2%) for late window trials, and 20% (95% PI 13.1 -
+28.5%) for basilar trials.
 
-The average chance of functional independence for a patient enrolled in
-the medical arm of a large core stroke trial was 8.32% (5.59% - 12.5%)
-compared to 30.0% (23.8% - 36.8%) for small core stroke trials, 25.7%
-(17.6% - 36.2%) for extended window stroke trials, and 19.8% (13.1 -
-28.5%) for basilar stroke trials.
+The estimated chance of functional independence for a patient enrolled
+in the treatment arm of a large core stroke trial was 18% (95% PI
+12.1% - 25.5%) compared to 50% (95% PI 42.0% - 58.9%) for small core
+trials, 45% (95% PI 33.4% - 57.7%) for late window trials, and 37% (95%
+PI 26.5 - 48.6%) for basilar trials.
 
-The average chance of functional independence for a patient enrolled in
-the treatment arm of a large core stroke trial was 17.6% (12.1% - 25.5%)
-compared to 50.3% (42.0% - 58.9%) for small core stroke trials, 45.0%
-(33.4% - 57.7%) for extended window stroke trials, and 36.9% (26.5 -
-48.6%) for basilar stroke trials.
+### Estimated effect of thrombectomy on chances of favorable outcome across existing trials
 
 In relative terms, thrombectomy increased the chances of a favorable
 outcome by 111% (aRR 2.11, 95% PI 1.8 - 2.52) in large core stroke
@@ -101,7 +166,26 @@ trials, compared to 20% in small core trials (aRD 20.2, 95% PI 15.6 -
 25.0), 19% in late window trials (aRD 19.0, 95% PI 14.1 - 24.5), and 17%
 in basilar occlusion trials (aRD 16.9, 95% PI 12.0 - 22.3).
 
+## Heterogeneity estimation
+
+The median estimate of the Bayesian I-squared statistic, defined as the
+percent portion of variation in estimated treatment effect due to
+between-trial heterogeneity and not sampling variation was 46.7% (95% PI
+30.3% - 59.9%).
+
+### Projected impact of thrombectomy in a new trial
+
 After accounting for uncertainty in all model parameters, the projected
 probability of a positive impact on patient-level outcomes in a new
-randomized trial of thrombectomy for large core stroke was XXX% (XXX%
-NNT 100 - 10, XXX% NNT 10 or lower).
+randomized trial of thrombectomy for large core stroke is 93%, with a
+45% probability of NNT between 100 and 10 and a 48% probability of NNT
+10 or lower. The projected probability of a positive impact in a new
+small core stroke trial is 97%, with a 14% probability of NNT between
+100 and 10 and a 83% probability of NNT 10 or less. The projected
+probability of a positive impact in a new late window trial is 96%, with
+a 16% probability of a NNT between 100 and 10 and a 80% probability of
+NNT 10 or less. The projected probability of a positive impact in a new
+basilar stroke trial is 96%, with a 20% probability of NNT between 100
+and 10 and a 75% probability of NNT 10 or less.
+
+# Discussion

@@ -245,9 +245,9 @@ library(cowplot)
 
 data <- read_csv(here("data", "clean_data.csv"), show_col_types = FALSE)
 
-summary <- group_summaries
+summary <- readRDS(file = here("fits", "group_summaries.RDS"))
 
-theme_set(new = cowplot::theme_cowplot(font_size = 11))
+# theme_set(new = cowplot::theme_cowplot(font_size = 11))
 
 plot_or <- function(x, y, z, w){
   df1 <- x %>%
@@ -261,19 +261,19 @@ plot_or <- function(x, y, z, w){
   df2 <- x %>% 
     filter(model == y,
            data == z,
-           variable == "mu") %>% 
-    mutate(trial = "AVERAGE") %>% 
+           variable == "E_theta_new") %>% 
+    mutate(trial = "NEW") %>% 
     select("priors", "trial", "median", "low", "high")
   
   df <- bind_rows(df1, df2)
-  df$trial <- factor(df$trial, levels = c(unique(df1$trial), "AVERAGE"))
+  df$trial <- factor(df$trial, levels = c(unique(df1$trial), "NEW"))
   df$trial <- fct_rev(df$trial)
   
   ggplot(df, aes(x = trial, y = median, ymin = low, ymax = high, color = priors)) +
     geom_pointrange(position = position_dodge(width = 0.5)) +
     geom_hline(yintercept = 0, linetype = "dashed") +
     coord_flip(ylim = c(-0.5, 2.0)) +
-    labs(x = NULL, y = "odds ratio (log scale)", 
+    labs(x = NULL, y = "log odds", 
          title = NULL,
          color = "Priors", shape = "Priors") +
     scale_color_manual(values = c("skeptical" = "blue", "diffuse" = "red")) +

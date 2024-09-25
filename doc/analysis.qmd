@@ -26,8 +26,43 @@ group_summary <- readRDS(here("fits", "group_summaries.RDS"))
 comma <- function(x) format(x, digits = 3, nsmall = 1, big.mark = ",", small.mark = ",")
 ```
 
-## Observed data
+# Abstract
+## Importance
+Variation in relative and absolute treatment effect of mechanical thrombectomy for different types of stroke has not been explored. 
 
+## Objective
+To make clinically useful estimates for the relative and absolute effect of thrombectomy on the chances of favorable outcome at 90 days for clinically relevant types of stroke.
+
+## Data sources
+Pubmed and EMBASE was searched through May 2024.
+
+## Study selection
+All randomized trials of best medical management versus best medical management plus modern mechanical thrombectomy were included.
+
+## Data extraction and synthesis
+Data extraction by the first author was independently confirmed by the second. A varying-slopes varying-intercepts Bayesian multilevel logistic regression was fit to the extracted data. 
+
+## Main outcomes and measures 
+The main outcomes were the risk ratio (chance of functional independence in treatment group / chance of functional independence in control group) and risk difference (chance of functional independence in treatment group - chance of functional independence in control group). Functional independence was defined as a score of 0 to 2 on the modified Rankin scale at 90 days. 
+
+## Results
+A total of 22 studies were included, with 5 examining outcomes for large core stroke patients, 9 for small core stroke, 4 for late window stroke, and 4 for basilar stroke. The estimated relative effect of thrombectomy was highest for large core stroke (RR XXX, 95% PI XX-XX), followed in order by basilar (RR XXX, 95% PI XX-XX), late (RR XXX, 95% PI XX-XX), and small (RR XXX, 95% PI XX-XX). The estimated absolute effect showed a reverse pattern, with small core stroke the highest (RD XX, 95% PI XX-XX), followed by late (RD XX, 95% PI XX-XX), basilar (RD XX, 95% PI XX-XX), and large (RD XX, 95% PI XX-XX). 
+
+## Conclusions and relevance
+
+# Introduction
+# Methods
+This systematic review was conducted according to the preferred reporting items for systematic reviews and meta-analysis (PRISMA) guidelines. 
+The statistical model was written in the probabilistic programming language Stan and fit in R using cmdstanr. Posterior draws were processed using Posterior. Results are presented using the median of the posterior distribution and the 95% posterior interval (PI) is constructed using the 2.5% and 97.5% quantiles of the posterior distribution. 
+# Results
+
+## Search Results
+The initial database and registry search yielded XXX studies. Following title and abstract screening, XXX were retained, with 22 remaining after full-text review. 
+
+## Risk of Bias
+We concluded that XXX% of included studies had low risk of bias, XXX% had some risk, and XXX% had high risk. 
+
+## Study and Population Characteristics
 ```{r calculations}
 #| echo: false
 
@@ -38,17 +73,13 @@ patients_control <- with(data, sum(n_c))
 patients_treatment <- with(data, sum(n_t)) 
 categories <- n_distinct(data$K)
 ```
+The intention to treat population included `r patients_total` participants across `r trials` randomized control trials. `r patients_control` were assigned to medical management, while `r patients_treatment` were assigned to thrombectomy plus medical management. Each trial was assigned to one of K = `r categories` categories according to the type of stroke patients enrolled. Category 1 ("large") was anterior circulation strokes with a large core. Category 2 ("small") was anterior circulation strokes with small to medium sized cores treated in an early time window. Category 3 ("late") was anterior circulation strokes with small to medium sized cores treated in an extended time window. Category 4 ("basilar") was strokes due to large vessel occlusion of the vertebobasilar artery complex. Table 1 contains further information on study design and population characteristics. 
 
-There were a total of N = `r patients_total` patients enrolled in J = `r trials` trials. `r patients_control` were randomized to best medical management. `r patients_treatment` were randomized to best medical management plus mechanical thrombectomy. Each trial was categorized into one of K = `r categories` categories according to the type of stroke patients enrolled. Category 1 was large anterior circulation strokes. Category 2 was small to medium sized anterior circulation strokes treated in an early time window. Category 3 was small to medium sized anterior circulation strokes treated in a late time window. Category 4 was strokes involving the basilar artery. The primary endpoint was functional independence at 90 days (modified Rankin score of 0 to 2).
-
-Observed frequency of outcomes for control and treatment groups are shown below, with color corresponding to stroke type and the size of the bubble to the sample size of the trial. Bubbles above the grey dashed line denote trials in which the frequency of good outcome at 90 days was greater for thrombectomy patients than for those treated with best medical management only.
+## Descriptive Results
+Descriptive results by trial are plotted below, with color corresponding to stroke type and the size of the bubble to the sample size of the trial. Bubbles above the grey dashed line denote trials in which the frequency of good outcome at 90 days was greater for thrombectomy patients than for those treated with best medical management only.
 
 ![](images/scatter_plot-03.png)
-
-### Observed effect size
-
-The observed relative and absolute effect sizes from each of the stroke trials are shown here, with $y$ representing the observed treatment effect of thrombectomy (the odds ratio on the log scale), $\text{se}$ representing the standard error for $y$. The quantities $\text{rr}$ and $\text{arr}$ represent the observed relative and absolute risk reduction, respectively.
-
+The data for individual trials are shown here. 
 ```{r}
 #| echo: false
 data <- data %>% 
@@ -59,58 +90,61 @@ data <- data %>%
   relocate("name", .after = J)
 
 data %>% 
+  mutate(size = n_c + r_c) %>% 
+  mutate(f_c = r_c/n_c) %>% 
+  mutate(f_t = r_t/n_t) %>% 
   mutate(rd = r_t/n_t - r_c/n_c) %>% 
+  mutate(nnt = 1/rd) %>% 
   mutate(rr = (r_t/n_t) / (r_c/n_c)) %>% 
-  select(J, K, name, y, se, rr, rd) %>% 
+  select(K, name, size, f_c, f_t, rr, rd, nnt) %>% 
 print(n = Inf)
 ```
 
-The pooled data by category are shown in the following table.
-
-```{r pooled or table}
+The overall pooled data are shown in the following table.
+```{r pooled or}
 #| echo: false
 data %>% 
-  group_by(K) %>% 
   summarise(trials = n(),
-            "sample size" = sum(n_c + n_t),
+            size = sum(n_c + n_t),
             r_c = sum(r_c),
             n_c = sum(n_c),
             r_t = sum(r_t),
             n_t = sum(n_t)) %>% 
   mutate(
+    f_c = r_c/n_c,
+    f_t = r_t/n_t,
+    y = log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)),
+    se = sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c)),
+    rd = r_t/n_t - r_c/n_c,
+    rr = (r_t/n_t) / (r_c/n_c)) %>% 
+  select(trials, size, f_c, f_t, rr, rd)
+```
+The pooled data by category are shown in the following table.
+```{r pooled or table}
+#| echo: false
+data %>% 
+  group_by(K) %>% 
+  summarise(trials = n(),
+            size = sum(n_c + n_t),
+            r_c = sum(r_c),
+            n_c = sum(n_c),
+            r_t = sum(r_t),
+            n_t = sum(n_t)) %>% 
+  mutate(
+    f_c = r_c/n_c,
+    f_t = r_t/n_t,
     y = log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)),
     se = sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c)),
     rd = r_t/n_t - r_c/n_c,
     rr = (r_t/n_t) / (r_c/n_c),
     category = c("large", "early", "late", "basilar")
   ) %>% 
-  select(category, trials, "sample size", y, se, rr, rd)
+  select(category, trials, size, f_c, f_t, rr, rd)
 ```
 
-The overall pooled data is shown in the following table.
+## Treatment effect estimation
 
-```{r pooled or}
-#| echo: false
-(
-  pooled <- data %>% 
-  summarise(trials = n(),
-            "sample size" = sum(n_c + n_t),
-            r_c = sum(r_c),
-            n_c = sum(n_c),
-            r_t = sum(r_t),
-            n_t = sum(n_t)) %>% 
-  mutate(
-    y = log(r_t / (n_t - r_t)) - log(r_c / (n_c - r_c)),
-    se = sqrt(1/r_t + 1/(n_t - r_t) + 1/r_c + 1/(n_c - r_c)),
-    rd = r_t/n_t - r_c/n_c,
-    rr = (r_t/n_t) / (r_c/n_c)
-  ) %>% 
-    select(trials, "sample size", y, se, rr, rd)
-  )
-```
-
-## Results
-
+### Estimated chance of favorable outcome across existing trials
 ```{r control group estimates}
 #| echo: false
 df <- group_summary %>% 
@@ -120,24 +154,24 @@ df <- group_summary %>%
          priors == "diffuse") %>% 
   select("variable", "median", "mad", "low", "high") 
 
-median1 <- comma(df$median[1] * 100)
+median1 <- format(df$median[1] * 100, digits = 1)
 low1 <- comma(df$low[1] * 100)
 high1 <- comma(df$high[1] * 100)
 
-median2 <- comma(df$median[2] * 100)
+median2 <- format(df$median[2] * 100, digits = 1)
 low2 <- comma(df$low[2] * 100)
 high2 <- comma(df$high[2] * 100)
 
-median3 <- comma(df$median[3] * 100)
+median3 <- format(df$median[3] * 100, digits = 1)
 low3 <- comma(df$low[3] * 100)
 high3 <- comma(df$high[3] * 100)
 
-median4 <- comma(df$median[4] * 100)
+median4 <- format(df$median[4] * 100, digits = 1)
 low4 <- comma(df$low[4] * 100)
 high4 <- comma(df$high[4] * 100)
 ```
 
-The average chance of functional independence for a patient enrolled in the medical arm of a large core stroke trial was `r median1`% (`r low1`% - `r high1`%) compared to `r median2`% (`r low2`% - `r high2`%) for small core stroke trials, `r median3`% (`r low3`% - `r high3`%) for extended window stroke trials, and `r median4`% (`r low4` - `r high4`%) for basilar stroke trials.
+The estimated chance of functional independence for a patient enrolled in the medical arm of a large core stroke trial was `r median1`% (95% PI `r low1`% - `r high1`%) compared to `r median2`% (95% PI `r low2`% - `r high2`%) for small core trials, `r median3`% (95% PI `r low3`% - `r high3`%) for late window trials, and `r median4`% (95% PI `r low4` - `r high4`%) for basilar trials.
 
 ```{r treatment group estimates}
 #| echo: false
@@ -148,24 +182,24 @@ df <- group_summary %>%
          priors == "diffuse") %>% 
   select("variable", "median", "mad", "low", "high") 
 
-median1 <- comma(df$median[1] * 100)
+median1 <- format(df$median[1] * 100, digits = 1)
 low1 <- comma(df$low[1] * 100)
 high1 <- comma(df$high[1] * 100)
 
-median2 <- comma(df$median[2] * 100)
+median2 <- format(df$median[2] * 100, digits = 1)
 low2 <- comma(df$low[2] * 100)
 high2 <- comma(df$high[2] * 100)
 
-median3 <- comma(df$median[3] * 100)
+median3 <- format(df$median[3] * 100, digits = 1)
 low3 <- comma(df$low[3] * 100)
 high3 <- comma(df$high[3] * 100)
 
-median4 <- comma(df$median[4] * 100)
+median4 <- format(df$median[4] * 100, digits = 1)
 low4 <- comma(df$low[4] * 100)
 high4 <- comma(df$high[4] * 100)
 ```
 
-The average chance of functional independence for a patient enrolled in the treatment arm of a large core stroke trial was `r median1`% (`r low1`% - `r high1`%) compared to `r median2`% (`r low2`% - `r high2`%) for small core stroke trials, `r median3`% (`r low3`% - `r high3`%) for extended window stroke trials, and `r median4`% (`r low4` - `r high4`%) for basilar stroke trials.
+The estimated chance of functional independence for a patient enrolled in the treatment arm of a large core stroke trial was `r median1`% (95% PI `r low1`% - `r high1`%) compared to `r median2`% (95% PI `r low2`% - `r high2`%) for small core trials, `r median3`% (95% PI `r low3`% - `r high3`%) for late window trials, and `r median4`% (95% PI `r low4` - `r high4`%) for basilar trials.
 
 ```{r relative effect estimates}
 #| echo: false
@@ -196,6 +230,7 @@ low4 <- comma(df$low[4])
 high4 <- comma(df$high[4])
 ```
 
+### Estimated effect of thrombectomy on chances of favorable outcome across existing trials
 In relative terms, thrombectomy increased the chances of a favorable outcome by `r chances1`% (aRR `r median1`, 95% PI `r low1` - `r high1`) in large core stroke trials, compared to `r chances2`% in small core trials (aRR `r median2`, 95% PI `r low2` - `r high2`), `r chances3`% in late window trials (aRR `r median3`, 95% PI `r low3` - `r high3`), and `r chances4`% in basilar occlusion trials (aRR `r median4`, 95% PI `r low4` - `r high4`).
 
 ```{r absolute effect estimates}
@@ -229,4 +264,49 @@ high4 <- comma(df$high[4] * 100)
 
 In absolute terms, thrombectomy increased the chances of a favorable outcome by `r chances1`% (aRD `r median1`, 95% PI `r low1` - `r high1`) in large core stroke trials, compared to `r chances2`% in small core trials (aRD `r median2`, 95% PI `r low2` - `r high2`), `r chances3`% in late window trials (aRD `r median3`, 95% PI `r low3` - `r high3`), and `r chances4`% in basilar occlusion trials (aRD `r median4`, 95% PI `r low4` - `r high4`).
 
-After accounting for uncertainty in all model parameters, the projected probability of a positive impact on patient-level outcomes in a new randomized trial of thrombectomy for large core stroke was XXX% (XXX% NNT 100 - 10, XXX% NNT 10 or lower).
+## Heterogeneity estimation
+```{r}
+#| echo: false
+df <- group_summary %>% 
+  filter(variable == "I2",
+         data == "all", 
+         priors == "diffuse") %>% 
+  select("variable", "median", "mad", "low", "high") 
+i2_med <- comma(df$median*100)
+i2_low <- comma(df$low*100)
+i2_high <- comma(df$high*100)
+```
+
+The median estimate of the Bayesian I-squared statistic, defined as the percent portion of variation in estimated treatment effect due to between-trial heterogeneity and not sampling variation was `r i2_med`% (95% PI `r i2_low`% - `r i2_high`%).
+
+### Projected impact of thrombectomy in a new trial
+```{r}
+#| echo: false
+
+model_fits <- readRDS(here("fits", "group_fits.RDS"))
+
+df <- model_fits$all$diffuse$`y_impact_new[1]`
+df1_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
+df1_plus <- format(length(df[df >= 1 & df < 10])/length(df)*100, digits = 2)
+df1_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
+
+df <- model_fits$all$diffuse$`y_impact_new[2]`
+df2_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
+df2_plus <- format(length(df[df >= 1 & df < 10])/length(df)*100, digits = 2)
+df2_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
+
+df <- model_fits$all$diffuse$`y_impact_new[3]`
+df3_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
+df3_plus <- format(length(df[df >= 1 & df < 10])/length(df)*100, digits = 2)
+df3_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
+
+df <- model_fits$all$diffuse$`y_impact_new[4]`
+df4_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
+df4_plus <- format(length(df[df >= 1 & df < 10])/length(df)*100, digits = 2)
+df4_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
+
+```
+
+After accounting for uncertainty in all model parameters, the projected probability of a positive impact on patient-level outcomes in a new randomized trial of thrombectomy for large core stroke is `r df1_pos`%, with a `r df1_plus`% probability of NNT between 100 and 10 and a `r df1_plusplus`% probability of NNT 10 or lower. The projected probability of a positive impact in a new small core stroke trial is `r df2_pos`%, with a `r df2_plus`% probability of NNT between 100 and 10 and a `r df2_plusplus`% probability of NNT 10 or less. The projected probability of a positive impact in a new late window trial is `r df3_pos`%, with a `r df3_plus`% probability of a NNT between 100 and 10 and a `r df3_plusplus`% probability of NNT 10 or less. The projected probability of a positive impact in a new basilar stroke trial is `r df4_pos`%, with a `r df4_plus`% probability of NNT between 100 and 10 and a `r df4_plusplus`% probability of NNT 10 or less.
+
+# Discussion
