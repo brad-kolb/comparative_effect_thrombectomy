@@ -39,7 +39,7 @@ offset <- 0.1
 pdf(here("plots", "risk.pdf"), width = 5, height = 4)
 plot(df_control$median_pct, 1:4 + offset, xlim = c(0, max(df_treatment$high_pct)), 
      ylim = c(1 - extra_space, 4 + extra_space),
-     yaxt = "n", xaxt = "n", ylab = NA, xlab = NA, pch = 19, 
+     yaxt = "n", xaxt = "n", ylab = NA, xlab = NA, pch = 19,
      col = 4, main = "Probability of favorable outcome")
 
 # treatment group points with offset
@@ -57,11 +57,9 @@ axis(1, at = seq(0, 60, by = 10), labels = paste0(seq(0, 60, by = 10), "%"))
 # y-axis labels
 axis(2, at = 1:4, labels = df_control$names, las = 2)
 
-# dashed vertical line at x = 0 
-abline(v = 0, lty = 2, col = "grey")
-
 # legend
-legend("topright", legend = c("Baseline", "With treatment"), pch = 19, col = c(4, 2))
+legend("topright", legend = c("Baseline", "With treatment"),
+       pch = 19, col = c(4, 2))
 
 dev.off()
 
@@ -236,7 +234,7 @@ names <- unique(df$name)
 names <- factor(names, levels = names)
 
 # Set up the plot window with custom labels and limits, but don't draw anything yet
-pdf(here("plots", "nnt.pdf"), width = 5.5, height = 4.5)
+pdf(here("plots", "nnt.pdf"), width = 6, height = 5)
 plot(NA, NA, type = "n", xlim = c(1, 3), ylim = c(0, 100),
      xlab = "NNT", ylab = "Probability", main = "Projected number needed to treat in new trial",
      xaxt = "n", yaxt = "n")
@@ -254,6 +252,6 @@ for (i in 1:length(names)) {
 
 # Add a legend
 legend("topright", legend = c("small", "late", "basilar", "large"), 
-       col = c(2,3,4,1), pch = 16, lty = 1, bty = "n")
+       col = c(2,3,4,1), pch = 16, lty = 1)
 
 dev.off()
