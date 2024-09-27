@@ -200,33 +200,33 @@ generate_impact_plots(model_fits, filename_prefix = "impact_plot")
 model_fits <- readRDS(here("fits", "group_fits.RDS"))
 
 df <- model_fits$all$diffuse$`y_impact_new[1]`
-df_100 <- length(df[df >= 1])/length(df)
+df_20 <- length(df[df >= 5])/length(df)
 df_10 <- length(df[df >= 10])/length(df)
 df_5 <- length(df[df >=20])/length(df)
-df1 <- data.frame(name = "large", nnt = c("<100", "<10", "<5"), value = c(df_100, df_10, df_5))
+df1 <- data.frame(name = "large", nnt = c("<20", "<10", "<5"), value = c(df_20, df_10, df_5))
 
 df <- model_fits$all$diffuse$`y_impact_new[2]`
-df_100 <- length(df[df >= 1])/length(df)
+df_20 <- length(df[df >= 5])/length(df)
 df_10 <- length(df[df >= 10])/length(df)
 df_5 <- length(df[df >=20])/length(df)
-df2 <- data.frame(name = "small", nnt = c("<100", "<10", "<5"), value = c(df_100, df_10, df_5))
+df2 <- data.frame(name = "small", nnt = c("<20", "<10", "<5"), value = c(df_20, df_10, df_5))
 
 df <- model_fits$all$diffuse$`y_impact_new[3]`
-df_100 <- length(df[df >= 1])/length(df)
+df_20 <- length(df[df >= 5])/length(df)
 df_10 <- length(df[df >= 10])/length(df)
 df_5 <- length(df[df >=20])/length(df)
-df3 <- data.frame(name = "late", nnt = c("<100", "<10", "<5"), value = c(df_100, df_10, df_5))
+df3 <- data.frame(name = "late", nnt = c("<20", "<10", "<5"), value = c(df_20, df_10, df_5))
 
 df <- model_fits$all$diffuse$`y_impact_new[4]`
-df_100 <- length(df[df >= 1])/length(df)
+df_20 <- length(df[df >= 5])/length(df)
 df_10 <- length(df[df >= 10])/length(df)
 df_5 <- length(df[df >=20])/length(df)
-df4 <- data.frame(name = "basilar", nnt = c("<100", "<10", "<5"), value = c(df_100, df_10, df_5))
+df4 <- data.frame(name = "basilar", nnt = c("<20", "<10", "<5"), value = c(df_20, df_10, df_5))
 
 df <- rbind(df1, df2, df3, df4)
 
 # Prepare the data
-df$nnt <- factor(df$nnt, levels = c("<100", "<10", "<5"))
+df$nnt <- factor(df$nnt, levels = c("<20", "<10", "<5"))
 
 # Define colors for the groups
 colors <- c(1, 2, 3, 4)
@@ -234,7 +234,7 @@ names <- unique(df$name)
 names <- factor(names, levels = names)
 
 # Set up the plot window with custom labels and limits, but don't draw anything yet
-pdf(here("plots", "nnt.pdf"), width = 6, height = 5)
+pdf(here("plots", "nnt.pdf"), width = 5, height = 5)
 plot(NA, NA, type = "n", xlim = c(1, 3), ylim = c(0, 100),
      xlab = "NNT", ylab = "Probability", main = "Projected number needed to treat in new trial",
      xaxt = "n", yaxt = "n")
@@ -243,7 +243,7 @@ plot(NA, NA, type = "n", xlim = c(1, 3), ylim = c(0, 100),
 axis(1, at = 1:3, labels = levels(df$nnt))
 
 # Add custom y-axis labels as percentages
-axis(2, at = seq(5, 95, by = 45), labels = paste0(seq(5, 95, by = 45), "%"))
+axis(2, at = seq(10, 90, by = 40), labels = paste0(seq(10, 90, by = 40), "%"))
 
 # Add lines and points for each group
 for (i in 1:length(names)) {
