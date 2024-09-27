@@ -25,36 +25,48 @@ management plus modern mechanical thrombectomy were included.
 
 ## Data extraction and synthesis
 
-The preferred reporting items for systematic reviews and meta-analysis
-(PRISMA) guidelines were used. Data extraction by the first author was
-independently confirmed by the second. A varying-slopes
-varying-intercepts Bayesian multilevel logistic regression was fit to
-the extracted data.
+Data extraction by the first author was independently confirmed by the
+second. A varying-slopes varying-intercepts Bayesian multilevel logistic
+regression was fit to the extracted data.
 
 ## Main outcomes and measures
 
-The main outcomes were the risk ratio (chance of functional independence
-in treatment group / chance of functional independence in control group)
-and risk difference (chance of functional independence in treatment
-group - chance of functional independence in control group). Functional
-independence was defined as a score of 0 to 2 on the modified Rankin
-scale at 90 days.
+The main estimands were the risk ratio (chance of functional
+independence in treatment group / chance of functional independence in
+control group) and risk difference (chance of functional independence in
+treatment group - chance of functional independence in control group).
+Functional independence was defined as a score of 0 to 2 on the modified
+Rankin scale at 90 days. Each estimand was adjusted for stroke type.
+Results were presented as posterior median and 95% posterior intervals
+(PI).
 
 ## Results
 
 A total of 22 studies were included, with 5 examining outcomes for large
 core stroke patients, 9 for small core stroke, 4 for late window stroke,
 and 4 for basilar stroke. The estimated relative effect of thrombectomy
-was highest for large core stroke (RR XXX, 95% PI XX-XX), followed in
-order by basilar (RR XXX, 95% PI XX-XX), late (RR XXX, 95% PI XX-XX),
-and small (RR XXX, 95% PI XX-XX). The estimated absolute effect showed a
-reverse pattern, with small core stroke the highest (RD XX, 95% PI
-XX-XX), followed by late (RD XX, 95% PI XX-XX), basilar (RD XX, 95% PI
-XX-XX), and large (RD XX, 95% PI XX-XX).
+was highest for large core stroke (aRR 2.11, 95% PI 1.8-2.52), followed
+in order by basilar (aRR 1.85, 95% PI 1.6-2.18), late (aRR 1.74, 95% PI
+1.52-2.04), and small (aRR 1.67, 95% PI 1.49-1.9). The estimated
+absolute effect showed a reverse pattern, with small core stroke the
+highest (aRD 20.2%, 95% PI 15.6% -25.0%), followed by late (aRR 19.0%,
+95% PI 14.1% -24.5%), basilar (aRR 16.9%, 95% PI 12.0%-22.3%), and large
+(aRD 9.31%, 95% PI 6.09%-13.8%).
+
+## Conclusions and relevance
+
+# Introduction
 
 # Methods
 
-# Results
+This systematic review was conducted according to the preferred
+reporting items for systematic reviews and meta-analysis (PRISMA)
+guidelines. The statistical model was written in the probabilistic
+programming language Stan and fit in R using cmdstanr. Posterior draws
+were processed using Posterior. Results are presented using the median
+of the posterior distribution and the 95% posterior interval (PI) is
+constructed using the 2.5% and 97.5% quantiles of the posterior
+distribution. \# Results
 
 ## Search Results
 

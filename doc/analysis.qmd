@@ -43,10 +43,56 @@ All randomized trials of best medical management versus best medical management 
 Data extraction by the first author was independently confirmed by the second. A varying-slopes varying-intercepts Bayesian multilevel logistic regression was fit to the extracted data. 
 
 ## Main outcomes and measures 
-The main outcomes were the risk ratio (chance of functional independence in treatment group / chance of functional independence in control group) and risk difference (chance of functional independence in treatment group - chance of functional independence in control group). Functional independence was defined as a score of 0 to 2 on the modified Rankin scale at 90 days. 
+The main estimands were the risk ratio (chance of functional independence in treatment group / chance of functional independence in control group) and risk difference (chance of functional independence in treatment group - chance of functional independence in control group). Functional independence was defined as a score of 0 to 2 on the modified Rankin scale at 90 days. Each estimand was adjusted for stroke type. Results were presented as posterior median and 95% posterior intervals (PI). 
 
 ## Results
-A total of 22 studies were included, with 5 examining outcomes for large core stroke patients, 9 for small core stroke, 4 for late window stroke, and 4 for basilar stroke. The estimated relative effect of thrombectomy was highest for large core stroke (RR XXX, 95% PI XX-XX), followed in order by basilar (RR XXX, 95% PI XX-XX), late (RR XXX, 95% PI XX-XX), and small (RR XXX, 95% PI XX-XX). The estimated absolute effect showed a reverse pattern, with small core stroke the highest (RD XX, 95% PI XX-XX), followed by late (RD XX, 95% PI XX-XX), basilar (RD XX, 95% PI XX-XX), and large (RD XX, 95% PI XX-XX). 
+```{r abstract results}
+#| echo: false
+df <- group_summary %>% 
+  filter(str_detect(variable, "E_rr"), 
+         data == "all", 
+         priors == "diffuse") %>% 
+  select("variable", "median", "mad", "low", "high") 
+
+rr1 <- comma(df$median[1])
+rrlow1 <- comma(df$low[1])
+rrhigh1 <- comma(df$high[1])
+
+rr2 <- comma(df$median[2])
+rrlow2 <- comma(df$low[2])
+rrhigh2 <- comma(df$high[2])
+
+rr3 <- comma(df$median[3])
+rrlow3 <- comma(df$low[3])
+rrhigh3 <- comma(df$high[3])
+
+rr4 <- comma(df$median[4])
+rrlow4 <- comma(df$low[4])
+rrhigh4 <- comma(df$high[4])
+
+df <- group_summary %>% 
+  filter(str_detect(variable, "E_rd"), 
+         data == "all", 
+         priors == "diffuse") %>% 
+  select("variable", "median", "mad", "low", "high") 
+
+rd1 <- comma(df$median[1] * 100)
+rdlow1 <- comma(df$low[1] * 100)
+rdhigh1 <- comma(df$high[1] * 100)
+
+rd2 <- comma(df$median[2] * 100)
+rdlow2 <- comma(df$low[2] * 100)
+rdhigh2 <- comma(df$high[2] * 100)
+
+rd3 <- comma(df$median[3] * 100)
+rdlow3 <- comma(df$low[3] * 100)
+rdhigh3 <- comma(df$high[3] * 100)
+
+rd4 <- comma(df$median[4] * 100)
+rdlow4 <- comma(df$low[4] * 100)
+rdhigh4 <- comma(df$high[4] * 100)
+```
+A total of 22 studies were included, with 5 examining outcomes for large core stroke patients, 9 for small core stroke, 4 for late window stroke, and 4 for basilar stroke. The estimated relative effect of thrombectomy was highest for large core stroke (aRR `r rr1`, 95% PI `r rrlow1`-`r rrhigh1`), followed in order by basilar (aRR `r rr4`, 95% PI `r rrlow4`-`r rrhigh4`), late (aRR `r rr3`, 95% PI `r rrlow3`-`r rrhigh3`), and small (aRR `r rr2`, 95% PI `r rrlow2`-`r rrhigh2`). The estimated absolute effect showed a reverse pattern, with small core stroke the highest (aRD `r rd2`%, 95% PI `r rdlow2`% -`r rdhigh2`%), followed by late (aRR `r rd3`%, 95% PI `r rdlow3`% -`r rdhigh3`%), basilar (aRR `r rd4`%, 95% PI `r rdlow4`%-`r rdhigh4`%), and large (aRD `r rd1`%, 95% PI `r rdlow1`%-`r rdhigh1`%). 
 
 ## Conclusions and relevance
 
