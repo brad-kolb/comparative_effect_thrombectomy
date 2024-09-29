@@ -5,14 +5,14 @@
 
 ## Importance
 
-Variation in relative and absolute treatment effect of mechanical
-thrombectomy for different types of stroke has not been explored.
+The influence of stroke type and baseline prognosis on the chance
+functional independence following mechanical thrombectomy is unclear.
 
 ## Objective
 
-To make clinically useful estimates for the relative and absolute effect
-of thrombectomy on the chances of favorable outcome at 90 days for
-clinically relevant types of stroke.
+To use information from all existing randomized trials to estimate the
+relative and absolute treatment effect of thrombectomy on the chances of
+favorable outcome at 90 days for clinically relevant types of stroke.
 
 ## Data sources
 
@@ -31,42 +31,80 @@ regression was fit to the extracted data.
 
 ## Main outcomes and measures
 
-The main estimands were the risk ratio (chance of functional
+The main estimands were the relative risk ratio (chance of functional
 independence in treatment group / chance of functional independence in
-control group) and risk difference (chance of functional independence in
-treatment group - chance of functional independence in control group).
-Functional independence was defined as a score of 0 to 2 on the modified
-Rankin scale at 90 days. Each estimand was adjusted for stroke type.
-Results were presented as posterior median and 95% posterior intervals
-(PI).
+control group) and the absolute risk difference (chance of functional
+independence in treatment group - chance of functional independence in
+control group), each adjusted for stroke types. Functional independence
+was defined as a score of 0 to 2 on the modified Rankin scale at 90
+days. Results were presented as posterior median and 95% posterior
+intervals (PI).
 
 ## Results
 
 A total of 22 studies were included, with 5 examining outcomes for large
 core stroke patients, 9 for small core stroke, 4 for late window stroke,
-and 4 for basilar stroke. The estimated relative effect of thrombectomy
-was highest for large core stroke (aRR 2.11, 95% PI 1.8-2.52), followed
-in order by basilar (aRR 1.85, 95% PI 1.6-2.18), late (aRR 1.74, 95% PI
-1.52-2.04), and small (aRR 1.67, 95% PI 1.49-1.9). The estimated
-absolute effect showed a reverse pattern, with small core stroke the
-highest (aRD 20.2%, 95% PI 15.6% -25.0%), followed by late (aRR 19.0%,
-95% PI 14.1% -24.5%), basilar (aRR 16.9%, 95% PI 12.0%-22.3%), and large
-(aRD 9.31%, 95% PI 6.09%-13.8%).
+and 4 for basilar stroke. The adjusted risk ratio (aRR) was highest for
+large core stroke (aRR 2.11, 95% PI 1.8-2.52), followed in order by
+basilar (aRR 1.85, 95% PI 1.6-2.18), late (aRR 1.74, 95% PI 1.52-2.04),
+and small (aRR 1.67, 95% PI 1.49-1.9). The adjusted risk difference
+(aRD) showed a reverse pattern, with small core stroke the highest (aRD
+20.2%, 95% PI 15.6% -25.0%), followed by late (aRR 19.0%, 95% PI 14.1%
+-24.5%), basilar (aRR 16.9%, 95% PI 12.0%-22.3%), and large (aRD 9.31%,
+95% PI 6.09%-13.8%).
 
 ## Conclusions and relevance
 
+The results of this analysis suggest that considering the relative
+treatment effect alone can be misleading when assessing the efficacy of
+modern mechanical thrombectomy for different types of ischemic stroke.
+By also considering the absolute treatment effect, more useful
+assessments can be made.
+
 # Introduction
+
+Clinicians should address four fundamental questions when engaging in an
+informed consent discussion with patients or family members:
+
+1\. What are the chances of experiencing the desired outcome without
+treatment?
+
+2\. What is the benefit of the treatment being offered to improve those
+chances?
+
+3\. What are the chances of experiencing the desired outcome with
+treatment?
+
+4\. What are the chances of harm due to the treatment, and what are the
+burdens of the treatment?
+
+While randomized control trials contain information useful for
+estimating answers to all 4 of these questions, standard meta-analytic
+models applied to RCTs by most researchers generally only address 2.
+This is a problem, since only focusing on the relative treatment effect
+of an intervention can obscure the actual impact of the treatment on
+individual patients. Here, we extend the standard model so that 1 and 3
+can also be addressed, and show how this reveals new insights useful for
+clinical decision making.
 
 # Methods
 
 This systematic review was conducted according to the preferred
 reporting items for systematic reviews and meta-analysis (PRISMA)
-guidelines. The statistical model was written in the probabilistic
+guidelines. The initial analysis plan was preregistered on the open
+science framework. The regression model was written in the probabilistic
 programming language Stan and fit in R using cmdstanr. Posterior draws
-were processed using Posterior. Results are presented using the median
-of the posterior distribution and the 95% posterior interval (PI) is
-constructed using the 2.5% and 97.5% quantiles of the posterior
-distribution. \# Results
+were processed using Posterior. Figures were produced in base R.
+Convergence and model diagnostics were assessed according to expert
+recommendations, and this information is fully reported in the appendix.
+Point estimates are presented using the median of the posterior
+distribution. 95% posterior intervals (PI), the Bayesian analogue to
+frequentist confidence intervals, are presented using the 2.5% and 97.5%
+quantiles of the posterior distribution. The full statistical model as
+well as computer code to reproduce all analyses and figures is available
+at github.
+
+# Results
 
 ## Search Results
 
@@ -96,14 +134,11 @@ study design and population characteristics.
 
 ## Descriptive Results
 
-Descriptive results by trial are plotted below, with color corresponding
-to stroke type and the size of the bubble to the sample size of the
-trial. Bubbles above the grey dashed line denote trials in which the
-frequency of good outcome at 90 days was greater for thrombectomy
-patients than for those treated with best medical management only.
-
-![](images/scatter_plot-03.png) The data for individual trials are shown
-here.
+The observed fraction of patients achieving functional independence at
+90 days in the control and treatment groups of each trial are shown
+below. The observed relative risk ratio (rr) and absolute risk
+difference (rd) are also shown. FInally, the observed number needed to
+treat, defined as 1/rr, is shown.
 
     # A tibble: 22 × 8
            K name         size    f_c   f_t    rr     rd   nnt
@@ -133,20 +168,20 @@ here.
 
 The overall pooled data are shown in the following table.
 
-    # A tibble: 1 × 6
-      trials  size   f_c   f_t    rr    rd
-       <int> <dbl> <dbl> <dbl> <dbl> <dbl>
-    1     22  5513 0.214 0.365  1.70 0.150
+    # A tibble: 1 × 7
+      trials  size   f_c   f_t    rr    rd   nnt
+       <int> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl>
+    1     22  5513 0.214 0.365  1.70 0.150  6.65
 
 The pooled data by category are shown in the following table.
 
-    # A tibble: 4 × 7
-      category trials  size    f_c   f_t    rr    rd
-      <chr>     <int> <dbl>  <dbl> <dbl> <dbl> <dbl>
-    1 large         5  1548 0.0809 0.207  2.56 0.126
-    2 early         9  2057 0.296  0.464  1.57 0.168
-    3 late          4   920 0.262  0.431  1.64 0.169
-    4 basilar       4   988 0.206  0.349  1.69 0.143
+    # A tibble: 4 × 8
+      category trials  size    f_c   f_t    rr    rd   nnt
+      <chr>     <int> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
+    1 large         5  1548 0.0809 0.207  2.56 0.126  7.92
+    2 early         9  2057 0.296  0.464  1.57 0.168  5.95
+    3 late          4   920 0.262  0.431  1.64 0.169  5.93
+    4 basilar       4   988 0.206  0.349  1.69 0.143  7.00
 
 ## Treatment effect estimation
 
@@ -201,3 +236,11 @@ basilar stroke trial is 96%, with a 20% probability of NNT between 100
 and 10 and a 75% probability of NNT 10 or less.
 
 # Discussion
+
+Numerous meta-analyses of stroke thrombectomy have been published. All
+have presented results in terms of the relative or absolute effect of
+treatment on outcomes of interest, without consideration of the baseline
+rate of the outcome without treatment, and how this rate varies
+according to the type of stroke being treated. Here, we show how
+incorporating this information into a meta-analysis of randomized trial
+data reveals new insights useful for clinical decision making.
