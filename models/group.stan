@@ -89,6 +89,4 @@ generated quantities {
   array[K] int y_c_new = binomial_rng(100, E_y_c_new);
   array[K] int y_t_new = binomial_rng(100, E_y_t_new);
   vector[K] y_impact_new = to_vector(y_t_new) - to_vector(y_c_new);
-  
-
 }

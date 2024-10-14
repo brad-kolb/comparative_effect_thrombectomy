@@ -111,8 +111,8 @@ summarize_fit <- function(fit_df, data_type, model_type, prior_type) {
   df <- fit_df %>% 
     posterior::summarise_draws("median", "mad", 
                                "rhat", "ess_bulk",
-                               ~quantile(., probs = c(.025, .975)),
-                               prob_pos = ~mean(.>0)) %>% 
+                               ~quantile(., probs = c(.025, .975), na.rm = TRUE),
+                               prob_pos = ~mean(.>0, na.rm = TRUE)) %>% 
     rename(low = '2.5%', high = '97.5%') %>% 
     mutate(data = data_type, model = model_type, priors = prior_type) 
   return(df)
@@ -234,7 +234,7 @@ binomial_summaries %>%
   filter(str_detect(variable, "^E_theta_next"), priors == "diffuse")
 
 group_summaries %>% 
-  filter(str_detect(variable, "^E_arr"), data == "all", priors == "diffuse")
+  filter(str_detect(variable, "^E_rd"), data == "all", priors == "diffuse")
 
 group_summaries %>% 
   filter(str_detect(variable, "^E_rr"),  data == "all", priors == "diffuse")
@@ -277,7 +277,8 @@ plot_or <- function(x, y, z, w){
          title = NULL,
          color = "Priors", shape = "Priors") +
     scale_color_manual(values = c("skeptical" = "blue", "diffuse" = "red")) +
-    scale_shape_manual(values = c("skeptical" = 16, "diffuse" = 17))
+    scale_shape_manual(values = c("skeptical" = 16, "diffuse" = 17)) +
+    theme_minimal_hgrid(font_size = 10)
 }
 
 trials <- c("angel", "rescue", "select2", "tension", "tesla",
