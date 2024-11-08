@@ -170,11 +170,12 @@ The pooled data by category are shown in the following table.
 
 ## Treatment effect estimation
 
-The expected probability of functional independene for a patient
-enrolled in a new large core stroke trial is 8% (95% PI 3.9% - 17.5%)
-compared to 30% (95% PI 16.7% - 47.9%) for a new small core stroke
-trial, 26% (95% PI 13.2% - 44.9%) for a new late window trial, and 20%
-(95% PI 10.0 - 36.0%) for a new basilar thrombectomy trial.
+The expected probability of functional independence for a patient
+enrolled in the control arm of a new large core stroke trial is 8% (95%
+PI 3.9% - 17.5%) compared to 30% (95% PI 16.7% - 47.9%) for a new small
+core stroke trial, 26% (95% PI 13.2% - 44.9%) for a new late window
+trial, and 20% (95% PI 10.0 - 36.0%) for a new basilar thrombectomy
+trial.
 
 In absolute terms, thrombectomy is expected to increase the probability
 of a favorable outcome in a new trial by 9% (95% PI 2.0% - 21.6%) for

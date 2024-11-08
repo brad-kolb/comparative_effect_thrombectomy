@@ -214,7 +214,7 @@ low4 <- comma(df$low[4] * 100)
 high4 <- comma(df$high[4] * 100)
 ```
 
-The expected probability of functional independene for a patient enrolled in a new large core stroke trial is `r median1`% (95% PI `r low1`% - `r high1`%) compared to `r median2`% (95% PI `r low2`% - `r high2`%) for a new small core stroke trial, `r median3`% (95% PI `r low3`% - `r high3`%) for a new late window trial, and `r median4`% (95% PI `r low4` - `r high4`%) for a new basilar thrombectomy trial.
+The expected probability of functional independence for a patient enrolled in the control arm of a new large core stroke trial is `r median1`% (95% PI `r low1`% - `r high1`%) compared to `r median2`% (95% PI `r low2`% - `r high2`%) for a new small core stroke trial, `r median3`% (95% PI `r low3`% - `r high3`%) for a new late window trial, and `r median4`% (95% PI `r low4` - `r high4`%) for a new basilar thrombectomy trial.
 
 ```{r treatment group estimates}
 #| echo: false

@@ -25,9 +25,9 @@ pdf(here("plots", "chances.pdf"), width = 5, height = 4)
 plot(df_rd$median, 1:4, xlim = c(0, max(50)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
-     xlab = NA,
+     xlab = "expected probability",
      pch = 19,
-     col = 1, main = "Chances without treatment")
+     col = 1, main = "Figure 1")
 obs <- rd_obs %>% 
   filter(K == 1) %>% 
   select(rd_obs) %>% 
@@ -68,8 +68,8 @@ axis(2, at = 1:4, labels = df_rd$names, las = 2)
 
 abline(v = 0, lty = 2, col = "grey")
 
-legend("topright", legend = c("future", "past"),
-       pch = c(19, 21), col = 1)
+# legend("topright", legend = c("prediction", "observation"),
+#        pch = c(19, 21), col = 1)
 
 dev.off()
 
@@ -95,9 +95,9 @@ pdf(here("plots", "rd.pdf"), width = 5, height = 4)
 plot(df_rd$median, 1:4, xlim = c(0, max(50)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
-     xlab = NA,
+     xlab = "absolute treatment effect",
      pch = 19,
-     col = 1, main = "Absolute improvement in chances")
+     col = 1, main = "Figure 2")
 obs <- rd_obs %>% 
   filter(K == 1) %>% 
   select(rd_obs) %>% 
@@ -138,8 +138,8 @@ axis(2, at = 1:4, labels = df_rd$names, las = 2)
 
 abline(v = 0, lty = 2, col = "grey")
 
-legend("topright", legend = c("future", "past"),
-       pch = c(19, 21), col = 1)
+# legend("topright", legend = c("prediction", "observation"),
+#        pch = c(19, 21), col = 1)
 
 dev.off()
 
@@ -171,9 +171,9 @@ pdf(here("plots", "jama.pdf"), width = 5, height = 4)
 plot(df_rr$median, 1:4 + offset, xlim = c(0, max(df_rr$high)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
-     xlab = NA, 
+     xlab = "expected treatment effect", 
      pch = 18,
-     col = 1, main = "Future predicted improvement in chances")
+     col = 1, main = "Figure 3")
 points(df_rd$median, 1:4 - offset, pch = 19, col = 1)
 
 segments(df_rr$low, 1:4 + offset, df_rr$high, 1:4 + offset, col = 1)
@@ -262,7 +262,7 @@ names <- factor(names, levels = names)
 # Set up the plot window with custom labels and limits, but don't draw anything yet
 pdf(here("plots", "nnt.pdf"), width = 5, height = 5)
 plot(NA, NA, type = "n", xlim = c(1, 3), ylim = c(0, 100),
-     xlab = "NNT", ylab = "Probability", main = "Number needed to treat in new trial",
+     xlab = "NNT", ylab = "Probability", main = "Figure 4",
      xaxt = "n", yaxt = "n")
 
 # Add custom x-axis labels
