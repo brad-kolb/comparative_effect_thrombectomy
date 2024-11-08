@@ -5,15 +5,17 @@
 
 ## Importance
 
-The strength of evidence for the use of mechanical thrombectomy for
-various types of stroke has not been quantified in an easily
-intepretable way.
+22 randomized clinical trials of mechanical thrombectomy for ischemic
+stroke have been performed, but the implications of the results for
+patients treated outside these trials remain unclear.
 
 ## Objective
 
-To use information from all existing randomized trials to infer the
-range of plausible outcomes in a hypothetical future trial of
-thrombectomy for various types of stroke.
+To use information from existing randomized trials to infer the range of
+plausible patient-level outcomes in a hypothetical future trial of
+thrombectomy for various types of stroke, and to present this
+information in easy to understand terms that can be readily employed in
+real-world clinical scenarios.
 
 ## Data sources
 
@@ -26,63 +28,66 @@ management plus modern mechanical thrombectomy were included.
 
 ## Data extraction and synthesis
 
-Data extraction by the first author was independently confirmed by the
-second. A varying-slopes varying-intercepts multilevel logistic
-regression was fit to the extracted data.
+Data was extracted from 22 randomized trials (5 examining outcomes for
+large core stroke patients, 9 for small core stroke, 4 for late window
+stroke, and 4 for basilar stroke). A varying-slopes varying-intercepts
+multilevel logistic regression was fit to the extracted data. Posterior
+predictive distributions for model parameters were used to calculate the
+range of plausible absolute treatment effects in a future trial.
 
 ## Main outcomes and measures
 
-The main estimands were the predicted proportion of functionally
-independent patients at 90 days in the treatment and control arms of a
-new randomized trial of stroke thrombectomy. The relative and absolute
-difference in these proportions was assessed. Simulation-based methods
-were used to derive conditional probability statements about clinically
-useful number needed to treat thresholds in this hypothetical trial.
+The main estimand was the expected absolute difference in the
+probability of functional independence in the treatment versus control
+arm of a new hypothetical trial of mechanical thrombectomy, adjusted for
+stroke type. Simulation-based methods were used to calculate number
+needed to treat (NNT) thresholds in this hypothetical trial.
 
 ## Results
 
-A total of 22 studies were included, with 5 examining outcomes for large
-core stroke patients, 9 for small core stroke, 4 for late window stroke,
-and 4 for basilar stroke. The adjusted risk ratio (aRR) was highest for
-large core stroke (aRR 2.11, 95% PI 1.8-2.52), followed in order by
-basilar (aRR 1.85, 95% PI 1.6-2.18), late (aRR 1.74, 95% PI 1.52-2.04),
-and small (aRR 1.67, 95% PI 1.49-1.9). The adjusted risk difference
-(aRD) showed a reverse pattern, with small core stroke the highest (aRD
-20.2%, 95% PI 15.6% -25.0%), followed by late (aRR 19.0%, 95% PI 14.1%
--24.5%), basilar (aRR 16.9%, 95% PI 12.0%-22.3%), and large (aRD 9.31%,
-95% PI 6.09%-13.8%).
+Conditional on data from 22 previous trials and the model used to
+analyze the data, the expected difference in the probability of
+functional independence between the treatment and control arms of a new
+hypothetical trial of mechanical thrombectomy is greatest for small
+strokes treated early (19.0%, 5.7 % - 33.2%), followed by small strokes
+treated late (17.9%, 5.0 - 32.5%), basilar strokes (15.9%, 4.2 - 30.7%),
+and large strokes (8.9%, 2.0 - 21.6%).
 
 ## Conclusions and relevance
 
-Thrombectomy is effective but individual outcomes are uncertain.
+The absolute treatment effect of thrombectomy in a future trial is
+predicted to be positive with at least 95% confidence across all stroke
+types, but the magnitude of this predicted effect is uncertain and
+varies substantially according to the type of stroke being treated.
 
 # Introduction
 
 There are numerous meta-analyses of stroke thrombectomy, but their
-results are difficult to interpret for many clinicians. Here, we employ
-a Bayesian framework to infer the range of plausible outcomes in a
-hypothetical future randomized control trial of modern stroke
-thrombectomy, given the observed outcomes in the 22 trials of modern
-stroke thrombectomy to date. We show how this framework can be used to
-answer key clinical questions in a rigorous yet easily interpretable
-way.
+results are difficult to interpret for many clinicians, which may
+preclude effective communication of risk and uncertainty with patients
+and family. Here, we employ a Bayesian framework to infer the range of
+plausible outcomes in a hypothetical future randomized control trial of
+modern stroke thrombectomy, given the observed outcomes in the 22 trials
+to date. We show how this framework can be used to capture the strength
+of evidence supporting this intervention, as well as the residual
+uncertainty regarding individual patient outcomes.
 
 # Methods
 
-This systematic review and meta-analysis was conducted according to the
-preferred reporting items for systematic reviews and meta-analysis
-(PRISMA) guidelines. The initial analysis plan was preregistered on the
-open science framework. The regression model was written in the
-probabilistic programming language Stan and fit in R using cmdstanr.
-Posterior draws were processed using Posterior. Figures were produced in
-base R. Convergence and model diagnostics were assessed according to
-expert recommendations, and this information is fully reported in the
-appendix. Point estimates are presented using the median of the
-posterior distribution. 95% posterior intervals (PI), the Bayesian
-analogue to frequentist confidence intervals, are presented using the
-2.5% and 97.5% quantiles of the posterior distribution. The full
-statistical model as well as computer code to reproduce all analyses and
-figures is available at github.
+This meta-analysis was conducted according to the preferred reporting
+items for systematic reviews and meta-analysis (PRISMA) guidelines. The
+initial analysis plan was preregistered on the open science framework.
+The regression model was written in the probabilistic programming
+language Stan and fit in R using cmdstanr. Posterior draws were
+processed using Posterior. Figures were produced in base R. Convergence
+and model diagnostics were assessed according to expert recommendations,
+and this information is fully reported in the appendix. Point estimates
+are presented using the median of the posterior predictive distribution.
+95% posterior intervals (PI), the Bayesian analogue to frequentist
+confidence intervals, are presented using the 2.5% and 97.5% quantiles
+of the posterior distribution. The full statistical model as well as
+computer code to reproduce all analyses and figures is available at
+github.
 
 # Results
 
@@ -94,8 +99,7 @@ full-text review.
 
 ## Risk of Bias
 
-We concluded that XXX% of included studies had low risk of bias, XXX%
-had some risk, and XXX% had high risk.
+We concluded that all included studies had low risk of bias.
 
 ## Study and Population Characteristics
 
@@ -104,21 +108,22 @@ randomized control trials. 2687 were assigned to medical management,
 while 2826 were assigned to thrombectomy plus medical management. Each
 trial was assigned to one of K = 4 categories according to the type of
 stroke patients enrolled. Category 1 (“large”) was anterior circulation
-strokes with a large core. Category 2 (“small”) was anterior circulation
-strokes with small to medium sized cores treated in an early time
-window. Category 3 (“late”) was anterior circulation strokes with small
-to medium sized cores treated in an extended time window. Category 4
-(“basilar”) was strokes due to large vessel occlusion of the
-vertebobasilar artery complex. Table 1 contains further information on
-study design and population characteristics.
+strokes with a large core treated in an early time window. Category 2
+(“small”) was anterior circulation strokes with small to medium sized
+cores treated in an early time window. Category 3 (“late”) was anterior
+circulation strokes with small to medium sized cores treated in an
+extended time window. Category 4 (“basilar”) was strokes due to large
+vessel occlusion of the vertebobasilar artery complex. Table 1 contains
+further information on study design and population characteristics.
 
 ## Descriptive Results
 
 The observed fraction of patients achieving functional independence at
 90 days in the control and treatment groups of each trial are shown
-below. The observed relative risk ratio (rr) and absolute risk
-difference (rd) are also shown. FInally, the observed number needed to
-treat, defined as 1/rr, is shown.
+below. The observed relative risk ratio (rr, frequency in treatment arm
+divided by frequency in control group), absolute risk difference (rd,
+frequency in treatment arm minus frequency in control group), and number
+needed to treat (NNT, 1/rd) are also reported.
 
     # A tibble: 22 × 8
            K name         size    f_c   f_t    rr     rd   nnt
@@ -165,101 +170,136 @@ The pooled data by category are shown in the following table.
 
 ## Treatment effect estimation
 
-### Expected chances of favorable outcome in a new trial
+The expected probability of functional independene for a patient
+enrolled in a new large core stroke trial is 8% (95% PI 3.9% - 17.5%)
+compared to 30% (95% PI 16.7% - 47.9%) for a new small core stroke
+trial, 26% (95% PI 13.2% - 44.9%) for a new late window trial, and 20%
+(95% PI 10.0 - 36.0%) for a new basilar thrombectomy trial.
 
-The expected proportion of functionally independent patients in the
-medical arm of a new large core stroke trial is 8% (95% PI 3.24% -
-18.8%) compared to 30% (95% PI 14.3% - 51.5%) for a new small core
-stroke trial, 26% (95% PI 11.2% - 47.9%) for a new late window trial,
-and 20% (95% PI 8.19 - 39.9%) for a new basilar thrombectomy trial.
-
-The expected proportion of functionally independent patients in the
-treatment arm of a large core stroke trial is 18% (95% PI 6.08% - 41.6%)
-compared to 50% (95% PI 24.3% - 76.9%) for small core trials, 45% (95%
-PI 19.7% - 73.0%) for late window trials, and 37% (95% PI 15.3 - 66.1%)
-for basilar trials.
-
-### Relative and absolute treatment effect in a new trial
-
-In relative terms, thrombectomy is expected to increase the chances of a
-favorable outcome by 109% (aRR 2.09, 95% PI 1.16 - 3.77) in a new large
-core stroke trial, compared to 65% in a new small core stroke trial (aRR
-1.65, 95% PI 1.11 - 2.5), 70% in a new late window trial (aRR 1.7, 95%
-PI 1.12 - 2.75), and 82% in a new basilar occlusion trial (aRR 1.82, 95%
-PI 1.13 - 3.0).
-
-In absolute terms, thrombectomy is expected to increase the percentage
-chance of a favorable outcome by 9% (aRD 9.03, 95% PI 1.28 - 26.2) in a
-new large core stroke trial, compared to 19% in a new small core stroke
-trial (aRD 19.4, 95% PI 3.39 - 36.6), 18% in a new late window trial
-(aRD 18.4, 95% PI 3.05 - 36.3), and 16% in a new basilar occlusion trial
-(aRD 16.4, 95% PI 2.64 - 35.0).
+In absolute terms, thrombectomy is expected to increase the probability
+of a favorable outcome in a new trial by 9% (95% PI 2.0% - 21.6%) for
+large core, compared to 19% (95% PI 5.7% - 33.2%) for small, 18% (95% PI
+5.0% - 32.5%) for late window trials, and 16% (95% PI 4.2 - 30.7%) for
+basilar trials.
 
 ## Heterogeneity estimation
 
-The median estimate of the Bayesian I-squared statistic, defined as the
-percent portion of variation in estimated treatment effect due to
-between-trial heterogeneity and not sampling variation was 46.7% (95% PI
-30.3% - 59.9%).
+In this meta-analysis, the median estimate of the Bayesian I-squared
+statistic, defined as the percent portion of variation in the estimated
+treatment effect due to between-trial heterogeneity and not sampling
+variation was 46.6% (95% PI 29.3% - 60.2%). In contrast to frequentist
+analyses, the I-squared statistic is of less relevance in this Bayesian
+analysis, since the reported treatment effects themselves are derived
+from the posterior predictive distributions, which average over the
+estimated between-trial heterogeneity.
 
-### Projected impact of thrombectomy in a new trial
+## Overall impact
 
-An alternative way to quantify the expected impact of thrombectomy in a
-new trial is to use parameter estimates from the statistical model to
-simulate actual patient-level outcomes. We did this for a hypothetical
-population of 200 total individuals, in which half are randomized to the
-control arm (best medical management) and half are randomized to the
-treatment arm (best medical management plus mechanial thrombectomy).
+In order to directly quantify the expected impact of thrombectomy, we
+used parameter estimates from the statistical model to simulate actual
+patient-level outcomes. We did this for a hypothetical population of 200
+total individuals, in which half are randomized to the control arm (best
+medical management) and half are randomized to the treatment arm (best
+medical management plus mechanial thrombectomy).
 
 Using this approach, we find that the conditional probability of any
 benefit (defined simply as more functionally independent patients in the
 treatment arm than the control arm) in a new trial of large core stroke
-thrombectomy is 93%, compared to 97% for small core, 96% with late
-window, and 96% with basilar occlusion.
+thrombectomy is 92%, compared to 96% for small core, 96% with late
+window, and 95% with basilar occlusion.
 
 The conditional probability of at least a moderate benefit (defined as a
-number needed to treat of 20 or fewer patients) is 76%, compared to 92%
-for small, 92% for late window, and 89% for basilar.
+number needed to treat of 20 or fewer patients) is 75% for large,
+compared to 92% for small, 90% for late window, and 88% for basilar.
 
 The conditional probability of at least a substantial benefit (defined
-as a number needed to treat of 10 or fewer patients) is 48% for large
-core, compared to 83% for small, 80% for late window, and 75% for
+as a number needed to treat of 10 or fewer patients) is 47% for large
+core, compared to 81% for small, 78% for late window, and 73% for
 basilar.
 
 The conditional probability of at least a remarkable benefit (defined as
-a number needed to treat of 5 or fewer patients) is 12% for large core,
-compared to 50% for small, 46% for late window, and 37% for basilar.
+a number needed to treat of 5 or fewer patients) is 11% for large core,
+compared to 47% for small, 44% for late window, and 36% for basilar.
 
 # Discussion
 
-Numerous meta-analyses of stroke thrombectomy have been published. All
-have presented results in terms of the relative or absolute effect of
-treatment on outcomes of interest, without consideration of the baseline
-rate of the outcome without treatment, and how this rate varies
-according to the type of stroke being treated. Here, we show how
-incorporating this information into a meta-analysis of randomized trial
-data reveals new insights useful for clinical decision making.
+## Interpretation of our results
 
-Clinicians should address four fundamental questions when engaging in an
-informed consent discussion with patients or family members:
+Experts recommend that treatment effects should be communicated to
+patients in terms of the clinician’s best estimate of how the treatment
+is expected to change the probability of the patient experiencing the
+outcome that most matters to them.
 
-1\. What are the chances of experiencing the desired outcome without
-treatment?
+In the case of ischemic stroke, this outcome is typically functional
+independence. Thus, when engaging patients and families in a discussion
+over the risks and benefits of mechanical thrombectomy, the key
+questions to address are, first, what is best estimate of the patients
+chance of functional independence without treatment, and two, what is
+the best estimate of how these chances change, in absolute terms, with
+treatment. This is the minimum amount of information a patient needs to
+make an informed decision.
 
-2\. What is the benefit of the treatment being offered to improve those
-chances?
+Although there are numerous meta-analyses of randomized trial data from
+stroke thrombectomy, none have utilized this patient-centered, common
+language approach to data analysis. In this paper, we aimed to adapt the
+traditional statistical model underlying most meta-analyses in order to
+analyze data from all 22 trials of stroke thrombectomy from this
+patient-centered perspective.
 
-3\. What are the chances of experiencing the desired outcome with
-treatment?
+When considering the predicted impact in a hypothetical new trial, we
+found a greater than 95% probability of a predictive positive impact
+across all types of stroke, but that there was substantial and
+clinically relevant divergence across stroke types in terms of projected
+absolute impact on patient-level outcomes. We performed
+number-needed-to-treat based simulation studies to portray this
+phenomenon in a way that can be easily applied to real-world risk
+communication.
 
-4\. What are the chances of harm due to the treatment, and what are the
-burdens of the treatment?
+We conclude that while thrombectomy is expected to have a substantial
+positive effect on the probability of functional independence in a new
+trial, this impact varies by stroke type, and the absolute probability
+of functional independence is still low, especially for large core
+stroke.
 
-While randomized control trials contain information useful for
-estimating answers to all 4 of these questions, standard meta-analytic
-models applied to RCTs by most researchers generally only address 2.
-This is a problem, since only focusing on the relative treatment effect
-of an intervention can obscure the actual impact of the treatment on
-individual patients. Here, we extend the standard model so that 1 and 3
-can also be addressed, and show how this reveals new insights useful for
-clinical decision making.
+## Comparison to other work
+
+Meta-analysis has traditionally been used to aggregate evidence from
+multiple clinical trials, carried out in similar but not identical
+contexts, in order to increase the precision of an estimate for an
+underlying but not-directly-observable quantity known as the average
+treatment effect.
+
+This approach is useful in contexts where there are multiple small
+studies with perhaps diverging results, or when the relevant clinical
+question is whether the observed results from a portfolio of trials
+reflect a real underlying pattern at all, as opposed to random
+variation.
+
+In the case of thrombectomy, however, we have arrived at a point where
+the relevant questions no longer have to do with whether we can
+confidently reject a null hypothesis of “no effect,” as the
+implausibility of such an hypothesis seems clear enough even before the
+application of advanced statistics. Instead, what we would like to know
+is what the results of the clinical trials imply for future patients,
+who by definition are treated outside of these trials. This requires a
+reorientation from a focus on using statistical tools to accurately
+describe what happened in the past (the average treatment effect)
+towards an approach where we consider what the data implies about the
+range of plausible outcomes for future patients.
+
+# Limitations
+
+Randomized trials as a guide to real-world outcomes. Simplified model.
+Lack of patient-level data. No systematic review.
+
+# Conclusions
+
+In this paper, we aimed to show how an extension of the traditional
+meta-analytic framework using techniques from Bayesian data analysis can
+be used to derive rigorous yet easily interpretable conclusions about
+what the current landscape of stroke thrombectomy trials imply for
+real-world patient care scenarios. Under this analysis, thrombectomy is
+expected to have a substantial positive effect on the probability of
+functional independence in a new trial, but this impact varies by stroke
+type, and the absolute probability of functional independence is still
+low, especially for large core stroke.

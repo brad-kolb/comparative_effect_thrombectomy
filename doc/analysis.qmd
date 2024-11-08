@@ -21,20 +21,20 @@ data <- read_csv(here("data", "clean_data.csv"), show_col_types = FALSE)
 
 varying_summary <- readRDS(here("fits", "varying_summary.RDS")) 
 
-group_summary <- readRDS(here("fits", "group_summaries.RDS"))
+group_summary <- readRDS(here("fits", "gq1_summary.RDS"))
 
-comma <- function(x) format(x, digits = 3, nsmall = 1, big.mark = ",", small.mark = ",")
+comma <- function(x) format(x, digits = 2, nsmall = 1, big.mark = ",", small.mark = ",")
 ```
 
 # Abstract
 
 ## Importance
 
-The strength of evidence for the use of mechanical thrombectomy for various types of stroke has not been quantified in an easily intepretable way.
+22 randomized clinical trials of mechanical thrombectomy for ischemic stroke have been performed, but the implications of the results for patients treated outside these trials remain unclear.
 
 ## Objective
 
-To use information from all existing randomized trials to infer the range of plausible outcomes in a hypothetical future trial of thrombectomy for various types of stroke.
+To use information from existing randomized trials to infer the range of plausible patient-level outcomes in a hypothetical future trial of thrombectomy for various types of stroke, and to present this information in easy to understand terms that can be readily employed in real-world clinical scenarios.
 
 ## Data sources
 
@@ -46,74 +46,52 @@ All randomized trials of best medical management versus best medical management 
 
 ## Data extraction and synthesis
 
-Data extraction by the first author was independently confirmed by the second. A varying-slopes varying-intercepts multilevel logistic regression was fit to the extracted data.
+Data was extracted from 22 randomized trials (5 examining outcomes for large core stroke patients, 9 for small core stroke, 4 for late window stroke, and 4 for basilar stroke). A varying-slopes varying-intercepts multilevel logistic regression was fit to the extracted data. Posterior predictive distributions for model parameters were used to calculate the range of plausible absolute treatment effects in a future trial.
 
 ## Main outcomes and measures
 
-The main estimands were the predicted proportion of functionally independent patients at 90 days in the treatment and control arms of a new randomized trial of stroke thrombectomy. The relative and absolute difference in these proportions was assessed. Simulation-based methods were used to derive conditional probability statements about clinically useful number needed to treat thresholds in this hypothetical trial.
+The main estimand was the expected absolute difference in the probability of functional independence in the treatment versus control arm of a new hypothetical trial of mechanical thrombectomy, adjusted for stroke type. Simulation-based methods were used to calculate number needed to treat (NNT) thresholds in this hypothetical trial.
 
 ## Results
 
 ```{r abstract results}
 #| echo: false
-df <- group_summary %>% 
-  filter(str_detect(variable, "E_rr"), 
-         data == "all", 
-         priors == "diffuse") %>% 
-  select("variable", "median", "mad", "low", "high") 
-
-rr1 <- comma(df$median[1])
-rrlow1 <- comma(df$low[1])
-rrhigh1 <- comma(df$high[1])
-
-rr2 <- comma(df$median[2])
-rrlow2 <- comma(df$low[2])
-rrhigh2 <- comma(df$high[2])
-
-rr3 <- comma(df$median[3])
-rrlow3 <- comma(df$low[3])
-rrhigh3 <- comma(df$high[3])
-
-rr4 <- comma(df$median[4])
-rrlow4 <- comma(df$low[4])
-rrhigh4 <- comma(df$high[4])
 
 df <- group_summary %>% 
-  filter(str_detect(variable, "E_rd"), 
-         data == "all", 
-         priors == "diffuse") %>% 
+  filter(str_detect(variable, "rd_epred")) %>% 
   select("variable", "median", "mad", "low", "high") 
 
 rd1 <- comma(df$median[1] * 100)
-rdlow1 <- comma(df$low[1] * 100)
-rdhigh1 <- comma(df$high[1] * 100)
+rd1low <- comma(df$low[1] * 100)
+rd1high <- comma(df$high[1] * 100)
 
 rd2 <- comma(df$median[2] * 100)
-rdlow2 <- comma(df$low[2] * 100)
-rdhigh2 <- comma(df$high[2] * 100)
+rd2low <- comma(df$low[2] * 100)
+rd2high <- comma(df$high[2] * 100)
 
 rd3 <- comma(df$median[3] * 100)
-rdlow3 <- comma(df$low[3] * 100)
-rdhigh3 <- comma(df$high[3] * 100)
+rd3low <- comma(df$low[3] * 100)
+rd3high <- comma(df$high[3] * 100)
 
 rd4 <- comma(df$median[4] * 100)
-rdlow4 <- comma(df$low[4] * 100)
-rdhigh4 <- comma(df$high[4] * 100)
+rd4low <- comma(df$low[4] * 100)
+rd4high <- comma(df$high[4] * 100)
+
 ```
 
-A total of 22 studies were included, with 5 examining outcomes for large core stroke patients, 9 for small core stroke, 4 for late window stroke, and 4 for basilar stroke. The adjusted risk ratio (aRR) was highest for large core stroke (aRR `r rr1`, 95% PI `r rrlow1`-`r rrhigh1`), followed in order by basilar (aRR `r rr4`, 95% PI `r rrlow4`-`r rrhigh4`), late (aRR `r rr3`, 95% PI `r rrlow3`-`r rrhigh3`), and small (aRR `r rr2`, 95% PI `r rrlow2`-`r rrhigh2`). The adjusted risk difference (aRD) showed a reverse pattern, with small core stroke the highest (aRD `r rd2`%, 95% PI `r rdlow2`% -`r rdhigh2`%), followed by late (aRR `r rd3`%, 95% PI `r rdlow3`% -`r rdhigh3`%), basilar (aRR `r rd4`%, 95% PI `r rdlow4`%-`r rdhigh4`%), and large (aRD `r rd1`%, 95% PI `r rdlow1`%-`r rdhigh1`%).
+Conditional on data from 22 previous trials and the model used to analyze the data, the expected difference in the probability of functional independence between the treatment and control arms of a new hypothetical trial of mechanical thrombectomy is greatest for small strokes treated early (`r rd2`%, `r rd2low` % - `r rd2high`%), followed by small strokes treated late (`r rd3`%, `r rd3low` - `r rd3high`%), basilar strokes (`r rd4`%, `r rd4low` - `r rd4high`%), and large strokes (`r rd1`%, `r rd1low` - `r rd1high`%).
 
 ## Conclusions and relevance
 
-Thrombectomy is effective but individual outcomes are uncertain. 
+The absolute treatment effect of thrombectomy in a future trial is predicted to be positive with at least 95% confidence across all stroke types, but the magnitude of this predicted effect is uncertain and varies substantially according to the type of stroke being treated.
 
 # Introduction
 
-There are numerous meta-analyses of stroke thrombectomy, but their results are difficult to interpret for many clinicians. Here, we employ a Bayesian framework to infer the range of plausible outcomes in a hypothetical future randomized control trial of modern stroke thrombectomy, given the observed outcomes in the 22 trials of modern stroke thrombectomy to date. We show how this framework can be used to answer key clinical questions in a rigorous yet easily interpretable way.
+There are numerous meta-analyses of stroke thrombectomy, but their results are difficult to interpret for many clinicians, which may preclude effective communication of risk and uncertainty with patients and family. Here, we employ a Bayesian framework to infer the range of plausible outcomes in a hypothetical future randomized control trial of modern stroke thrombectomy, given the observed outcomes in the 22 trials to date. We show how this framework can be used to capture the strength of evidence supporting this intervention, as well as the residual uncertainty regarding individual patient outcomes.
 
 # Methods
 
-This systematic review and meta-analysis was conducted according to the preferred reporting items for systematic reviews and meta-analysis (PRISMA) guidelines. The initial analysis plan was preregistered on the open science framework. The regression model was written in the probabilistic programming language Stan and fit in R using cmdstanr. Posterior draws were processed using Posterior. Figures were produced in base R. Convergence and model diagnostics were assessed according to expert recommendations, and this information is fully reported in the appendix. Point estimates are presented using the median of the posterior distribution. 95% posterior intervals (PI), the Bayesian analogue to frequentist confidence intervals, are presented using the 2.5% and 97.5% quantiles of the posterior distribution. The full statistical model as well as computer code to reproduce all analyses and figures is available at github.
+This meta-analysis was conducted according to the preferred reporting items for systematic reviews and meta-analysis (PRISMA) guidelines. The initial analysis plan was preregistered on the open science framework. The regression model was written in the probabilistic programming language Stan and fit in R using cmdstanr. Posterior draws were processed using Posterior. Figures were produced in base R. Convergence and model diagnostics were assessed according to expert recommendations, and this information is fully reported in the appendix. Point estimates are presented using the median of the posterior predictive distribution. 95% posterior intervals (PI), the Bayesian analogue to frequentist confidence intervals, are presented using the 2.5% and 97.5% quantiles of the posterior distribution. The full statistical model as well as computer code to reproduce all analyses and figures is available at github.
 
 # Results
 
@@ -123,7 +101,7 @@ The initial database and registry search yielded XXX studies. Following title an
 
 ## Risk of Bias
 
-We concluded that XXX% of included studies had low risk of bias, XXX% had some risk, and XXX% had high risk.
+We concluded that all included studies had low risk of bias.
 
 ## Study and Population Characteristics
 
@@ -138,11 +116,11 @@ patients_treatment <- with(data, sum(n_t))
 categories <- n_distinct(data$K)
 ```
 
-The intention to treat population included `r patients_total` participants across `r trials` randomized control trials. `r patients_control` were assigned to medical management, while `r patients_treatment` were assigned to thrombectomy plus medical management. Each trial was assigned to one of K = `r categories` categories according to the type of stroke patients enrolled. Category 1 ("large") was anterior circulation strokes with a large core. Category 2 ("small") was anterior circulation strokes with small to medium sized cores treated in an early time window. Category 3 ("late") was anterior circulation strokes with small to medium sized cores treated in an extended time window. Category 4 ("basilar") was strokes due to large vessel occlusion of the vertebobasilar artery complex. Table 1 contains further information on study design and population characteristics.
+The intention to treat population included `r patients_total` participants across `r trials` randomized control trials. `r patients_control` were assigned to medical management, while `r patients_treatment` were assigned to thrombectomy plus medical management. Each trial was assigned to one of K = `r categories` categories according to the type of stroke patients enrolled. Category 1 ("large") was anterior circulation strokes with a large core treated in an early time window. Category 2 ("small") was anterior circulation strokes with small to medium sized cores treated in an early time window. Category 3 ("late") was anterior circulation strokes with small to medium sized cores treated in an extended time window. Category 4 ("basilar") was strokes due to large vessel occlusion of the vertebobasilar artery complex. Table 1 contains further information on study design and population characteristics.
 
 ## Descriptive Results
 
-The observed fraction of patients achieving functional independence at 90 days in the control and treatment groups of each trial are shown below. The observed relative risk ratio (rr) and absolute risk difference (rd) are also shown. FInally, the observed number needed to treat, defined as 1/rr, is shown.
+The observed fraction of patients achieving functional independence at 90 days in the control and treatment groups of each trial are shown below. The observed relative risk ratio (rr, frequency in treatment arm divided by frequency in control group), absolute risk difference (rd, frequency in treatment arm minus frequency in control group), and number needed to treat (NNT, 1/rd) are also reported.
 
 ```{r}
 #| echo: false
@@ -213,15 +191,10 @@ data %>%
 
 ## Treatment effect estimation
 
-### Expected chances of favorable outcome in a new trial
-
 ```{r control group estimates}
 #| echo: false
 df <- group_summary %>% 
-  filter(str_detect(variable, "E_y_c_new"), 
-       #  !str_detect(variable, "E_y_c_new"),
-         data == "all", 
-         priors == "diffuse") %>% 
+  filter(str_detect(variable, "x_epred")) %>% 
   select("variable", "median", "mad", "low", "high") 
 
 median1 <- format(df$median[1] * 100, digits = 1)
@@ -241,15 +214,12 @@ low4 <- comma(df$low[4] * 100)
 high4 <- comma(df$high[4] * 100)
 ```
 
-The expected proportion of functionally independent patients in the medical arm of a new large core stroke trial is `r median1`% (95% PI `r low1`% - `r high1`%) compared to `r median2`% (95% PI `r low2`% - `r high2`%) for a new small core stroke trial, `r median3`% (95% PI `r low3`% - `r high3`%) for a new late window trial, and `r median4`% (95% PI `r low4` - `r high4`%) for a new basilar thrombectomy trial.
+The expected probability of functional independene for a patient enrolled in a new large core stroke trial is `r median1`% (95% PI `r low1`% - `r high1`%) compared to `r median2`% (95% PI `r low2`% - `r high2`%) for a new small core stroke trial, `r median3`% (95% PI `r low3`% - `r high3`%) for a new late window trial, and `r median4`% (95% PI `r low4` - `r high4`%) for a new basilar thrombectomy trial.
 
 ```{r treatment group estimates}
 #| echo: false
 df <- group_summary %>% 
-  filter(str_detect(variable, "E_y_t_new"), 
-    #     !str_detect(variable, "E_y_t_new"),
-         data == "all", 
-         priors == "diffuse") %>% 
+  filter(str_detect(variable, "rd_epred")) %>% 
   select("variable", "median", "mad", "low", "high") 
 
 median1 <- format(df$median[1] * 100, digits = 1)
@@ -269,76 +239,14 @@ low4 <- comma(df$low[4] * 100)
 high4 <- comma(df$high[4] * 100)
 ```
 
-The expected proportion of functionally independent patients in the treatment arm of a large core stroke trial is `r median1`% (95% PI `r low1`% - `r high1`%) compared to `r median2`% (95% PI `r low2`% - `r high2`%) for small core trials, `r median3`% (95% PI `r low3`% - `r high3`%) for late window trials, and `r median4`% (95% PI `r low4` - `r high4`%) for basilar trials.
-
-```{r relative effect estimates}
-#| echo: false
-df <- group_summary %>% 
-  filter(str_detect(variable, "E_rr_new"), 
-         data == "all", 
-         priors == "diffuse") %>% 
-  select("variable", "median", "mad", "low", "high") 
-
-chances1 <- format(df$median[1] * 100 - 100, digits = 1)
-median1 <- comma(df$median[1])
-low1 <- comma(df$low[1])
-high1 <- comma(df$high[1])
-
-chances2 <- format(df$median[2] * 100 - 100, digits = 1)
-median2 <- comma(df$median[2])
-low2 <- comma(df$low[2])
-high2 <- comma(df$high[2])
-
-chances3 <- format(df$median[3] * 100 - 100, digits = 1)
-median3 <- comma(df$median[3])
-low3 <- comma(df$low[3])
-high3 <- comma(df$high[3])
-
-chances4 <- format(df$median[4] * 100 - 100, digits = 1)
-median4 <- comma(df$median[4])
-low4 <- comma(df$low[4])
-high4 <- comma(df$high[4])
-```
-
-### Relative and absolute treatment effect in a new trial
-
-In relative terms, thrombectomy is expected to increase the chances of a favorable outcome by `r chances1`% (aRR `r median1`, 95% PI `r low1` - `r high1`) in a new large core stroke trial, compared to `r chances2`% in a new small core stroke trial (aRR `r median2`, 95% PI `r low2` - `r high2`), `r chances3`% in a new late window trial (aRR `r median3`, 95% PI `r low3` - `r high3`), and `r chances4`% in a new basilar occlusion trial (aRR `r median4`, 95% PI `r low4` - `r high4`).
-
-```{r absolute effect estimates}
-#| echo: false
-df <- group_summary %>% 
-  filter(str_detect(variable, "E_rd_new"), 
-         data == "all", 
-         priors == "diffuse") %>% 
-  select("variable", "median", "mad", "low", "high") 
-
-chances1 <- format(df$median[1] * 100, digits = 1)
-median1 <- comma(df$median[1] * 100)
-low1 <- comma(df$low[1] * 100)
-high1 <- comma(df$high[1] * 100)
-
-chances2 <- format(df$median[2] * 100, digits = 1)
-median2 <- comma(df$median[2] * 100)
-low2 <- comma(df$low[2] * 100)
-high2 <- comma(df$high[2] * 100)
-
-chances3 <- format(df$median[3] * 100, digits = 1)
-median3 <- comma(df$median[3] * 100)
-low3 <- comma(df$low[3] * 100)
-high3 <- comma(df$high[3] * 100)
-
-chances4 <- format(df$median[4] * 100, digits = 1)
-median4 <- comma(df$median[4] * 100)
-low4 <- comma(df$low[4] * 100)
-high4 <- comma(df$high[4] * 100)
-```
-
-In absolute terms, thrombectomy is expected to increase the percentage chance of a favorable outcome by `r chances1`% (aRD `r median1`, 95% PI `r low1` - `r high1`) in a new large core stroke trial, compared to `r chances2`% in a new small core stroke trial (aRD `r median2`, 95% PI `r low2` - `r high2`), `r chances3`% in a new late window trial (aRD `r median3`, 95% PI `r low3` - `r high3`), and `r chances4`% in a new basilar occlusion trial (aRD `r median4`, 95% PI `r low4` - `r high4`).
+In absolute terms, thrombectomy is expected to increase the probability of a favorable outcome in a new trial by `r median1`% (95% PI `r low1`% - `r high1`%) for large core, compared to `r median2`% (95% PI `r low2`% - `r high2`%) for small, `r median3`% (95% PI `r low3`% - `r high3`%) for late window trials, and `r median4`% (95% PI `r low4` - `r high4`%) for basilar trials.
 
 ## Heterogeneity estimation
 
 ```{r}
 #| echo: false
+
+group_summary <- readRDS(here("fits", "group_summaries.RDS"))
 df <- group_summary %>% 
   filter(variable == "I2",
          data == "all", 
@@ -349,36 +257,36 @@ i2_low <- comma(df$low*100)
 i2_high <- comma(df$high*100)
 ```
 
-The median estimate of the Bayesian I-squared statistic, defined as the percent portion of variation in estimated treatment effect due to between-trial heterogeneity and not sampling variation was `r i2_med`% (95% PI `r i2_low`% - `r i2_high`%).
+In this meta-analysis, the median estimate of the Bayesian I-squared statistic, defined as the percent portion of variation in the estimated treatment effect due to between-trial heterogeneity and not sampling variation was `r i2_med`% (95% PI `r i2_low`% - `r i2_high`%). In contrast to frequentist analyses, the I-squared statistic is of less relevance in this Bayesian analysis, since the reported treatment effects themselves are derived from the posterior predictive distributions, which average over the estimated between-trial heterogeneity.
 
-### Projected impact of thrombectomy in a new trial
+## Overall impact
 
-An alternative way to quantify the expected impact of thrombectomy in a new trial is to use parameter estimates from the statistical model to simulate actual patient-level outcomes. We did this for a hypothetical population of 200 total individuals, in which half are randomized to the control arm (best medical management) and half are randomized to the treatment arm (best medical management plus mechanial thrombectomy). 
+In order to directly quantify the expected impact of thrombectomy, we used parameter estimates from the statistical model to simulate actual patient-level outcomes. We did this for a hypothetical population of 200 total individuals, in which half are randomized to the control arm (best medical management) and half are randomized to the treatment arm (best medical management plus mechanial thrombectomy).
 
 ```{r}
 #| echo: false
 
-model_fits <- readRDS(here("fits", "group_fits.RDS"))
+gq1 <- readRDS(here("fits", "gq1.RDS"))
 
-df <- model_fits$all$diffuse$`y_impact_new[1]`
+df <- gq1$draws("rd_pred[1]")
 df1_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
 df1_plus <- format(length(df[df >= 5])/length(df)*100, digits = 2)
 df1_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
 df1_plusplusplus <- format(length(df[df >= 20])/length(df)*100, digits = 2)
 
-df <- model_fits$all$diffuse$`y_impact_new[2]`
+df <- gq1$draws("rd_pred[2]")
 df2_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
 df2_plus <- format(length(df[df >= 5])/length(df)*100, digits = 2)
 df2_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
 df2_plusplusplus <- format(length(df[df >= 20])/length(df)*100, digits = 2)
 
-df <- model_fits$all$diffuse$`y_impact_new[3]`
+df <- gq1$draws("rd_pred[3]")
 df3_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
 df3_plus <- format(length(df[df >= 5])/length(df)*100, digits = 2)
 df3_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
 df3_plusplusplus <- format(length(df[df >= 20])/length(df)*100, digits = 2)
 
-df <- model_fits$all$diffuse$`y_impact_new[4]`
+df <- gq1$draws("rd_pred[4]")
 df4_pos <- format(length(df[df >=1])/length(df)*100, digits = 2)
 df4_plus <- format(length(df[df >= 5])/length(df)*100, digits = 2)
 df4_plusplus <- format(length(df[df >= 10])/length(df)*100, digits = 2)
@@ -386,26 +294,40 @@ df4_plusplusplus <- format(length(df[df >= 20])/length(df)*100, digits = 2)
 
 ```
 
-Using this approach, we find that the conditional probability of any benefit (defined simply as more functionally independent patients in the treatment arm than the control arm) in a new trial of large core stroke thrombectomy is `r df1_pos`%, compared to `r df2_pos`% for small core, `r df3_pos`% with late window, and `r df4_pos`% with basilar occlusion. 
+Using this approach, we find that the conditional probability of any benefit (defined simply as more functionally independent patients in the treatment arm than the control arm) in a new trial of large core stroke thrombectomy is `r df1_pos`%, compared to `r df2_pos`% for small core, `r df3_pos`% with late window, and `r df4_pos`% with basilar occlusion.
 
-The conditional probability of at least a moderate benefit (defined as a number needed to treat of 20 or fewer patients) is `r df1_plus`%, compared to `r df2_plus`% for small, `r df3_plus`% for late window, and `r df4_plus`% for basilar. 
+The conditional probability of at least a moderate benefit (defined as a number needed to treat of 20 or fewer patients) is `r df1_plus`% for large, compared to `r df2_plus`% for small, `r df3_plus`% for late window, and `r df4_plus`% for basilar.
 
-The conditional probability of at least a substantial benefit  (defined as a number needed to treat of 10 or fewer patients) is `r df1_plusplus`% for large core, compared to `r df2_plusplus`% for small, `r df3_plusplus`% for late window, and `r df4_plusplus`% for basilar. 
+The conditional probability of at least a substantial benefit (defined as a number needed to treat of 10 or fewer patients) is `r df1_plusplus`% for large core, compared to `r df2_plusplus`% for small, `r df3_plusplus`% for late window, and `r df4_plusplus`% for basilar.
 
-The conditional probability of at least a remarkable benefit (defined as a number needed to treat of 5 or fewer patients) is `r df1_plusplusplus`% for large core, compared to `r df2_plusplusplus`% for small, `r df3_plusplusplus`% for late window, and `r df4_plusplusplus`% for basilar. 
+The conditional probability of at least a remarkable benefit (defined as a number needed to treat of 5 or fewer patients) is `r df1_plusplusplus`% for large core, compared to `r df2_plusplusplus`% for small, `r df3_plusplusplus`% for late window, and `r df4_plusplusplus`% for basilar.
 
 # Discussion
 
-Numerous meta-analyses of stroke thrombectomy have been published. All have presented results in terms of the relative or absolute effect of treatment on outcomes of interest, without consideration of the baseline rate of the outcome without treatment, and how this rate varies according to the type of stroke being treated. Here, we show how incorporating this information into a meta-analysis of randomized trial data reveals new insights useful for clinical decision making.
+## Interpretation of our results
 
-Clinicians should address four fundamental questions when engaging in an informed consent discussion with patients or family members:
+Experts recommend that treatment effects should be communicated to patients in terms of the clinician's best estimate of how the treatment is expected to change the probability of the patient experiencing the outcome that most matters to them.
 
-1\. What are the chances of experiencing the desired outcome without treatment?
+In the case of ischemic stroke, this outcome is typically functional independence. Thus, when engaging patients and families in a discussion over the risks and benefits of mechanical thrombectomy, the key questions to address are, first, what is best estimate of the patients chance of functional independence without treatment, and two, what is the best estimate of how these chances change, in absolute terms, with treatment. This is the minimum amount of information a patient needs to make an informed decision.
 
-2\. What is the benefit of the treatment being offered to improve those chances?
+Although there are numerous meta-analyses of randomized trial data from stroke thrombectomy, none have utilized this patient-centered, common language approach to data analysis. In this paper, we aimed to adapt the traditional statistical model underlying most meta-analyses in order to analyze data from all 22 trials of stroke thrombectomy from this patient-centered perspective.
 
-3\. What are the chances of experiencing the desired outcome with treatment?
+When considering the predicted impact in a hypothetical new trial, we found a greater than 95% probability of a predictive positive impact across all types of stroke, but that there was substantial and clinically relevant divergence across stroke types in terms of projected absolute impact on patient-level outcomes. We performed number-needed-to-treat based simulation studies to portray this phenomenon in a way that can be easily applied to real-world risk communication.
 
-4\. What are the chances of harm due to the treatment, and what are the burdens of the treatment?
+We conclude that while thrombectomy is expected to have a substantial positive effect on the probability of functional independence in a new trial, this impact varies by stroke type, and the absolute probability of functional independence is still low, especially for large core stroke.
 
-While randomized control trials contain information useful for estimating answers to all 4 of these questions, standard meta-analytic models applied to RCTs by most researchers generally only address 2. This is a problem, since only focusing on the relative treatment effect of an intervention can obscure the actual impact of the treatment on individual patients. Here, we extend the standard model so that 1 and 3 can also be addressed, and show how this reveals new insights useful for clinical decision making.
+## Comparison to other work
+
+Meta-analysis has traditionally been used to aggregate evidence from multiple clinical trials, carried out in similar but not identical contexts, in order to increase the precision of an estimate for an underlying but not-directly-observable quantity known as the average treatment effect.
+
+This approach is useful in contexts where there are multiple small studies with perhaps diverging results, or when the relevant clinical question is whether the observed results from a portfolio of trials reflect a real underlying pattern at all, as opposed to random variation.
+
+In the case of thrombectomy, however, we have arrived at a point where the relevant questions no longer have to do with whether we can confidently reject a null hypothesis of "no effect," as the implausibility of such an hypothesis seems clear enough even before the application of advanced statistics. Instead, what we would like to know is what the results of the clinical trials imply for future patients, who by definition are treated outside of these trials. This requires a reorientation from a focus on using statistical tools to accurately describe what happened in the past (the average treatment effect) towards an approach where we consider what the data implies about the range of plausible outcomes for future patients.
+
+# Limitations
+
+Randomized trials as a guide to real-world outcomes. Simplified model. Lack of patient-level data. No systematic review.
+
+# Conclusions
+
+In this paper, we aimed to show how an extension of the traditional meta-analytic framework using techniques from Bayesian data analysis can be used to derive rigorous yet easily interpretable conclusions about what the current landscape of stroke thrombectomy trials imply for real-world patient care scenarios. Under this analysis, thrombectomy is expected to have a substantial positive effect on the probability of functional independence in a new trial, but this impact varies by stroke type, and the absolute probability of functional independence is still low, especially for large core stroke.
