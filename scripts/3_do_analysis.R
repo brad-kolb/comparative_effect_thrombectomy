@@ -21,11 +21,11 @@ extra_space <- 0.2 * (length(df_rd$median) - 1)
 # Define the offset value for separating control and treatment points
 offset <- 0.1
 
-pdf(here("plots", "chances.pdf"), width = 5, height = 4)
+pdf(here("plots", "one.pdf"), width = 5, height = 4)
 plot(df_rd$median, 1:4, xlim = c(0, max(50)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
-     xlab = "expected probability",
+     xlab = "expected control group probability",
      pch = 19,
      col = 1, main = "Figure 1")
 obs <- rd_obs %>% 
@@ -91,7 +91,7 @@ extra_space <- 0.2 * (length(df_rd$median) - 1)
 # Define the offset value for separating control and treatment points
 offset <- 0.1
 
-pdf(here("plots", "rd.pdf"), width = 5, height = 4)
+pdf(here("plots", "two.pdf"), width = 5, height = 4)
 plot(df_rd$median, 1:4, xlim = c(0, max(50)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
@@ -167,7 +167,7 @@ extra_space <- 0.2 * (length(df_rd$median) - 1)
 # Define the offset value for separating control and treatment points
 offset <- 0.1
 
-pdf(here("plots", "jama.pdf"), width = 5, height = 4)
+pdf(here("plots", "three.pdf"), width = 5, height = 4)
 plot(df_rr$median, 1:4 + offset, xlim = c(0, max(df_rr$high)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
@@ -260,7 +260,7 @@ names <- unique(df$name)
 names <- factor(names, levels = names)
 
 # Set up the plot window with custom labels and limits, but don't draw anything yet
-pdf(here("plots", "nnt.pdf"), width = 5, height = 5)
+pdf(here("plots", "four.pdf"), width = 5, height = 5)
 plot(NA, NA, type = "n", xlim = c(1, 3), ylim = c(0, 100),
      xlab = "NNT", ylab = "Probability", main = "Figure 4",
      xaxt = "n", yaxt = "n")
