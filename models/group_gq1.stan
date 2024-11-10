@@ -83,14 +83,17 @@ generated quantities{
   vector[K] psi_linpred = theta_linpred + phi_linpred; // treatment group linear predictor
   
   // expected probabilities
+  
   vector[K] x_epred = inv_logit(phi_linpred);
   vector[K] y_epred = inv_logit(psi_linpred);
   
   // predicted probabilities (estimation uncertainty plus sampling uncertainty)
+  
   array[K] int x_pred = binomial_rng(100, x_epred);
   array[K] int y_pred = binomial_rng(100, y_epred);
   
   // predicted risk ratio and risk difference (both types of uncertainty)
+  
   vector[K] rr_pred = to_vector(y_pred) ./ to_vector(x_pred);
   vector[K] rr_pred_gt_1;
   for (i in 1:K) {
@@ -103,6 +106,7 @@ generated quantities{
   }
   
   // compare to expected risk ratio and risk difference (just estimation uncertainty)
+  
   vector[K] rd_epred = y_epred - x_epred;
   vector[K] rd_epred_gt_0;
   for (i in 1:K) {

@@ -203,24 +203,15 @@ total individuals, in which half are randomized to the control arm (best
 medical management) and half are randomized to the treatment arm (best
 medical management plus mechanial thrombectomy).
 
-Using this approach, we find that the conditional probability of any
-benefit (defined simply as more functionally independent patients in the
-treatment arm than the control arm) in a new trial of large core stroke
-thrombectomy is 92%, compared to 96% for small core, 96% with late
-window, and 95% with basilar occlusion.
+Using this approach, we find that the cumulative probability that the
+expected number needed to treat in a new trial is less than 100 is
+nearly identical across stroke types, 97% for large, compared to 98% for
+small core, 98% with late window, and 98% with basilar occlusion.
 
-The conditional probability of at least a moderate benefit (defined as a
-number needed to treat of 20 or fewer patients) is 75% for large,
-compared to 92% for small, 90% for late window, and 88% for basilar.
-
-The conditional probability of at least a substantial benefit (defined
-as a number needed to treat of 10 or fewer patients) is 47% for large
-core, compared to 81% for small, 78% for late window, and 73% for
-basilar.
-
-The conditional probability of at least a remarkable benefit (defined as
-a number needed to treat of 5 or fewer patients) is 11% for large core,
-compared to 47% for small, 44% for late window, and 36% for basilar.
+We find that the cumulative probability that the expected number needed
+to treat in a new trial is less than 10 diverges considerably by stroke
+type, with 42% for large stroke, compared to 86% for small core, 84%
+with late window, and 78% with basilar occlusion.
 
 # Discussion
 
@@ -234,11 +225,11 @@ outcome that most matters to them.
 In the case of ischemic stroke, this outcome is typically functional
 independence. Thus, when engaging patients and families in a discussion
 over the risks and benefits of mechanical thrombectomy, the key
-questions to address are, first, what is best estimate of the patients
-chance of functional independence without treatment, and two, what is
-the best estimate of how these chances change, in absolute terms, with
-treatment. This is the minimum amount of information a patient needs to
-make an informed decision.
+questions to address are, first, what is the best estimate of the
+patients chance of functional independence without treatment, and two,
+what is the best estimate of how these chances change, in absolute
+terms, with treatment. This is the minimum amount of information a
+patient needs to make an informed decision.
 
 Although there are numerous meta-analyses of randomized trial data from
 stroke thrombectomy, none have utilized this patient-centered, common
@@ -247,51 +238,80 @@ traditional statistical model underlying most meta-analyses in order to
 analyze data from all 22 trials of stroke thrombectomy from this
 patient-centered perspective.
 
-When considering the predicted impact in a hypothetical new trial, we
-found a greater than 95% probability of a predictive positive impact
-across all types of stroke, but that there was substantial and
-clinically relevant divergence across stroke types in terms of projected
-absolute impact on patient-level outcomes. We performed
-number-needed-to-treat based simulation studies to portray this
-phenomenon in a way that can be easily applied to real-world risk
-communication.
+We found that the expected probability of functional independence for a
+hypothetical patient enrolled in the control arm of a new thrombectomy
+trial — the number we would quote as the one best estimate of this
+imaginary patient’s chances without treatment — varied considerably by
+stroke type, ranging from just 8% for a trial of large stroke, 20% for
+basilar occlusion, 26% for late-window, to 30% for small stroke in early
+window.
+
+The expected change in the probability of functional independence
+associated with assignment to the treatment arm of a new trial — the
+number we would quote as the one best estimate of how thrombectomy would
+impact a hypothetical patient’s probability of achieving functional
+independence — also showed considerable variation by stroke type, once
+again ranging from a relatively low 9% for large stroke, to more than
+double that for small (19%) and late window (18%), with basilar in the
+middle at 16%.
+
+The 95% intervals around each of these estimates represents the range of
+changes in probability due to thrombectomy that are consistent with the
+data and the model used to analyze it. Because we are working in a
+Bayesian framework, the interpretation of these intervals is
+straightforward — in a new trial of thrombectomy, the change in
+probability with treatment has a 95% probability of being within the
+stated interval. Since each of these intervals excludes zero and
+negative values, we can conclude that these estimates are “statistically
+significant.” Nonetheless, the width of the intervals shows that the
+data would be consistent with a wide range of possible observed effects
+in a new trial.
 
 We conclude that while thrombectomy is expected to have a substantial
 positive effect on the probability of functional independence in a new
-trial, this impact varies by stroke type, and the absolute probability
-of functional independence is still low, especially for large core
-stroke.
+trial, this impact varies considerably by stroke type, and the absolute
+probability of functional independence with treatment is still low,
+especially for large core stroke.
 
 ## Comparison to other work
 
-Meta-analysis has traditionally been used to aggregate evidence from
-multiple clinical trials, carried out in similar but not identical
-contexts, in order to increase the precision of an estimate for an
-underlying but not-directly-observable quantity known as the average
-treatment effect.
+The approach to meta-analysis used here is different from the more
+traditional approach in three important respects.
 
-This approach is useful in contexts where there are multiple small
-studies with perhaps diverging results, or when the relevant clinical
-question is whether the observed results from a portfolio of trials
-reflect a real underlying pattern at all, as opposed to random
-variation.
+First, we ask a fundamentally different question. In traditional
+meta-analyses, what is estimated is the average treatment effect across
+existing trials. While this quantity is useful for describing what has
+happened in past trials, it is not directly applicable to what a new
+patient can expect to happen in the future. In comparison, in our
+framework we use past evidence to rigorously quantify what a
+hypothetical patient can expect with enrollment in a new trial. For
+real-world patients that resemble patients treated in past trials,
+treated in a hospital that resembles the hospitals in past trials, this
+estimate is highly relevant. For real-world patients that diverge
+significantly from past trial patients, or that are treated in a
+low-resource environment, the estimates are likely to be less accurate.
+We view this as a feature though, rather than a bug, since it leads
+directly into a discussion with patients about what makes their
+situation unique, and thus why we have more uncertainty about the
+outcome they can expect.
 
-In the case of thrombectomy, however, we have arrived at a point where
-the relevant questions no longer have to do with whether we can
-confidently reject a null hypothesis of “no effect,” as the
-implausibility of such an hypothesis seems clear enough even before the
-application of advanced statistics. Instead, what we would like to know
-is what the results of the clinical trials imply for future patients,
-who by definition are treated outside of these trials. This requires a
-reorientation from a focus on using statistical tools to accurately
-describe what happened in the past (the average treatment effect)
-towards an approach where we consider what the data implies about the
-range of plausible outcomes for future patients.
+Second, we emphasize the quantification of what a patient can actually
+expect without treatment. We find that this is a critically overlooked
+aspect of real-world risk communication.
+
+Third, we emphasize reporting treatment effect in absolute rather than
+relative terms. In figure 3, you can see that if we were to report the
+effect in relative terms, it could wrongly inflate expectations.
+
+Quantifying treatment effect in absolute terms also allows for a more
+nuanced understanding of how treatment effect varies for different
+stroke types, which you can see in figure 4.
 
 # Limitations
 
-Randomized trials as a guide to real-world outcomes. Simplified model.
-Lack of patient-level data. No systematic review.
+Randomized trials as a guide to real-world outcomes. High uncertainty
+(but our model is a much more severe test). Simplified model. Lack of
+patient-level data. No systematic review.
 
 # Conclusions
 

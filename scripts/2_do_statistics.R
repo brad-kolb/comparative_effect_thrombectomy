@@ -269,9 +269,9 @@ rbind(x1,x2,x3) %>%
   mutate(model = c("norm_approx", "binomial", "binomial_baserate"),
          variable = "tau")
 
-# check model by doing graphical posterior predictive checks ---- 
-dat <- make_data_list(dfs$all)
+# posterior predictive inference ----------
 model <- as_draws_array(model_fits$all$diffuse)
+dat <- make_data_list(dfs$all)
 gq1 <- cmdstan_model(here("models", "group_gq1.stan"))
 gq1 <- gq1$generate_quantities(model, data = dat, seed = 123)
 saveRDS(gq1, file = here("fits", "gq1.RDS"))
@@ -282,7 +282,7 @@ df <- gq1 %>%
   rename(low = '5%', high = '95%') 
 saveRDS(df, file = here("fits", "gq1_summary.RDS"))
 
-
+# check model by doing graphical posterior predictive checks ---- 
 
 # by replicating trial
 y_rep <- as_draws_matrix(gq1$draws(paste0("rr_erep[", 1:22, "]")))
@@ -421,8 +421,4 @@ bayesplot::ppc_intervals(y, y_rep, prob = .95, prob_outer = .95) +
   coord_flip() +
   cowplot::theme_cowplot(font_size = 10) 
 
-
-
-gq1$summary("rr_erep_gt_1")
-gq1$summary("rd_epred")
 
