@@ -194,25 +194,6 @@ analysis, since the reported treatment effects themselves are derived
 from the posterior predictive distributions, which average over the
 estimated between-trial heterogeneity.
 
-## Overall impact
-
-In order to directly quantify the expected impact of thrombectomy, we
-used parameter estimates from the statistical model to simulate actual
-patient-level outcomes. We did this for a hypothetical population of 200
-total individuals, in which half are randomized to the control arm (best
-medical management) and half are randomized to the treatment arm (best
-medical management plus mechanial thrombectomy).
-
-Using this approach, we find that the cumulative probability that the
-expected number needed to treat in a new trial is less than 100 is
-nearly identical across stroke types, 97% for large, compared to 98% for
-small core, 98% with late window, and 98% with basilar occlusion.
-
-We find that the cumulative probability that the expected number needed
-to treat in a new trial is less than 10 diverges considerably by stroke
-type, with 42% for large stroke, compared to 86% for small core, 84%
-with late window, and 78% with basilar occlusion.
-
 # Discussion
 
 ## Interpretation of our results
@@ -267,51 +248,31 @@ significant.” Nonetheless, the width of the intervals shows that the
 data would be consistent with a wide range of possible observed effects
 in a new trial.
 
+To see this more clearly, consider the following calculations.
+
+By leveraging the Bayesian framework and converting the posterior
+predictive distributions for the absolute change in probability to the
+number needed to treat scale (1 over the absolute change in
+probability), we find that the cumulative probability that the expected
+number needed to treat in a new trial is less than 100 is nearly
+identical across stroke types, 1.7% for large, compared to 98% for small
+core, 98% with late window, and 98% with basilar occlusion, whereas the
+cumulative probability that the expected number needed to treat in a new
+trial is less than 10 diverges considerably by stroke type, with 42% for
+large stroke, compared to 86% for small core, 84% with late window, and
+78% with basilar occlusion.
+
 We conclude that while thrombectomy is expected to have a substantial
 positive effect on the probability of functional independence in a new
 trial, this impact varies considerably by stroke type, and the absolute
 probability of functional independence with treatment is still low,
 especially for large core stroke.
 
-## Comparison to other work
-
-The approach to meta-analysis used here is different from the more
-traditional approach in three important respects.
-
-First, we ask a fundamentally different question. In traditional
-meta-analyses, what is estimated is the average treatment effect across
-existing trials. While this quantity is useful for describing what has
-happened in past trials, it is not directly applicable to what a new
-patient can expect to happen in the future. In comparison, in our
-framework we use past evidence to rigorously quantify what a
-hypothetical patient can expect with enrollment in a new trial. For
-real-world patients that resemble patients treated in past trials,
-treated in a hospital that resembles the hospitals in past trials, this
-estimate is highly relevant. For real-world patients that diverge
-significantly from past trial patients, or that are treated in a
-low-resource environment, the estimates are likely to be less accurate.
-We view this as a feature though, rather than a bug, since it leads
-directly into a discussion with patients about what makes their
-situation unique, and thus why we have more uncertainty about the
-outcome they can expect.
-
-Second, we emphasize the quantification of what a patient can actually
-expect without treatment. We find that this is a critically overlooked
-aspect of real-world risk communication.
-
-Third, we emphasize reporting treatment effect in absolute rather than
-relative terms. In figure 3, you can see that if we were to report the
-effect in relative terms, it could wrongly inflate expectations.
-
-Quantifying treatment effect in absolute terms also allows for a more
-nuanced understanding of how treatment effect varies for different
-stroke types, which you can see in figure 4.
-
 # Limitations
 
-Randomized trials as a guide to real-world outcomes. High uncertainty
-(but our model is a much more severe test). Simplified model. Lack of
-patient-level data. No systematic review.
+Focus on absolute effects instead of relative effects. Seemingly high
+uncertainty (but our model is a much more severe test). Simplified
+model. Lack of patient-level data. No systematic review.
 
 # Conclusions
 
@@ -324,3 +285,32 @@ expected to have a substantial positive effect on the probability of
 functional independence in a new trial, but this impact varies by stroke
 type, and the absolute probability of functional independence is still
 low, especially for large core stroke.
+
+# Key Points
+
+## Question
+
+What is the effect of thrombectomy on functional independence when
+considered not from the perspective of the average effect across
+existing trials (the typical measure in most meta-analyses) but instead
+from the perspective of the expected effect in a hypothetical new trial
+(a measure more useful for communicating risk and uncertainty to
+patients and fellow clinicians).
+
+## Findings
+
+In a new hypothetical trial, thrombectomy is expected to improve the
+chances of functional independence by 9% for large strokes, 16% for
+basilar strokes, 18% for small strokes treated in the extended time
+window, and 19% for small strokes treated in an early time window. These
+effects are all statistically significant, in the sense that their 95%
+prediction intervals exclude zero, but clinically uncertain, in the
+sense that the intervals contain values ranging from negligble to
+substantial.
+
+## Meaning
+
+Evidence from 22 randomized trials implies an uncertain positive
+predicted effect for individual patients treated outside of these
+trials. While patients can expect to benefit, they are still unlikely to
+achieve functional independence, especially after a large stroke.
