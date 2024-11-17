@@ -421,4 +421,3 @@ bayesplot::ppc_intervals(y, y_rep, prob = .95, prob_outer = .95) +
   coord_flip() +
   cowplot::theme_cowplot(font_size = 10) 
 
-
