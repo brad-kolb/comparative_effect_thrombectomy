@@ -56,7 +56,7 @@ pdf(here("plots", "one.pdf"), width = 5, height = 4)
 plot(df_rd$median, 1:4, xlim = c(0, max(35)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
-     xlab = "Predicted effect",
+     xlab = "Predicted effect size",
      pch = 19,
      col = 1, main = "")
 
@@ -102,7 +102,7 @@ pdf(here("plots", "five.pdf"), width = 5, height = 4)
 plot(df_rr$median, 1:4 + offset, xlim = c(0, max(df_rr$high)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
-     xlab = "Predicted effect", 
+     xlab = "Predicted effect size", 
      pch = 18,
      col = 1, main = "")
 points(df_rd$median, 1:4 - offset, pch = 19, col = 1)
@@ -177,7 +177,7 @@ names <- factor(names, levels = names)
 # Set up the plot window with custom labels and limits, but don't draw anything yet
 pdf(here("plots", "four.pdf"), width = 5, height = 5)
 plot(NA, NA, type = "n", xlim = c(1, 3), ylim = c(0, 100),
-     xlab = "Predicted effect", ylab = "Probability", main = "",
+     xlab = "Predicted effect size", ylab = "Probability", main = "",
      xaxt = "n", yaxt = "n")
 
 # Add custom x-axis labels
@@ -446,7 +446,7 @@ text(0.06, 9, paste0(x_100_10, "%"), cex = 1)
 text(0.15, 9, paste0(x_10_5, "%"), cex = 1)
 text(0.25, 9, paste0(x_5, "%"), cex = 1)
 
-mtext("Predicted effect", side = 1, outer = TRUE, cex = 0.7)
+mtext("Predicted effect size", side = 1, outer = TRUE, cex = 0.7)
 
 dev.off()
 
