@@ -241,70 +241,46 @@ changes those chances in absolute terms. Traditional meta-analyses,
 while statistically rigorous, often fail to provide information in this
 patient-centered format.
 
-### Prediction over estimation
+### Importance over signfificance
 
 Our analysis addresses this gap by predicting outcomes for future trials
-rather than just summarizing past ones. A sophisticated reader might
-question whether trial-based predictions can guide real-world decisions,
-since both patients and hospitals outside of trials differ in numerous
-dimensions from patients and hospitals in trials. We agree, and this
-observation uncovers the true utility of our approach, which is to use
-prediction not to forecast specific outcomes, but to understand
-uncertainty. By focusing on hypothetical future trials, we create a
-rigorous baseline for discussing how individual patient characteristics
-might alter expectations. The predicted probabilities aren’t precise
-forecasts, but rather carefully quantified statements about treatment
-effects under ideal conditions.
-
-This emphasis on understanding uncertainty rather than just estimating
-effects is reflected in our technical choices. We focus on predictive
-distributions rather than parameter estimates, and on probability-scale
-outcomes rather than log odds ratios, prioritizing clinical utility over
-statistical convention. While other valid approaches exist, we chose
-this framework because it helps answer the questions clinicians actually
-face: What range of outcomes might we expect? How confident are we that
-the treatment will result in meaningful improvement? By obtaining clear
-and definitive answers to these questions for easy to understand but
-idealized scenarios, we can begin to address these questions for more
-complex real-world contexts.
-
-### Clinical importance over statistical significance
-
-Our analysis reveals important clinical insights heretofore not noted by
-other authors. Despite a statistically significant positive predicted
-effect in future trials regardless of stroke type, the probability that
-the predicted effect is clinically important varies substantially
-(figure 4). This distinction matters for patient care: knowing that
-thrombectomy ‘works’ (statistical significance) tells us little about
-how well it works (clinical importance). For small strokes treated
-early, there’s a 45% chance of achieving a remarkably substantial
-clinical benefit (\>20% absolute improvement, or a number needed to
-treat of 5 or fewer). In contrast, for large strokes, while a positive
-effect remains highly likely, the chance of a “clinically important
-effect”, in the sense defined above, drops to just 7%. These probability
-statements provide a more nuanced framework for discussing treatment
-decisions than simply saying the treatment is ‘proven effective’ - they
-help clinicians communicate both the promise and limitations of
-thrombectomy across different stroke types. For example, when counseling
-a patient with a large stroke, rather than just noting that thrombectomy
-is ‘evidence-based’, a clinician can explain that while some improvement
-is very likely, the chance of dramatic benefit is small. This more
-complete picture helps set appropriate expectations while still
-supporting the treatment’s role.
+rather than just summarizing past ones. By switching the inferential
+focus to prediction, we are able to uncover important clinical insights
+heretofore not noted by other authors. Despite a statistically
+significant positive predicted effect in future trials regardless of
+stroke type, the probability that the predicted effect is clinically
+important varies substantially (figure 4). This distinction matters for
+patient care: knowing that thrombectomy ‘works’ (statistical
+significance) tells us little about how well it works (clinical
+importance). For small strokes treated early, there’s a 45% chance of
+achieving a remarkably substantial clinical benefit (\>20% absolute
+improvement, or a number needed to treat of 5 or fewer). In contrast,
+for large strokes, while a positive effect remains highly likely, the
+chance of a “clinically important effect”, in the sense defined above,
+drops to just 7%. These probability statements provide a more nuanced
+framework for discussing treatment decisions than simply saying the
+treatment is ‘proven effective’ - they help clinicians communicate both
+the promise and limitations of thrombectomy across different stroke
+types. For example, when counseling a patient with a large stroke,
+rather than just noting that thrombectomy is ‘evidence-based’, a
+clinician can explain that while some improvement is very likely, the
+chance of dramatic benefit is small. This more complete picture helps
+set appropriate expectations while still supporting the treatment’s
+role.
 
 ### Absolute over relative effects
 
-The distinction between statistical and clinical significance becomes
-even clearer when we focus on absolute rather than relative
-improvements. Although our framework allows for the estimation of
-relative effect size, defined as the predicted probability of functional
-independence with treatment divided by the predicted proabbility without
-treatment, we purposefully refrained from reporting these values in the
-results section. We depict them in figure 5 alongside the absolute
-estimates to demonstrate why. For large strokes, saying ‘thrombectomy
-doubles your chances of a good outcome’ is technically accurate and
-sounds impressive, but masks the underlying clinical reality captured by
-the absolute estimate: moving from an 8% to a 17% chance of functional
+In addition to emphasizing clinical importance over statistical
+significance, we also stress absolute effect sizes over relative effect
+sizes. Although our framework allows for the estimation of the latter,
+defined as the predicted probability of functional independence with
+treatment divided by the predicted probability without treatment, we
+purposefully refrained from reporting these values in the results
+section. We depict them in figure 5 alongside the absolute estimates to
+demonstrate why. For large strokes, saying ‘thrombectomy doubles your
+chances of a good outcome’ is technically accurate and sounds
+impressive, but masks the underlying clinical reality captured by the
+absolute estimate: moving from an 8% to a 17% chance of functional
 independence. While this improvement is important, the absolute numbers
 help patients and families maintain realistic expectations. Similarly,
 for small strokes, a ‘57% increase’ in good outcomes translates more
@@ -343,23 +319,46 @@ patient-centered framework beyond stroke care.
 
 ## Limitations
 
-Our analysis has three main limitations.
+One important potential objection to our approach has to do with our
+emphasis on prediction. A sophisticated reader might question whether
+trial-based predictions can guide real-world decisions, since both
+patients and hospitals outside of trials differ in numerous dimensions
+from patients and hospitals in trials. We agree, and this observation
+uncovers the true utility of our approach, which is to use prediction
+not to forecast specific outcomes, but to understand uncertainty. By
+focusing on hypothetical future trials, we create a rigorous baseline
+for discussing how individual patient characteristics might alter
+expectations. The predicted probabilities aren’t precise forecasts, but
+rather carefully quantified statements about treatment effects under
+ideal conditions.
 
-First, like all Bayesian analyses, our results depend on prior
-assumptions about model parameters. We addressed this by using
-clinically justified priors - verified through prior predictive
-simulation - and checking sensitivity to alternative specifications.
-These checks, detailed in the supplementary appendix, show our key
-findings are robust. Second, we focused solely on functional
-independence rather than other outcomes. While a fuller picture of
-thrombectomy’s effects would consider multiple outcomes, functional
-independence is often most relevant for patient decision-making. Third,
-we simplified the modified Rankin Scale’s six-point gradation of
-disability into a binary outcome: functionally independent or not. While
-a more complex model could capture finer distinctions, this
-simplification makes our results more interpretable for clinical
-discussions. This reflects our broader approach: managing complexity to
-produce clear, actionable insights for patient care.”
+This emphasis on understanding uncertainty rather than just estimating
+effects is reflected in our technical choices. We focus on predictive
+distributions rather than parameter estimates, and on probability-scale
+outcomes rather than log odds ratios, prioritizing clinical utility over
+statistical convention. While other valid approaches exist, we chose
+this framework because it helps answer the questions clinicians actually
+face: What range of outcomes might we expect? How confident are we that
+the treatment will result in meaningful improvement? By obtaining clear
+and definitive answers to these questions for easy to understand but
+idealized scenarios, we can begin to address these questions for more
+complex real-world contexts.
+
+Our analyis has three additional important limitations. First, like all
+Bayesian analyses, our results depend on prior assumptions about model
+parameters. We addressed this by using clinically justified priors -
+verified through prior predictive simulation - and checking sensitivity
+to alternative specifications. These checks, detailed in the
+supplementary appendix, show our key findings are robust. Second, we
+focused solely on functional independence rather than other outcomes.
+While a fuller picture of thrombectomy’s effects would consider multiple
+outcomes, functional independence is often most relevant for patient
+decision-making. Third, we simplified the modified Rankin Scale’s
+six-point gradation of disability into a binary outcome: functionally
+independent or not. While a more complex model could capture finer
+distinctions, this simplification makes our results more interpretable
+for clinical discussions. This reflects our broader approach: managing
+complexity to produce clear, actionable insights for patient care.”
 
 ## Conclusions
 
@@ -367,13 +366,10 @@ In this paper, we aimed to show how an extension of the traditional
 meta-analytic framework using techniques from Bayesian data analysis can
 be used to derive rigorous yet easily interpretable conclusions about
 what the current landscape of stroke thrombectomy trials imply for
-real-world patient care scenarios. While we found statistically
-significant positive predicted effects across all stroke types, the
-predictive probability of achieving substantial clinical benefit varies
-dramatically by stroke type as well as by how one defines “substantial.”
-This information helps calibrate expectations while supporting
-thrombectomy’s role across stroke subtypes. Thrombectomy is expected to
-have a positive effect on the probability of functional independence in
-a new trial, but the clinical impact of this effect varies by stroke
-type, and the absolute probability of functional independence is still
-low, especially for large core stroke.
+real-world patient care scenarios. Thrombectomy is expected to have a
+positive effect on the probability of functional independence in a new
+trial, but the clinical importance of this effect varies by stroke type,
+and the absolute probability of functional independence is still low,
+especially for large core stroke. This information helps calibrate both
+patient and clinician expectations while supporting thrombectomy’s role
+across stroke types.
