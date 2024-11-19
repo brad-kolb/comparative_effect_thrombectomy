@@ -1,6 +1,5 @@
-// varying intercepts varying slopes metaanalysis with binomial data,
-// linear predictor for control group is varying interept plus category-specific parameter ("category-specific control baserate")
-// linear predictor for treatment group is linear predictor for control group plus varying slope ("common treatment effect")
+// meta-analysis using varying intercepts varying slopes logistic regression with binomial data,
+// common treatment effect, and category-specific covariate for control log-odds
 
 data {
   // data for posterior estimation

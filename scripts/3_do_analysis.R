@@ -20,7 +20,7 @@ df_rd <- df_rd %>%
 # Calculate extra space
 extra_space <- 0.2 * (length(df_rd$median) - 1)
 
-pdf(here("plots", "pr_ind_wo_mt.pdf"), width = 5, height = 4)
+pdf(here("plots", "three.pdf"), width = 5, height = 4)
 plot(df_rd$median, as.numeric(df_rd$names), xlim = c(0, max(50)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
@@ -52,7 +52,7 @@ df_rd <- df_rd %>%
 # Calculate the amount of extra space (e.g., 20% of the plot height)
 extra_space <- 0.2 * (length(df_rd$median) - 1)
 
-pdf(here("plots", "treatment_effect.pdf"), width = 5, height = 4)
+pdf(here("plots", "one.pdf"), width = 5, height = 4)
 plot(df_rd$median, 1:4, xlim = c(0, max(35)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
@@ -98,7 +98,7 @@ extra_space <- 0.2 * (length(df_rd$median) - 1)
 # Define the offset value for separating control and treatment points
 offset <- 0.1
 
-pdf(here("plots", "abs_vs_rel.pdf"), width = 5, height = 4)
+pdf(here("plots", "five.pdf"), width = 5, height = 4)
 plot(df_rr$median, 1:4 + offset, xlim = c(0, max(df_rr$high)), 
      ylim = c(1 - extra_space, 4 + extra_space),
      yaxt = "n", xaxt = "n", ylab = NA, 
@@ -175,7 +175,7 @@ names <- unique(df$name)
 names <- factor(names, levels = names)
 
 # Set up the plot window with custom labels and limits, but don't draw anything yet
-pdf(here("plots", "clinsig_cumulative.pdf"), width = 5, height = 5)
+pdf(here("plots", "four.pdf"), width = 5, height = 5)
 plot(NA, NA, type = "n", xlim = c(1, 3), ylim = c(0, 100),
      xlab = "Predicted effect", ylab = "Probability", main = "",
      xaxt = "n", yaxt = "n")
@@ -198,7 +198,7 @@ legend("topright", legend = c("small", "late", "basilar", "large"),
 dev.off()
 
 #### clinical significance, intervals ####
-pdf(here("plots", "intervals_clinical.pdf"), width = 10, height = 3)
+pdf(here("plots", "two.pdf"), width = 10, height = 3)
 
 # Set outer margins (bottom, left, top, right) and enable them
 par(oma = c(3, 0, 0, 0))  # outer margins
