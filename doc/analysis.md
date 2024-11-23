@@ -44,7 +44,7 @@ hypothetical trial of mechanical thrombectomy, adjusted for stroke type.
 
 Conditional on data from 22 previous trials and the model used to
 analyze the data, thrombectomy is predicted to increase the probability
-of functional independence by 19.0% (5.7 % - 33.2%) in a new trial of
+of functional independence by 19.0% (5.7% - 33.2%) in a new trial of
 small strokes treated in an early time window, compared to 17.9% (5.0 -
 32.5%) in a new trial of small strokes treated in a late time window,
 15.9% (4.2 - 30.7%), in a new trial of basilar strokes, and 8.9% (2.0 -
@@ -62,16 +62,17 @@ substantially according to the type of stroke being treated.
 The effectiveness of mechanical thrombectomy for stroke has been
 evaluated in multiple clinical trials and meta-analyses. However,
 traditional meta-analyses, focused on estimating average treatment
-effects across trials, can be difficult to translate into guidance for
-individual patient care. Clinicians and patients need practical answers
-to questions like: ‘what range of outcomes might I expect with this
-treatment?’ and ‘how certain can I be that this treatment will make a
-meaningful difference in my chances for a good outcome?’
+effects across past trials, can be difficult to translate into guidance
+for individual patient care in new situations. Clinicians and patients
+need practical answers to questions like: “what range of outcomes might
+I expect with this treatment?” and “how certain can I be that this
+treatment will make a meaningful difference in my chances for a good
+outcome?”
 
 In this paper, we address these questions directly using a Bayesian
-meta-analysis of all existing thrombectomy trials. Rather than just
+meta-analysis of all existing thrombectomy trials. Rather than
 estimating the average effect in past trials, we use the information
-imbedded in the outcomes of these trials to predict the range of
+embedded in the outcomes of these trials to predict the range of
 plausible outcomes for future patients. By focusing on prediction rather
 than estimation and absolute rather than relative effects, we move
 beyond statistical significance to a rigorous quantification of clinical
@@ -85,26 +86,28 @@ This meta-analysis was conducted according to the preferred reporting
 items for systematic reviews and meta-analysis (PRISMA) guidelines. The
 initial analysis plan was preregistered on the Open Science Framework.
 We categorized all thrombectomy trials into four clinically distinct
-groups: early-window small core strokes, late-window small core strokes,
-large core strokes, and basilar strokes. This classification reflects
-key differences in patient populations that could influence treatment
+categories: early-window small core strokes (EW-SC), late-window small
+core strokes (LW-SC), early-window large core strokes (EW-LC), and
+basilar artery strokes (BS). This classification reflects key
+differences in patient populations that could influence treatment
 effectiveness. The primary outcome was functional independence at 6
 months followup in the intention-to-treat population. To analyze
 outcomes across these stroke types, we used a multilevel logistic
 regression model with varying slopes and varying intercepts. This model
 accounts for both within-trial and between-trial variation in baseline
-risk and treatment effect. The model was implemented in Stan, a
-probabilistic programming language designed for rigorous uncertainty
-quantification. Convergence and model diagnostics were assessed
-according to expert recommendations, and this information is fully
-reported in the appendix. Sensitivity checks for the priors and the
-likelihood were performed. Treatment effects are reported as the median
-of posterior predictive distribution for the corresponding quantity in
-the model. Uncertainty for this estimate is expressed with the 95%
-posterior interval - a range that can be interpreted as including the
-“true” parameter value with 95% probability. The full statistical model
-as well as computer code to reproduce all analyses and figures is
-available on-line.
+risk and treatment effect, adjusting outcomes according to stroke
+category. The model was implemented in Stan, a probabilistic programming
+language designed for rigorous uncertainty quantification. Convergence
+and model diagnostics were assessed according to expert recommendations,
+and this information is fully reported in the appendix. Sensitivity
+checks for the priors and the likelihood were performed. Treatment
+effects are reported as the median of posterior predictive distribution
+for the corresponding quantity in the model. Uncertainty for this
+estimate is expressed with the 95% posterior interval - a range that can
+be interpreted as including the “true” parameter value with 95%
+probability, conditional on the model and its underlying assumptions.
+The full statistical model as well as computer code to reproduce all
+analyses and figures is available on-line.
 
 ## Results
 
@@ -167,70 +170,81 @@ The pooled data by category are shown in the following table.
     # A tibble: 4 × 8
       category trials  size    f_c   f_t    rr    rd   nnt
       <chr>     <int> <dbl>  <dbl> <dbl> <dbl> <dbl> <dbl>
-    1 large         5  1548 0.0809 0.207  2.56 0.126  7.92
-    2 early         9  2057 0.296  0.464  1.57 0.168  5.95
-    3 late          4   920 0.262  0.431  1.64 0.169  5.93
-    4 basilar       4   988 0.206  0.349  1.69 0.143  7.00
+    1 EW-LC         5  1548 0.0809 0.207  2.56 0.126  7.92
+    2 EW-SC         9  2057 0.296  0.464  1.57 0.168  5.95
+    3 LW-SC         4   920 0.262  0.431  1.64 0.169  5.93
+    4 BS            4   988 0.206  0.349  1.69 0.143  7.00
 
 ### Treatment effect estimation
 
 Thrombectomy is expected to increase the probability of a favorable
 outcome in a new trial by 19% (95% PI 5.7% - 33.2%) for small stroke
 treated in an early time window, 18% (95% PI 5.0% - 32.5%) for small
-srokes treated in an extended time window, 16% (95% PI 4.2 - 30.7%) for
+strokes treated in an late time window, 16% (95% PI 4.2 - 30.7%) for
 basilar strokes, and 9% (95% PI 2.0% - 21.6%) for large strokes treated
 in an early time window (figure 1).
 
 ### Clinical importance
 
-What counts as a clinically important effect size is an essentially
-normative judgement. We consider three reasonable treatment effect
-thresholds, and their associated predictive probabilities (figure 2).
+What counts as a clinically important effect size will vary by
+clinician. We consider three reasonable treatment effect thresholds, and
+their associated predictive probabilities (figure 2).
 
 #### Greater than 1% absolute improvement in predicted probability of functional independence
 
 The predicted probability of an effect size greater than 1% in a new
-trial is about equal across all stroke types, 97% for large, compared to
-98% for small, 98% with late window, and 98% with basilar occlusion. A
-1% effect size corresponds to a number needed to treat of 100.
+trial is about equal across all stroke types, 97% for large strokes
+treated in an early time window, compared to 98% for small strokes
+treated in an early time window, 98% for small strokes treated in a late
+time window, and 98% for basilar strokes. A 1% effect size corresponds
+to a number needed to treat of 100.
 
 #### Greater than 10% absolute improvement in predicted probability of functional independence
 
 The predicted probability of an effect size greater than 10% in a new
-trial is still very likely for small, late and basilar (86%, 84%, and
-78%, respectively), but worse than a coin flip for large (42%). A 10%
-effect size corresponds to a number needed to treat of 10.
+trial is still very likely for small strokes treated in an early or late
+time window and for basilar strokes (86%, 84%, and 78%, respectively),
+but a little less than a coin flip for large strokes treated in an early
+time window (42%). A 10% effect size corresponds to a number needed to
+treat of 10.
 
 #### Greater than 20% absolute improvement in predicted probability of functional independence
 
 The predicted probability of an effect size greater than 20% in a new
-trial is quite possible for small and late strokes (45%, 41%,
-respectively), less likely but still within realm of possibility for
-basilar (32%), and highly unlikely for large (7%). A 20% effect size
-corresponds to a number needed to treat of 5.
+trial is a little less than a coin flip for small stroke treated in an
+early or late time window (45%, 41%, respectively), and less likely but
+still within the realm of possibility for basilar stroke (32%). However,
+the probability for large strokes treated in an early time window is
+highly unlikely (7%). A 20% effect size corresponds to a number needed
+to treat of 5.
 
 ### Baseline risk
 
 Baseline risk – the predicted probability of achieving the outcome
 without treatment – is a key metric that further clarifies the clinical
-significance of our effect size estimates. The expected probabilities of
-functional independence for a patient enrolled in the control arm of a
-new stroke trial are, in descending order, 30% (95% PI 16.7% - 47.9%)
-for small, 26% (95% PI 13.2% - 44.9%) for late, 20% (95% PI 10.0 -
-36.0%) for basilar, and 8% (95% PI 3.9% - 17.5%) for large stroke
-(figure 3).
+significance of our effect size estimates, but is left out of most
+meta-analyses. The baseline risk for a patient enrolled in the control
+arm of a new stroke trial varies widely. In descending order, the
+probabilities are 30% (95% PI 16.7% - 47.9%) for small strokes treated
+in an early time window, 26% (95% PI 13.2% - 44.9%) for small strokes
+treated in a late time window, 20% (95% PI 10.0 - 36.0%) for basilar
+strokes, and 8% (95% PI 3.9% - 17.5%) for large strokes treated in an
+early time window (figure 3).
 
 ### Heterogeneity estimation
 
-The Bayesian I-squared statistic, defined as the percent portion of
-variation in the estimated treatment effect due to between-trial
-heterogeneity and not sampling variation was 46.6% (95% PI 29.3% -
-60.2%). In contrast to frequentist analyses, the I-squared statistic is
-of less relevance in this Bayesian analysis, since the reported
-treatment effects themselves are derived from the posterior predictive
-distributions, which intrinsically incorporate the estimated
-between-trial heterogeneity. We report I-squared here to comply with
-PRISMA guidelines.
+Estimated treatment effect heterogeneity is an important but often
+overlooked component of meta-analysis. The Bayesian I-squared statistic,
+defined as the percent portion of variation in the estimated treatment
+effect due to between-trial heterogeneity and not sampling variation was
+46.6% (95% PI 29.3% - 60.2%). In contrast to frequentist analyses, the
+I-squared statistic is of less relevance in this Bayesian analysis,
+since the reported treatment effects themselves are derived from the
+posterior predictive distributions, which intrinsically incorporate the
+estimated between-trial heterogeneity. In this sense, and unlike simple
+average treatment effect estimates from standard meta-analyses, the main
+results of our model already incorporate the uncertainty deriving from
+between-trial heterogeneity.
 
 ## Discussion
 
@@ -244,78 +258,53 @@ patient-centered format.
 ### Importance over signfificance
 
 Our analysis addresses this gap by predicting outcomes for future trials
-rather than just summarizing past ones. By switching the inferential
-focus to prediction, we are able to uncover important clinical insights
-heretofore not noted by other authors. Despite a statistically
-significant positive predicted effect in future trials regardless of
-stroke type, the probability that the predicted effect is clinically
-important varies substantially (figure 4). This distinction matters for
-patient care: knowing that thrombectomy ‘works’ (statistical
-significance) tells us little about how well it works (clinical
-importance). For small strokes treated early, there’s a 45% chance of
+rather than summarizing past ones. By switching the inferential focus to
+prediction, we are able to uncover important clinical insights
+heretofore not noted. Despite a statistically significant positive
+predicted effect in future trials regardless of stroke type, the
+probability that the predicted effect is clinically important varies
+substantially (figure 4). This distinction matters for patient care:
+knowing that thrombectomy ‘works’ (statistical significance) tells us
+little about how well it works (clinical importance).
+
+For example, our analysis finds that in a new trial of small strokes
+treated in an early time window, there’s about a coin flips chance of
 achieving a remarkably substantial clinical benefit (\>20% absolute
-improvement, or a number needed to treat of 5 or fewer). In contrast,
-for large strokes, while a positive effect remains highly likely, the
-chance of a “clinically important effect”, in the sense defined above,
-drops to just 7%. These probability statements provide a more nuanced
-framework for discussing treatment decisions than simply saying the
-treatment is ‘proven effective’ - they help clinicians communicate both
-the promise and limitations of thrombectomy across different stroke
-types. For example, when counseling a patient with a large stroke,
-rather than just noting that thrombectomy is ‘evidence-based’, a
-clinician can explain that while some improvement is very likely, the
-chance of dramatic benefit is small. This more complete picture helps
-set appropriate expectations while still supporting the treatment’s
-role.
+improvement, or a number needed to treat of 5 or fewer), while the
+chances of achieving a smaller but still quite large benefit (\>10%
+absolute improvement, number needed to treat of 10) is about 90%. In
+contrast, for large strokes, while any positive effect remains highly
+likely, the chance of a “clinically important effect”, in the sense
+defined above, are considerably lower.
+
+These probability statements provide a more nuanced framework for
+discussing treatment decisions than simply saying the treatment is
+“proven effective” - they help clinicians communicate both the promise
+and limitations of thrombectomy across different stroke types. For
+example, when counseling a patient with a large stroke, rather than just
+noting that thrombectomy is “evidence-based”, a clinician can explain
+that while some improvement is very likely, the chance of dramatic
+benefit is small. This more complete picture helps set appropriate
+expectations while still supporting the treatment’s role.
 
 ### Absolute over relative effects
 
 In addition to emphasizing clinical importance over statistical
 significance, we also stress absolute effect sizes over relative effect
-sizes. Although our framework allows for the estimation of the latter,
-defined as the predicted probability of functional independence with
-treatment divided by the predicted probability without treatment, we
-purposefully refrained from reporting these values in the results
-section. We depict them in figure 5 alongside the absolute estimates to
-demonstrate why. For large strokes, saying ‘thrombectomy doubles your
-chances of a good outcome’ is technically accurate and sounds
-impressive, but masks the underlying clinical reality captured by the
-absolute estimate: moving from an 8% to a 17% chance of functional
-independence. While this improvement is important, the absolute numbers
-help patients and families maintain realistic expectations. Similarly,
-for small strokes, a ‘57% increase’ in good outcomes translates more
-meaningfully for patients as moving from a 30% to a 49% chance of
-functional independence.
-
-Our emphasis on absolute effects reflects a broader commitment to
-transparent risk communication in our framework. While relative measures
-can make treatments seem more dramatic, especially when baseline risks
-are low, absolute probabilities give patients and families a clearer
-picture of likely outcomes both with and without treatment. This focus
-on absolute effects is equally important for clinicians, who might
-otherwise develop inflated expectations based on impressive-sounding
-relative effects from trials and meta-analyses. When most patients still
-have poor outcomes despite treatment - as is often the case with stroke,
-and especially so for basilar and large core stroke - clinicians might
-question the trial results or their own practice. Absolute probabilities
-help avoid this disconnect by keeping both success and failure in proper
-perspective: even a genuinely effective treatment can leave most
-patients with poor outcomes when baseline prognosis is poor.
-
-### Reproducible open-source methods over proprietary software and data
-
-Unlike many meta-analyses that rely on automated software packages, we
-built our statistical model from the ground up using open-source tools.
-This isn’t just about transparency - by directly engaging with the
-underlying statistical complexity rather than hiding it behind
-point-and-click interfaces or automated commands, we were able to shape
-the model to prioritize clinical interpretability. The end result is
-deceptively simple: clear probability statements about patient outcomes.
-But achieving this simplicity required embracing, not avoiding, the
-technical challenges of meta-analysis. We’ve made our complete
-implementation freely available, allowing other researchers to adapt our
-approach to their own clinical questions, potentially extending this
-patient-centered framework beyond stroke care.
+sizes, which is reflective of a broader commitment to transparent risk
+communication in our framework. While relative measures can make
+treatments seem more dramatic, especially when baseline risks are low,
+absolute probabilities give patients and families a clearer picture of
+likely outcomes both with and without treatment. This focus on absolute
+effects is equally important for clinicians, who might otherwise develop
+inflated expectations based on impressive-sounding relative effects from
+trials and meta-analyses. When most patients still have poor outcomes
+despite treatment - as is often the case with stroke, and especially so
+for basilar and large core stroke - clinicians might question the trial
+results or their own practice. Absolute probabilities help avoid this
+disconnect by keeping both success and failure in proper perspective:
+even a genuinely effective treatment can leave most patients with poor
+outcomes when baseline prognosis is poor.
 
 ## Limitations
 
@@ -330,35 +319,25 @@ focusing on hypothetical future trials, we create a rigorous baseline
 for discussing how individual patient characteristics might alter
 expectations. The predicted probabilities aren’t precise forecasts, but
 rather carefully quantified statements about treatment effects under
-ideal conditions.
-
-This emphasis on understanding uncertainty rather than just estimating
-effects is reflected in our technical choices. We focus on predictive
-distributions rather than parameter estimates, and on probability-scale
-outcomes rather than log odds ratios, prioritizing clinical utility over
-statistical convention. While other valid approaches exist, we chose
-this framework because it helps answer the questions clinicians actually
-face: What range of outcomes might we expect? How confident are we that
-the treatment will result in meaningful improvement? By obtaining clear
-and definitive answers to these questions for easy to understand but
-idealized scenarios, we can begin to address these questions for more
-complex real-world contexts.
+ideal conditions. No actual patients or real hospitals will match these
+ideal conditions, but they nonetheless provide an excellent baseline.
 
 Our analyis has three additional important limitations. First, like all
 Bayesian analyses, our results depend on prior assumptions about model
-parameters. We addressed this by using clinically justified priors -
+parameters. We addressed this by using clinically informed priors -
 verified through prior predictive simulation - and checking sensitivity
 to alternative specifications. These checks, detailed in the
-supplementary appendix, show our key findings are robust. Second, we
-focused solely on functional independence rather than other outcomes.
-While a fuller picture of thrombectomy’s effects would consider multiple
-outcomes, functional independence is often most relevant for patient
-decision-making. Third, we simplified the modified Rankin Scale’s
-six-point gradation of disability into a binary outcome: functionally
-independent or not. While a more complex model could capture finer
-distinctions, this simplification makes our results more interpretable
-for clinical discussions. This reflects our broader approach: managing
-complexity to produce clear, actionable insights for patient care.”
+supplementary appendix, show our key findings are robust to alternative
+prior choices. Second, we focused solely on functional independence
+rather than other outcomes. While a fuller picture of thrombectomy’s
+effects would consider multiple outcomes, functional independence is
+often most relevant for patient decision-making. Third, we simplified
+the modified Rankin Scale’s six-point gradation of disability into a
+binary outcome: functionally independent or not. While a more complex
+model could capture finer distinctions, this simplification makes our
+results more interpretable for clinical discussions. This reflects our
+broader approach: managing complexity to produce clear, actionable
+insights for patient care.
 
 ## Conclusions
 
@@ -369,7 +348,8 @@ what the current landscape of stroke thrombectomy trials imply for
 real-world patient care scenarios. Thrombectomy is expected to have a
 positive effect on the probability of functional independence in a new
 trial, but the clinical importance of this effect varies by stroke type,
-and the absolute probability of functional independence is still low,
-especially for large core stroke. This information helps calibrate both
-patient and clinician expectations while supporting thrombectomy’s role
-across stroke types.
+and the absolute probability of functional independence is still low –
+at best about a coin flip, and in the case of large strokes treated in
+an early time window, much worse than a coin flip. This information
+helps calibrate both patient and clinician expectations while supporting
+thrombectomy’s role across stroke types.
